@@ -1,6 +1,29 @@
 
 (function () {
   const cfg = window.SITE_CONFIG || {};
+    // --- Make the attending pills toggle visually ---
+  const segLabels = document.querySelectorAll("label.seg");
+  const attendingRadios = document.querySelectorAll("input[name='attending']");
+
+  function updateAttendingUI() {
+    // remove current active
+    segLabels.forEach(l => l.classList.remove("seg-active"));
+    // add active to the checked radio's label
+    const checked = document.querySelector("input[name='attending']:checked");
+    if (checked) {
+      const lbl = checked.closest("label.seg");
+      if (lbl) lbl.classList.add("seg-active");
+    }
+  }
+
+  // run once on load
+  updateAttendingUI();
+  // update on any change/click
+  attendingRadios.forEach(r => {
+    r.addEventListener("change", updateAttendingUI);
+    r.addEventListener("click", updateAttendingUI);
+  });
+
   // Populate hero and details
   function el(sel){ return document.querySelector(sel); }
   el("[data-couple]").textContent = `${cfg.couple.a} & ${cfg.couple.b}`;
