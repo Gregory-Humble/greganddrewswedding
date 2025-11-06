@@ -1,6 +1,6 @@
 window.SITE_CONFIG = {
   couple: { a: "Greg", b: "Drew" },
-  contactEmail: "Gregory.r.humble@gmail.com",
+  contactEmail: "gregory.r.humble@gmail.com",
   event: {
     dateLong: "Friday, 13 February",
     time: "Ceremony 3:00 pm",
