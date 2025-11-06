@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Greg & Drew — Wedding Invitation</title>
+    <meta name="description" content="You're invited to celebrate Greg & Drew. RSVP online.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root { --accent: #0f172a; }
+      .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
+      .font-sans { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
+      .btn-primary{ @apply inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed; }
+      .btn-soft{ @apply inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-4 py-2 rounded-xl; }
+      .inp{ @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300; }
+      .seg{ @apply inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700; }
+      .seg-active{ @apply bg-slate-900 text-white border-slate-900; }
+      .chk{ @apply inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700; }
+      .chk-on{ @apply bg-slate-900 text-white border-slate-900; }
+    </style>
+  </head>
+  <body class="font-sans text-slate-800 bg-white">
+    <div id="toast" style="display:none"></div>
+    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 border-b border-slate-200">
+      <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+        <span data-monogram class="font-display tracking-wider text-xl">G · D</span>
+        <nav class="hidden md:flex gap-8 text-sm">
+          <a href="#details" class="hover:text-slate-900">Details</a>
+          <a href="#schedule" class="hover:text-slate-900">Schedule</a>
+          <a href="#venue" class="hover:text-slate-900">Venue</a>
+          <a href="#rsvp" class="hover:text-slate-900">RSVP</a>
+        </nav>
+        <a href="#rsvp" class="inline-flex items-center gap-2 text-sm font-medium bg-slate-900 text-white px-4 py-2 rounded-xl shadow-sm">RSVP</a>
+      </div>
+    </header>
+
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0" aria-hidden>
+        <div class="absolute -top-40 -right-32 w-[42rem] h-[42rem] rounded-full bg-[radial-gradient(closest-side,rgba(2,6,23,0.08),transparent)]"></div>
+        <div class="absolute -bottom-32 -left-16 w-[32rem] h-[32rem] rounded-full bg-[radial-gradient(closest-side,rgba(2,6,23,0.06),transparent)]"></div>
+      </div>
+      <div class="mx-auto max-w-6xl px-6 py-24 md:py-32 relative">
+        <p class="text-sm tracking-widest uppercase text-slate-600">You are invited to celebrate</p>
+        <h1 class="font-display text-5xl md:text-7xl mt-3 leading-tight" data-couple>Greg & Drew</h1>
+        <p class="mt-5 text-lg text-slate-700" data-date-time>Friday, 13 February · Ceremony 3:00 pm</p>
+        <p class="mt-1 text-slate-700 flex items-center gap-2"><span>📍</span> <span data-venue>Old Treasury Building, Melbourne</span></p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#details" class="px-5 py-3 rounded-xl border border-slate-300 hover:border-slate-400">Event details</a>
+          <a href="#rsvp" class="px-5 py-3 rounded-xl bg-slate-900 text-white">RSVP now</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="mb-10">
+        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Plan</p>
+        <h2 class="font-display text-3xl md:text-4xl mt-2">The Details</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="rounded-2xl border border-slate-200 p-6 bg-white info-card">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">RSVP by</p>
+          <p class="mt-2 text-slate-800 leading-relaxed" data-rsvpby>—</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-6 bg-white">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Dress code</p>
+          <p class="mt-2 text-slate-800 leading-relaxed" data-dress></p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-6 bg-white">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Notes</p>
+          <p class="mt-2 text-slate-800 leading-relaxed" data-notes></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="mb-10">
+        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Order of the day</p>
+        <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
+      </div>
+      <ul class="grid md:grid-cols-2 gap-4">
+        <li class="rounded-2xl border border-slate-200 p-5">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">3:00 pm</p>
+          <p class="mt-1 text-lg">Ceremony at the Old Treasury Building</p>
+        </li>
+        <li class="rounded-2xl border border-slate-200 p-5">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">6:00 pm – 9:30 pm</p>
+          <p class="mt-1 text-lg">Dinner at Reed House</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="mb-10">
+        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Where to go</p>
+        <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-8 items-start">
+        <div class="rounded-2xl border border-slate-200 p-6">
+          <h3 class="text-xl font-medium">Old Treasury Building</h3>
+          <p class="mt-1 text-slate-700">Margaret Craig Room · 20 Spring St, Melbourne VIC</p>
+          <a data-venue-map target="_blank" rel="noreferrer" class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400">
+            Open in Maps
+          </a>
+          <p class="mt-6 text-sm text-slate-600">
+            Please arrive 10–15 minutes early. The ceremony will begin at 3:00 pm.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-6">
+          <h3 class="text-xl font-medium" data-dinner-name>Dinner at Reed House</h3>
+          <p class="mt-1 text-slate-700" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
+          <p class="mt-1 text-slate-700" data-dinner-time>6:00 pm – 9:30 pm</p>
+          <a data-dinner-map target="_blank" rel="noreferrer" class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400">
+            Open in Maps
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="mb-10">
+        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">We'd love to celebrate with you</p>
+        <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
+      </div>
+
+      <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8">
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="block mb-2 text-sm font-medium text-slate-700">First name *</span>
+              <input name="firstName" class="inp">
+            </label>
+            <label class="block">
+              <span class="block mb-2 text-sm font-medium text-slate-700">Last name *</span>
+              <input name="lastName" class="inp">
+            </label>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="block mb-2 text-sm font-medium text-slate-700">Email *</span>
+              <input type="email" name="email" class="inp">
+            </label>
+            <label class="block">
+              <span class="block mb-2 text-sm font-medium text-slate-700">Phone</span>
+              <input name="phone" class="inp">
+            </label>
+          </div>
+          <label class="block">
+            <span class="block mb-2 text-sm font-medium text-slate-700">Will you be attending?</span>
+            <div class="flex gap-4 flex-wrap">
+              <label class="seg seg-active"><input type="radio" name="attending" value="yes" class="sr-only" checked> Joyfully accepts</label>
+              <label class="seg"><input type="radio" name="attending" value="no" class="sr-only"> Regretfully declines</label>
+              <label class="seg"><input type="radio" name="attending" value="unsure" class="sr-only"> Unsure (TBC)</label>
+            </div>
+          </label>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="block mb-2 text-sm font-medium text-slate-700">Guests (including you)</span>
+              <input type="number" name="guests" min="1" value="1" class="inp">
+            </label>
+            <label class="block">
+              <span class="block mb-2 text-sm font-medium text-slate-700">Song request</span>
+              <input name="song" class="inp" placeholder="Title – Artist">
+            </label>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <label class="block">
+            <span class="block mb-2 text-sm font-medium text-slate-700">Dietary requirements</span>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="chk"><input type="checkbox" name="dietary" value="Vegetarian" class="sr-only"><span>✔</span><span>Vegetarian</span></label>
+              <label class="chk"><input type="checkbox" name="dietary" value="Vegan" class="sr-only"><span>✔</span><span>Vegan</span></label>
+              <label class="chk"><input type="checkbox" name="dietary" value="Gluten free" class="sr-only"><span>✔</span><span>Gluten free</span></label>
+              <label class="chk"><input type="checkbox" name="dietary" value="Dairy free" class="sr-only"><span>✔</span><span>Dairy free</span></label>
+              <label class="chk"><input type="checkbox" name="dietary" value="Nut allergy" class="sr-only"><span>✔</span><span>Nut allergy</span></label>
+              <label class="chk"><input type="checkbox" name="dietary" value="No seafood" class="sr-only"><span>✔</span><span>No seafood</span></label>
+              <label class="chk"><input type="checkbox" name="dietary" value="Halal" class="sr-only"><span>✔</span><span>Halal</span></label>
+              <input class="inp col-span-2" name="dietaryOther" placeholder="Other (please specify)">
+            </div>
+          </label>
+          <label class="block">
+            <span class="block mb-2 text-sm font-medium text-slate-700">Message (optional)</span>
+            <textarea rows="5" name="note" class="inp" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
+          </label>
+          <div class="flex flex-wrap items-center gap-3">
+            <button id="submit-btn" type="submit" class="btn-primary">Submit RSVP</button>
+            <a href="#" class="btn-soft" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
+          </div>
+          <p class="text-xs text-slate-500">Your details are kept private and used only for wedding planning.</p>
+        </div>
+      </form>
+    </section>
+
+    <footer class="mt-24 py-10 text-center text-sm text-slate-500" data-footer>Crafted with ♥ for Greg & Drew</footer>
+
+    <script src="./assets/config.js"></script>
+    <script src="./assets/script.js"></script>
+  </body>
+</html>
