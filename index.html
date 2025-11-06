@@ -269,6 +269,68 @@
     });
   })();
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  /* -----------------------------
+     1. RSVP Attending Toggle
+  ----------------------------- */
+  const attendingLabels = document.querySelectorAll("label.seg");
+  attendingLabels.forEach(label => {
+    const input = label.querySelector("input[type='radio']");
+    if (!input) return;
+
+    label.addEventListener("click", () => {
+      attendingLabels.forEach(l => l.classList.remove("seg-active", "bg-slate-900", "text-white", "border-slate-900"));
+      label.classList.add("seg-active", "bg-slate-900", "text-white", "border-slate-900");
+      input.checked = true; // ensure proper value submission
+    });
+  });
+
+  /* ------------------------------------
+     2. Dietary Checkbox Visual Toggle
+  ------------------------------------ */
+  const dietInputs = document.querySelectorAll("input[name='dietary']");
+  dietInputs.forEach(input => {
+    const label = input.closest("label");
+    if (!label) return;
+
+    label.classList.add("cursor-pointer");
+
+    function updateLabel() {
+      if (input.checked) {
+        label.classList.add("bg-slate-900", "text-white", "border-slate-900");
+      } else {
+        label.classList.remove("bg-slate-900", "text-white", "border-slate-900");
+      }
+    }
+
+    label.addEventListener("click", () => setTimeout(updateLabel, 0));
+    input.addEventListener("change", updateLabel);
+    updateLabel(); // initial state
+  });
+
+  /* ------------------------------------
+     3. Form Submission (IMPORTANT PART)
+  ------------------------------------ */
+  const form = document.getElementById("rsvp-form");
+  form.addEventListener("submit", function (e) {
+    // ✅ Do NOT block submission — allow it to send to Formspree or fallback
+    // If you want to validate fields first, add checks here.
+
+    // Example validation (optional):
+    const first = form.querySelector("input[name='firstName']").value.trim();
+    const last = form.querySelector("input[name='lastName']").value.trim();
+    const email = form.querySelector("input[name='email']").value.trim();
+
+    if (!first || !last || !email) {
+      alert("Please complete first name, last name, and email before submitting.");
+      e.preventDefault(); // stop only if validation fails
+    }
+  });
+
+});
+</script>
 
   </body>
 </html>
