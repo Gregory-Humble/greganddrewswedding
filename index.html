@@ -13,13 +13,7 @@
       :root { --accent: #0f172a; }
       .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
       .font-sans { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
-      .btn-primary{ @apply inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed; }
-      .btn-soft{ @apply inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-4 py-2 rounded-xl; }
-      .inp{ @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300; }
-      .seg{ @apply inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700; }
-      .seg-active{ @apply bg-slate-900 text-white border-slate-900; }
-      .chk{ @apply inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700; }
-      .chk-on{ @apply bg-slate-900 text-white border-slate-900; }
+      /* Note: classes that used @apply are removed in favour of inline utilities */
     </style>
   </head>
   <body class="font-sans text-slate-800 bg-white">
@@ -125,44 +119,61 @@
         <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
       </div>
 
-      <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8">
+      <!-- Prevent default browser submit; JS handles submission -->
+      <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8" onsubmit="return false">
         <div class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label class="block">
               <span class="block mb-2 text-sm font-medium text-slate-700">First name *</span>
-              <input name="firstName" class="inp">
+              <input name="firstName" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
             </label>
             <label class="block">
               <span class="block mb-2 text-sm font-medium text-slate-700">Last name *</span>
-              <input name="lastName" class="inp">
+              <input name="lastName" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
             </label>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label class="block">
               <span class="block mb-2 text-sm font-medium text-slate-700">Email *</span>
-              <input type="email" name="email" class="inp">
+              <input type="email" name="email" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
             </label>
             <label class="block">
               <span class="block mb-2 text-sm font-medium text-slate-700">Phone</span>
-              <input name="phone" class="inp">
+              <input name="phone" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
             </label>
           </div>
+
+          <!-- Rebuilt pill buttons using pure utilities -->
           <label class="block">
             <span class="block mb-2 text-sm font-medium text-slate-700">Will you be attending?</span>
-            <div class="flex gap-4 flex-wrap">
-              <label class="seg seg-active cursor-pointer"><input type="radio" name="attending" value="yes" class="sr-only" checked> Joyfully accepts</label>
-              <label class="seg cursor-pointer"><input type="radio" name="attending" value="no" class="sr-only"> Regretfully declines</label>
-              <label class="seg cursor-pointer"><input type="radio" name="attending" value="unsure" class="sr-only"> Unsure (TBC)</label>
+
+            <div id="attending-group" class="flex gap-4 flex-wrap">
+              <!-- YES (default active) -->
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer bg-slate-900 text-white border-slate-900" data-attend="yes">
+                <input type="radio" name="attending" value="yes" class="sr-only" checked>
+                Joyfully accepts
+              </label>
+              <!-- NO -->
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend="no">
+                <input type="radio" name="attending" value="no" class="sr-only">
+                Regretfully declines
+              </label>
+              <!-- UNSURE -->
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend="unsure">
+                <input type="radio" name="attending" value="unsure" class="sr-only">
+                Unsure (TBC)
+              </label>
             </div>
           </label>
+
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label class="block">
               <span class="block mb-2 text-sm font-medium text-slate-700">Guests (including you)</span>
-              <input type="number" name="guests" min="1" value="1" class="inp">
+              <input type="number" name="guests" min="1" value="1" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
             </label>
             <label class="block">
               <span class="block mb-2 text-sm font-medium text-slate-700">Song request</span>
-              <input name="song" class="inp" placeholder="Title – Artist">
+              <input name="song" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Title – Artist">
             </label>
           </div>
         </div>
@@ -171,23 +182,43 @@
           <label class="block">
             <span class="block mb-2 text-sm font-medium text-slate-700">Dietary requirements</span>
             <div class="grid grid-cols-2 gap-3">
-              <label class="chk"><input type="checkbox" name="dietary" value="Vegetarian" class="sr-only"><span>✔</span><span>Vegetarian</span></label>
-              <label class="chk"><input type="checkbox" name="dietary" value="Vegan" class="sr-only"><span>✔</span><span>Vegan</span></label>
-              <label class="chk"><input type="checkbox" name="dietary" value="Gluten free" class="sr-only"><span>✔</span><span>Gluten free</span></label>
-              <label class="chk"><input type="checkbox" name="dietary" value="Dairy free" class="sr-only"><span>✔</span><span>Dairy free</span></label>
-              <label class="chk"><input type="checkbox" name="dietary" value="Nut allergy" class="sr-only"><span>✔</span><span>Nut allergy</span></label>
-              <label class="chk"><input type="checkbox" name="dietary" value="No seafood" class="sr-only"><span>✔</span><span>No seafood</span></label>
-              <label class="chk"><input type="checkbox" name="dietary" value="Halal" class="sr-only"><span>✔</span><span>Halal</span></label>
-              <input class="inp col-span-2" name="dietaryOther" placeholder="Other (please specify)">
+              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                <input type="checkbox" name="dietary" value="Vegetarian" class="sr-only"><span>✔</span><span>Vegetarian</span>
+              </label>
+              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                <input type="checkbox" name="dietary" value="Vegan" class="sr-only"><span>✔</span><span>Vegan</span>
+              </label>
+              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                <input type="checkbox" name="dietary" value="Gluten free" class="sr-only"><span>✔</span><span>Gluten free</span>
+              </label>
+              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                <input type="checkbox" name="dietary" value="Dairy free" class="sr-only"><span>✔</span><span>Dairy free</span>
+              </label>
+              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                <input type="checkbox" name="dietary" value="Nut allergy" class="sr-only"><span>✔</span><span>Nut allergy</span>
+              </label>
+              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                <input type="checkbox" name="dietary" value="No seafood" class="sr-only"><span>✔</span><span>No seafood</span>
+              </label>
+              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                <input type="checkbox" name="dietary" value="Halal" class="sr-only"><span>✔</span><span>Halal</span>
+              </label>
+              <input class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="dietaryOther" placeholder="Other (please specify)">
             </div>
           </label>
+
           <label class="block">
             <span class="block mb-2 text-sm font-medium text-slate-700">Message (optional)</span>
-            <textarea rows="5" name="note" class="inp" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
+            <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
           </label>
+
           <div class="flex flex-wrap items-center gap-3">
-            <button id="submit-btn" type="submit" class="btn-primary">Submit RSVP</button>
-            <a href="#" class="btn-soft" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
+            <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">
+              Submit RSVP
+            </button>
+            <a href="#" class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-4 py-2 rounded-xl" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+              Back to top
+            </a>
           </div>
           <p class="text-xs text-slate-500">Your details are kept private and used only for wedding planning.</p>
         </div>
@@ -198,5 +229,21 @@
 
     <script src="./assets/config.js"></script>
     <script src="./assets/script.js"></script>
+
+    <!-- Tiny helper to toggle the attending pills (works even if assets/script.js didn't update yet) -->
+    <script>
+      (function () {
+        const group = document.getElementById("attending-group");
+        if (!group) return;
+        const labels = Array.from(group.querySelectorAll("label[data-attend]"));
+        function setActive(label) {
+          labels.forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
+          label.classList.add("bg-slate-900","text-white","border-slate-900");
+          const input = label.querySelector("input[type='radio']");
+          if (input) input.checked = true;
+        }
+        labels.forEach(l => l.addEventListener("click", () => setActive(l)));
+      })();
+    </script>
   </body>
 </html>
