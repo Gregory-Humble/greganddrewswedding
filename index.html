@@ -227,14 +227,18 @@
 
     <footer class="mt-24 py-10 text-center text-sm text-slate-500" data-footer>Crafted with ♥ for Greg & Drew</footer>
 
-    <!-- Your site settings + submit logic -->
+    <!-- Your site settings (if present) -->
     <script src="./assets/config.js"></script>
-    <script src="./assets/script.js"></script>
 
-    <!-- Visual helpers (pills + dietary) and light validation -->
+    <!-- Submission + visual helpers -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Attending pills
+        // --- Read config (with fallbacks) ---
+        const cfg = window.SITE_CONFIG || {};
+        const CONTACT_EMAIL = cfg.contactEmail || "drewbrownlee@hotmail.com";
+        const FORMSPREE = cfg.formspreeEndpoint || "";
+
+        // --- Attending pills toggle ---
         const attendingGroup = document.getElementById("attending-group");
         if (attendingGroup) {
           const attendLabels = Array.from(attendingGroup.querySelectorAll("label[data-attend]"));
@@ -247,37 +251,113 @@
           attendLabels.forEach(l => l.addEventListener("click", () => setActive(l)));
         }
 
-        // Dietary checkbox highlights
+        // --- Dietary checkbox highlights ---
         const dietInputs = document.querySelectorAll("input[name='dietary']");
         dietInputs.forEach(input => {
           const label = input.closest("label");
           if (!label) return;
           label.classList.add("cursor-pointer");
           function updateLabel() {
-            if (input.checked) {
-              label.classList.add("bg-slate-900","text-white","border-slate-900");
-            } else {
-              label.classList.remove("bg-slate-900","text-white","border-slate-900");
-            }
+            if (input.checked) label.classList.add("bg-slate-900","text-white","border-slate-900");
+            else label.classList.remove("bg-slate-900","text-white","border-slate-900");
           }
           label.addEventListener("click", () => setTimeout(updateLabel, 0));
           input.addEventListener("change", updateLabel);
           updateLabel();
         });
 
-        // Lightweight validation (does NOT block valid submits)
+        // --- Submission handler (Formspree OR mailto fallback) ---
         const form = document.getElementById("rsvp-form");
-        if (form) {
-          form.addEventListener("submit", function (e) {
-            const first = form.querySelector("input[name='firstName']")?.value.trim();
-            const last  = form.querySelector("input[name='lastName']")?.value.trim();
-            const email = form.querySelector("input[name='email']")?.value.trim();
-            if (!first || !last || !email) {
-              e.preventDefault();
-              alert("Please complete first name, last name, and email before submitting.");
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault(); // stop page reload
+
+          // Gather values
+          const fd = new FormData(form);
+          const first = (fd.get("firstName") || "").toString().trim();
+          const last  = (fd.get("lastName")  || "").toString().trim();
+          const email = (fd.get("email")     || "").toString().trim();
+          if (!first || !last || !email) {
+            alert("Please complete first name, last name, and email before submitting.");
+            return;
+          }
+
+          const phone  = (fd.get("phone") || "").toString().trim();
+          const attend = (fd.get("attending") || "yes").toString();
+          const guests = (fd.get("guests") || "1").toString();
+          const song   = (fd.get("song") || "").toString().trim();
+          const note   = (fd.get("note") || "").toString().trim();
+          const dietaries = fd.getAll("dietary").map(String);
+          const dietaryOther = (fd.get("dietaryOther") || "").toString().trim();
+          const dietarySummary = [
+            ...dietaries,
+            dietaryOther ? `Other: ${dietaryOther}` : null
+          ].filter(Boolean).join("; ");
+
+          const payload = {
+            attending: attend,
+            firstName: first,
+            lastName: last,
+            email,
+            phone,
+            guests,
+            dietary: dietaries,
+            dietaryOther,
+            dietarySummary,
+            song,
+            note,
+            couple: "Greg & Drew",
+            event: {
+              dateLong: "Friday, 13 February",
+              time: "3:00 pm",
+              venueName: "Old Treasury Building – Margaret Craig Room",
+              venueAddress: "20 Spring St, Melbourne VIC"
+            },
+            timestamp: new Date().toISOString()
+          };
+
+          // Prefer Formspree if configured
+          if (FORMSPREE) {
+            try {
+              const res = await fetch(FORMSPREE, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+              });
+              if (!res.ok) throw new Error("Formspree error " + res.status);
+              alert("Thank you! Your RSVP was submitted.");
+              form.reset();
+              // re-initialise visual states after reset
+              document.querySelectorAll("label[data-attend]").forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
+              const yesLabel = document.querySelector("label[data-attend='yes']");
+              if (yesLabel) yesLabel.classList.add("bg-slate-900","text-white","border-slate-900");
+              dietInputs.forEach(i => {
+                const lbl = i.closest("label");
+                if (lbl) lbl.classList.remove("bg-slate-900","text-white","border-slate-900");
+              });
+              return;
+            } catch (err) {
+              console.error(err);
+              alert("We couldn't reach the RSVP service. We'll open an email instead.");
+              // fall through to mailto
             }
-          });
-        }
+          }
+
+          // Mailto fallback
+          const subject = encodeURIComponent("RSVP — Greg & Drew");
+          const bodyLines = [
+            `Name: ${first} ${last}`,
+            `Email: ${email}`,
+            phone ? `Phone: ${phone}` : null,
+            `Attending: ${attend}`,
+            `Guests (incl. you): ${guests}`,
+            `Dietary: ${dietarySummary || "None"}`,
+            song ? `Song request: ${song}` : null,
+            note ? `Note: ${note}` : null
+          ].filter(Boolean);
+          const body = encodeURIComponent(bodyLines.join("\n"));
+          window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+          // do NOT reset immediately; let the mail app open first
+        });
       });
     </script>
   </body>
