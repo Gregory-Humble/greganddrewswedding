@@ -1,6 +1,43 @@
 
 (function () {
   const cfg = window.SITE_CONFIG || {};
+    // --- Toggle the "attending" pills visually and functionally ---
+  const segLabels = Array.from(document.querySelectorAll("label.seg"));
+  const radios = Array.from(document.querySelectorAll("input[name='attending']"));
+
+  function applyActiveStyles(labelEl) {
+    // remove active styles from all labels
+    segLabels.forEach(l => l.classList.remove("seg-active", "bg-slate-900", "text-white", "border-slate-900"));
+    // add active styles to the chosen label
+    labelEl.classList.add("seg-active", "bg-slate-900", "text-white", "border-slate-900");
+  }
+
+  function updateFromChecked() {
+    const checked = document.querySelector("input[name='attending']:checked");
+    if (checked) {
+      const lbl = checked.closest("label.seg");
+      if (lbl) applyActiveStyles(lbl);
+    }
+  }
+
+  // click anywhere on the pill to select that option
+  segLabels.forEach(lbl => {
+    lbl.style.cursor = "pointer";
+    lbl.addEventListener("click", () => {
+      const input = lbl.querySelector("input[type='radio']");
+      if (input) {
+        input.checked = true;
+        applyActiveStyles(lbl);
+      }
+    });
+  });
+
+  // also react to changes (keyboard users etc.)
+  radios.forEach(r => r.addEventListener("change", updateFromChecked));
+
+  // set initial state on load
+  updateFromChecked();
+
     // --- Make the attending pills toggle visually ---
   const segLabels = document.querySelectorAll("label.seg");
   const attendingRadios = document.querySelectorAll("input[name='attending']");
