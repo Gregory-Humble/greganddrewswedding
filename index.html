@@ -245,5 +245,30 @@
         labels.forEach(l => l.addEventListener("click", () => setActive(l)));
       })();
     </script>
+    <script>
+  (function () {
+    // Toggle visual state for dietary checkboxes
+    const boxes = Array.from(document.querySelectorAll("input[name='dietary']"));
+    function sync(label, input) {
+      if (input.checked) {
+        label.classList.add("bg-slate-900","text-white","border-slate-900");
+      } else {
+        label.classList.remove("bg-slate-900","text-white","border-slate-900");
+      }
+    }
+    boxes.forEach((input) => {
+      const label = input.closest("label");
+      if (!label) return;
+      label.classList.add("cursor-pointer");
+      // set initial state
+      sync(label, input);
+      // after click (lets the checkbox toggle first)
+      label.addEventListener("click", () => setTimeout(() => sync(label, input), 0));
+      // and for keyboard users
+      input.addEventListener("change", () => sync(label, input));
+    });
+  })();
+</script>
+
   </body>
 </html>
