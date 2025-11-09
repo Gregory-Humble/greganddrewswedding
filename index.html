@@ -108,15 +108,15 @@
           <p class="mt-1 text-slate-700">Margaret Craig Room · 20 Spring St, Melbourne VIC</p>
           <!-- href is set/confirmed by JS; give a harmless default so it's still clickable -->
           <a
-  href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
-  data-venue-map
-  data-address="20 Spring St, Melbourne VIC"
-  target="_blank"
-  rel="noreferrer"
-  class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400"
->
-  Open in Maps
-</a>
+            href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
+            data-venue-map
+            data-address="20 Spring St, Melbourne VIC"
+            target="_blank"
+            rel="noreferrer"
+            class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400"
+          >
+            Open in Maps
+          </a>
           <p class="mt-6 text-sm text-slate-600">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
         </div>
         <div class="rounded-2xl border border-slate-200 p-6">
@@ -124,15 +124,15 @@
           <p class="mt-1 text-slate-700" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
           <p class="mt-1 text-slate-700" data-dinner-time>6:00 pm – 9:30 pm</p>
           <a
-  href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
-  data-dinner-map
-  data-address="130 Lonsdale St, Melbourne VIC"
-  target="_blank"
-  rel="noreferrer"
-  class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400"
->
-  Open in Maps
-</a>
+            href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
+            data-dinner-map
+            data-address="130 Lonsdale St, Melbourne VIC"
+            target="_blank"
+            rel="noreferrer"
+            class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400"
+          >
+            Open in Maps
+          </a>
         </div>
       </div>
     </section>
@@ -252,9 +252,9 @@
     <footer class="mt-24 py-10 text-center text-sm text-slate-500">Crafted with ♥ for Greg & Drew</footer>
 
     <!-- Config first -->
-<script src="./assets/config.js"></script>
-<script src="./assets/invites.js"></script>
-<script src="./assets/script.js"></script>
+    <script src="./assets/config.js"></script>
+    <script src="./assets/invites.js"></script>
+    <script src="./assets/script.js"></script>
 
     <!-- Main logic -->
     <script>
@@ -295,6 +295,10 @@
 
         function getParam(name){ return new URLSearchParams(window.location.search).get(name); }
         function normalizeCode(c){ return (c||"").trim().toUpperCase(); }
+
+        // globals to reuse after submit
+        let CURRENT_INVITE = null;
+        let CURRENT_DEFAULT_COUNT = 1;
 
         // Build per-guest cards
         const DIETARY = ["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","No seafood","Halal"];
@@ -339,12 +343,20 @@
           wireDietaryHighlights();
         }
 
+        // UPDATED: pre-fill party size to defaultNames.length (if provided) else maxGuests
         function applyInvite(inv) {
-          const max = inv?.maxGuests ?? 10; // if no invites file, do not block people
+          CURRENT_INVITE = inv || null;
+
+          const max = inv?.maxGuests ?? 10;
+          const defaults = Array.isArray(inv?.defaultNames) ? inv.defaultNames : [];
+          const defaultCount = Math.max(1, Math.min(defaults.length || max, max));
+          CURRENT_DEFAULT_COUNT = defaultCount;
+
           partyInput.max = String(max);
-          partyInput.value = "1";
+          partyInput.value = String(defaultCount);
           partyHint.textContent = inv ? `Your invitation allows up to ${max} guest${max>1?"s":""}.` : "";
-          renderGuests(1, inv?.defaultNames || []);
+
+          renderGuests(defaultCount, defaults);
         }
 
         function showGate() {
@@ -460,8 +472,15 @@
               if (!res.ok) throw new Error("Formspree error " + res.status);
               alert("Thank you! Your RSVP was submitted.");
               form.reset();
-              document.getElementById("party-size").value = "1";
-              renderGuests(1, []);
+
+              // After reset, re-seed the party size to the invite’s default
+              const invAfter = CURRENT_INVITE;
+              const maxAfter = invAfter?.maxGuests ?? 10;
+              const defaultsAfter = Array.isArray(invAfter?.defaultNames) ? invAfter.defaultNames : [];
+              const defaultCountAfter = Math.max(1, Math.min(defaultsAfter.length || maxAfter, maxAfter));
+              partyInput.max = String(maxAfter);
+              partyInput.value = String(defaultCountAfter);
+              renderGuests(defaultCountAfter, defaultsAfter);
               return;
             } catch (err) {
               console.error(err);
