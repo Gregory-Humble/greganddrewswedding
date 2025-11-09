@@ -39,80 +39,80 @@
     </header>
 
     <!-- HERO (elevated) -->
-<section class="relative overflow-hidden" style="--hero-image: url('assets/hero.jpg');">
-  <!-- background image -->
-  <div class="absolute inset-0">
-    <img src="" alt="" class="hidden" aria-hidden="true">
-    <div class="absolute inset-0 bg-[image:var(--hero-image)] bg-cover bg-center"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,6,23,0.25),rgba(2,6,23,0.55))]"></div>
-  </div>
+    <section class="relative overflow-hidden" style="--hero-image: url('assets/hero.jpg');">
+      <!-- background image -->
+      <div class="absolute inset-0">
+        <img src="" alt="" class="hidden" aria-hidden="true">
+        <div class="absolute inset-0 bg-[image:var(--hero-image)] bg-cover bg-center"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,6,23,0.25),rgba(2,6,23,0.55))]"></div>
+      </div>
 
-  <div class="relative mx-auto max-w-6xl px-6 py-24 md:py-40">
-    <!-- monogram chip -->
-    <div class="inline-flex items-center gap-2 rounded-2xl bg-white/80 backdrop-blur px-4 py-2 text-sm shadow-sm">
-      <span class="font-display tracking-widest">G · D</span>
-      <span class="h-4 w-px bg-slate-300"></span>
-      <span class="text-slate-600">You’re invited</span>
-    </div>
-
-    <!-- names -->
-    <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white drop-shadow">
-      Greg &amp; Drew
-    </h1>
-
-    <!-- date & venue line (keeps your data-* hooks if you still set them elsewhere) -->
-    <p class="mt-4 text-lg md:text-xl text-white/90" data-date-time>
-      Friday, 13 November 2026 · Ceremony 4:00&nbsp;pm
-    </p>
-    <p class="mt-1 text-white/80 flex items-center gap-2">
-    <span data-venue>Old Treasury Building, Melbourne</span>
-    </p>
-
-   <!-- COUNTDOWN BANNER -->
-<section id="countdown" class="relative">
-  <!-- Swap this URL for your hero/banner image -->
-  <div class="h-[42vh] md:h-[58vh] w-full bg-center bg-cover"
-       style="background-image:url('./assets/your-banner.jpg');"></div>
-
-  <!-- Overlay -->
-  <div class="absolute inset-0 flex items-center justify-center">
-    <div class="backdrop-blur-sm bg-white/60 rounded-3xl px-6 md:px-10 py-6 md:py-8 shadow-lg border border-white/40">
-      <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-600">Counting down to</p>
-      <h2 class="font-display text-3xl md:text-5xl mt-2 text-slate-900">Greg &amp; Drew</h2>
-      <p class="mt-1 text-center text-slate-700">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
-
-      <div class="mt-5 grid grid-cols-4 gap-3 text-center">
-        <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
-          <div id="cd-days" class="font-display text-3xl md:text-4xl">0</div>
-          <div class="text-xs uppercase tracking-wider text-slate-600">Days</div>
+      <div class="relative mx-auto max-w-6xl px-6 py-24 md:py-40">
+        <!-- monogram chip -->
+        <div class="inline-flex items-center gap-2 rounded-2xl bg-white/80 backdrop-blur px-4 py-2 text-sm shadow-sm">
+          <span class="font-display tracking-widest">G · D</span>
+          <span class="h-4 w-px bg-slate-300"></span>
+          <span class="text-slate-600">You’re invited</span>
         </div>
-        <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
-          <div id="cd-hours" class="font-display text-3xl md:text-4xl">0</div>
-          <div class="text-xs uppercase tracking-wider text-slate-600">Hours</div>
-        </div>
-        <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
-          <div id="cd-mins" class="font-display text-3xl md:text-4xl">0</div>
-          <div class="text-xs uppercase tracking-wider text-slate-600">Mins</div>
-        </div>
-        <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
-          <div id="cd-secs" class="font-display text-3xl md:text-4xl">0</div>
-          <div class="text-xs uppercase tracking-wider text-slate-600">Secs</div>
+
+        <!-- names -->
+        <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white drop-shadow">
+          Greg &amp; Drew
+        </h1>
+
+        <!-- date & venue line -->
+        <p class="mt-4 text-lg md:text-xl text-white/90" data-date-time>
+          Friday, 13 February 2026 · Ceremony 4:00&nbsp;pm
+        </p>
+        <p class="mt-1 text-white/80 flex items-center gap-2">
+          <span data-venue>Old Treasury Building, Melbourne</span>
+        </p>
+
+        <!-- COUNTDOWN BANNER -->
+        <section id="countdown" class="relative mt-8">
+          <!-- Swap this URL for your hero/banner image -->
+          <div class="h-[42vh] md:h-[58vh] w-full bg-center bg-cover rounded-3xl overflow-hidden shadow"
+               style="background-image:url('./assets/your-banner.jpg');"></div>
+
+          <!-- Overlay -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="backdrop-blur-sm bg-white/60 rounded-3xl px-6 md:px-10 py-6 md:py-8 shadow-lg border border-white/40">
+              <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-600">Counting down to</p>
+              <h2 class="font-display text-3xl md:text-5xl mt-2 text-slate-900">Greg &amp; Drew</h2>
+              <p class="mt-1 text-center text-slate-700">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
+
+              <div class="mt-5 grid grid-cols-4 gap-3 text-center">
+                <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
+                  <div id="cd-days" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+                  <div class="text-xs uppercase tracking-wider text-slate-600">Days</div>
+                </div>
+                <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
+                  <div id="cd-hours" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+                  <div class="text-xs uppercase tracking-wider text-slate-600">Hours</div>
+                </div>
+                <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
+                  <div id="cd-mins" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+                  <div class="text-xs uppercase tracking-wider text-slate-600">Mins</div>
+                </div>
+                <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
+                  <div id="cd-secs" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+                  <div class="text-xs uppercase tracking-wider text-slate-600">Secs</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTAs -->
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href="#details" class="px-5 py-3 rounded-xl bg-white/90 backdrop-blur text-slate-900 border border-white/70 hover:bg-white">Event details</a>
+          <a href="#rsvp" class="px-5 py-3 rounded-xl bg-slate-900 text-white hover:bg-slate-800">RSVP now</a>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-    <!-- CTAs -->
-    <div class="mt-10 flex flex-wrap gap-3">
-      <a href="#details" class="px-5 py-3 rounded-xl bg-white/90 backdrop-blur text-slate-900 border border-white/70 hover:bg-white">Event details</a>
-      <a href="#rsvp" class="px-5 py-3 rounded-xl bg-slate-900 text-white hover:bg-slate-800">RSVP now</a>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- DETAILS -->
-    <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24" bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]>
+    <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Plan</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">The Details</h2>
@@ -134,14 +134,14 @@
     </section>
 
     <!-- SCHEDULE -->
-    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24" bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]>
+    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Order of the day</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
       </div>
       <ul class="grid md:grid-cols-2 gap-4">
         <li class="rounded-2xl border border-slate-200 p-5">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">3:45 pm</p>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">4:00 pm</p>
           <p class="mt-1 text-lg">Ceremony at the Old Treasury Building</p>
         </li>
         <li class="rounded-2xl border border-slate-200 p-5">
@@ -152,7 +152,7 @@
     </section>
 
     <!-- VENUE -->
-    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24" bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]>
+    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Where to go</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
@@ -192,7 +192,7 @@
     </section>
 
     <!-- RSVP -->
-    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24" bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]>
+    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">We'd love to celebrate with you</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
@@ -277,54 +277,36 @@
       document.addEventListener("DOMContentLoaded", function () {
         const cfg = window.SITE_CONFIG || {};
         const INVITES = window.INVITES || {}; // fine if missing/empty
-        const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@hotmail.com";
+        const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@gmail.com";
         const FORMSPREE = cfg.formspreeEndpoint || "";
 
-        // ---- AUS-time countdown to Fri 13 Feb 2026, 4:00 pm (Melbourne, AEDT) ----
-// Hard-code the offset for that date (+11:00). JS will keep it stable for all viewers.
-const WEDDING_TARGET = new Date("2026-02-13T16:00:00+11:00"); 
-
-function updateCountdown() {
-  const now = new Date();
-  let diff = WEDDING_TARGET.getTime() - now.getTime();
-  if (diff < 0) diff = 0;
-
-  const s = Math.floor(diff / 1000);
-  const days  = Math.floor(s / 86400);
-  const hours = Math.floor((s % 86400) / 3600);
-  const mins  = Math.floor((s % 3600) / 60);
-  const secs  = s % 60;
-
-  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = String(val).padStart(2, "0"); };
-  set("cd-days", days);
-  set("cd-hours", hours);
-  set("cd-mins", mins);
-  set("cd-secs", secs);
-}
-
-updateCountdown();
-setInterval(updateCountdown, 1000);
-        
-        /* ---------- 1) Fix/ensure Maps links ---------- */
-        function mapHrefFrom(address) {
-          return "https://www.google.com/maps?q=" + encodeURIComponent(address);
+        /* ---------- Countdown (AUS time) ---------- */
+        // Fri 13 Feb 2026, 4:00 pm Australia/Melbourne (AEDT, +11:00)
+        const WEDDING_TARGET = new Date("2026-02-13T16:00:00+11:00");
+        function updateCountdown() {
+          const now = new Date();
+          let diff = WEDDING_TARGET.getTime() - now.getTime();
+          if (diff < 0) diff = 0;
+          const s = Math.floor(diff / 1000);
+          const days  = Math.floor(s / 86400);
+          const hours = Math.floor((s % 86400) / 3600);
+          const mins  = Math.floor((s % 3600) / 60);
+          const secs  = s % 60;
+          const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = String(val).padStart(2, "0"); };
+          set("cd-days", days); set("cd-hours", hours); set("cd-mins", mins); set("cd-secs", secs);
         }
+        updateCountdown(); setInterval(updateCountdown, 1000);
+
+        /* ---------- Maps links ---------- */
+        function mapHrefFrom(address) { return "https://www.google.com/maps?q=" + encodeURIComponent(address); }
         const venueMapEl  = document.querySelector("[data-venue-map]");
         const dinnerMapEl = document.querySelector("[data-dinner-map]");
-
         const ceremonyHref = cfg.event?.mapsUrl || (cfg.event?.venueAddress ? mapHrefFrom(cfg.event.venueAddress) : "#");
         const dinnerHref   = (cfg.event?.dinner?.mapsUrl) || (cfg.event?.dinner?.address ? mapHrefFrom(cfg.event.dinner.address) : "#");
+        if (venueMapEl) { venueMapEl.href = ceremonyHref; if (ceremonyHref === "#") { venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available"; } }
+        if (dinnerMapEl) { dinnerMapEl.href = dinnerHref; if (dinnerHref === "#") { dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available"; } }
 
-        if (venueMapEl) {
-          venueMapEl.href = ceremonyHref;
-          if (ceremonyHref === "#") { venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available"; }
-        }
-        if (dinnerMapEl) {
-          dinnerMapEl.href = dinnerHref;
-          if (dinnerHref === "#") { dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available"; }
-        }
-
-        /* ---------- 2) Invite code & party size ---------- */
+        /* ---------- Invite code & party size ---------- */
         const form = document.getElementById("rsvp-form");
         const gate = document.getElementById("invite-gate");
         const codeInput = document.getElementById("invite-code-input");
@@ -337,7 +319,6 @@ setInterval(updateCountdown, 1000);
         function getParam(name){ return new URLSearchParams(window.location.search).get(name); }
         function normalizeCode(c){ return (c||"").trim().toUpperCase(); }
 
-        // globals to reuse after submit
         let CURRENT_INVITE = null;
 
         const DIETARY = ["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
@@ -356,7 +337,6 @@ setInterval(updateCountdown, 1000);
             </div>`;
         }
 
-        // dietary wrapper has data-dietary-for so we can hide it per guest
         function guestCard(index, name="") {
           const n = index + 1;
           return `
@@ -398,7 +378,6 @@ setInterval(updateCountdown, 1000);
         function wireDietaryHighlights(scope=document) {
           scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input => {
             const label = input.closest("label");
-            if (!label) return;
             function updateLabel(){ label.classList.toggle("bg-slate-900", input.checked); label.classList.toggle("text-white", input.checked); label.classList.toggle("border-slate-900", input.checked); }
             label.addEventListener("click", () => setTimeout(updateLabel, 0));
             input.addEventListener("change", updateLabel);
@@ -419,16 +398,13 @@ setInterval(updateCountdown, 1000);
           });
         }
 
-        // hide/show dietary section based on Dinner choice per guest
         function updateDietaryVisibility(i) {
           const wrapper = document.querySelector(`[data-dietary-for="${i}"]`);
           if (!wrapper) return;
           const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
           const val = (radios.find(r => r.checked)?.value) || "yes";
           const hide = (val === "no");
-
           wrapper.classList.toggle("hidden", hide);
-
           if (hide) {
             wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb => {
               cb.checked = false;
@@ -445,31 +421,25 @@ setInterval(updateCountdown, 1000);
             r.addEventListener("change", () => updateDietaryVisibility(i));
             r.addEventListener("click",  () => updateDietaryVisibility(i));
           });
-          updateDietaryVisibility(i); // initial
+          updateDietaryVisibility(i);
         }
 
         function renderGuests(count, defaults=[]) {
           const size = Math.max(1, Math.min(10, parseInt(count || "1", 10)));
-          guestList.innerHTML = Array.from({length: size})
-            .map((_, i) => guestCard(i, defaults[i] || ""))
-            .join("");
+          guestList.innerHTML = Array.from({length: size}).map((_, i) => guestCard(i, defaults[i] || "")).join("");
           wireDietaryHighlights(guestList);
           wirePills(guestList);
           for (let i = 0; i < size; i++) wireDinnerVisibilityFor(i);
         }
 
-        // Pre-fill party size from invite (defaultNames length if set; else maxGuests)
         function applyInvite(inv) {
           CURRENT_INVITE = inv || null;
-
           const max = inv?.maxGuests ?? 10;
           const defaults = Array.isArray(inv?.defaultNames) ? inv.defaultNames : [];
           const defaultCount = Math.max(1, Math.min(defaults.length || max, max));
-
           partyInput.max = String(max);
           partyInput.value = String(defaultCount);
           partyHint.textContent = inv ? `Your invitation allows up to ${max} guest${max>1?"s":""}.` : "";
-
           renderGuests(defaultCount, defaults);
         }
 
@@ -488,32 +458,25 @@ setInterval(updateCountdown, 1000);
           };
         }
 
-        // Decide if we gate or not
         const hasInviteTable = INVITES && Object.keys(INVITES).length > 0;
         const urlCode = normalizeCode(getParam("code"));
         if (hasInviteTable) {
-          if (urlCode && INVITES[urlCode]) {
-            applyInvite(INVITES[urlCode]);
-          } else {
-            showGate();
-          }
+          if (urlCode && INVITES[urlCode]) { applyInvite(INVITES[urlCode]); } else { showGate(); }
         } else {
           applyInvite(null);
         }
 
-        // Keep party size within cap and re-render guest cards
         partyInput.addEventListener("input", () => {
           const max = parseInt(partyInput.max, 10) || 10;
           let val = parseInt(partyInput.value || "1", 10);
           if (isNaN(val) || val < 1) val = 1;
           if (val > max) val = max;
           partyInput.value = String(val);
-
           const defaults = (hasInviteTable && urlCode && INVITES[urlCode]?.defaultNames) ? INVITES[urlCode].defaultNames : [];
           renderGuests(val, defaults);
         });
 
-        /* ---------- 3) Submit ---------- */
+        /* ---------- Submit ---------- */
         form.addEventListener("submit", async function (e) {
           e.preventDefault();
 
@@ -569,8 +532,6 @@ setInterval(updateCountdown, 1000);
               if (!res.ok) throw new Error("Formspree error " + res.status);
               alert("Thank you! Your RSVP was submitted.");
               form.reset();
-
-              // Re-seed form to invite defaults after reset
               applyInvite(CURRENT_INVITE);
               return;
             } catch (err) {
@@ -598,44 +559,5 @@ setInterval(updateCountdown, 1000);
         });
       });
     </script>
-    <script>
-  (function countdownAU(){
-    // Ceremony: 13 Nov 2026, 4:00 pm Australia/Melbourne (AEDT)
-    // Using explicit offset to respect DST on that date (+11:00)
-    const target = new Date('2026-11-13T16:00:00+11:00').getTime();
-
-    const el = {
-      d: document.getElementById('cd-days'),
-      h: document.getElementById('cd-hours'),
-      m: document.getElementById('cd-mins'),
-      s: document.getElementById('cd-secs')
-    };
-
-    function pad(n){ return String(n).padStart(2,'0'); }
-
-    function tick(){
-      const now = Date.now();
-      let diff = Math.max(0, target - now);
-
-      const days  = Math.floor(diff / (1000*60*60*24)); diff -= days*1000*60*60*24;
-      const hours = Math.floor(diff / (1000*60*60));    diff -= hours*1000*60*60;
-      const mins  = Math.floor(diff / (1000*60));       diff -= mins*1000*60;
-      const secs  = Math.floor(diff / 1000);
-
-      if (el.d) el.d.textContent = pad(days);
-      if (el.h) el.h.textContent = pad(hours);
-      if (el.m) el.m.textContent = pad(mins);
-      if (el.s) el.s.textContent = pad(secs);
-    }
-
-    tick();
-    setInterval(tick, 1000);
-
-    // Also set the visible date line in case config.js differs
-    const dateLine = document.querySelector('[data-date-time]');
-    if (dateLine) dateLine.textContent = 'Friday, 13 November 2026 · Ceremony 4:00 pm';
-  })();
-</script>
-
   </body>
 </html>
