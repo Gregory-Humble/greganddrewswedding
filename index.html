@@ -13,12 +13,9 @@
       :root { --accent: #0f172a; }
       .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
       .font-sans { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
-      /* No @apply; all styles use Tailwind utilities inline */
     </style>
   </head>
   <body class="font-sans text-slate-800 bg-white">
-    <div id="toast" style="display:none"></div>
-
     <!-- NAV -->
     <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 border-b border-slate-200">
       <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
@@ -73,24 +70,6 @@
       </div>
     </section>
 
-    <!-- SCHEDULE -->
-    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div class="mb-10">
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Order of the day</p>
-        <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
-      </div>
-      <ul class="grid md:grid-cols-2 gap-4">
-        <li class="rounded-2xl border border-slate-200 p-5">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">3:00 pm</p>
-          <p class="mt-1 text-lg">Ceremony at the Old Treasury Building</p>
-        </li>
-        <li class="rounded-2xl border border-slate-200 p-5">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">6:00 pm – 9:30 pm</p>
-          <p class="mt-1 text-lg">Dinner at Reed House</p>
-        </li>
-      </ul>
-    </section>
-
     <!-- VENUE -->
     <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div class="mb-10">
@@ -120,8 +99,18 @@
         <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
       </div>
 
+      <!-- Invite code gate (shown if no/invalid code) -->
+      <div id="invite-gate" class="hidden rounded-2xl border border-slate-200 p-6 bg-white max-w-xl">
+        <p class="text-slate-700 mb-3">Please enter your invite code (found on your invitation):</p>
+        <div class="flex gap-3">
+          <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 bg-white px-4 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. R7K4" maxlength="12">
+          <button id="invite-code-continue" class="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl">Continue</button>
+        </div>
+        <p id="invite-code-error" class="mt-3 text-sm text-rose-600 hidden">That code wasn’t recognised. Please check and try again.</p>
+      </div>
+
       <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8">
-        <!-- Column 1: Contact + Party -->
+        <!-- Column 1: Contact + Party + Ceremony/Dinner -->
         <div class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label class="block">
@@ -144,11 +133,12 @@
             </label>
           </div>
 
-          <!-- Party size -->
+          <!-- Party size (attending) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">How many people (including you)?</span>
+              <span id="party-label" class="block mb-1 text-sm font-medium text-slate-700">How many people attending (including you)?</span>
               <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+              <span id="party-hint" class="block mt-1 text-xs text-slate-500"></span>
             </label>
             <div class="hidden md:block"></div>
           </div>
@@ -194,19 +184,16 @@
 
         <!-- Column 2: Guests + Notes -->
         <div class="space-y-6">
-          <!-- Dynamic guest list -->
           <div>
             <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names & dietaries)</span>
             <div id="guest-list" class="space-y-4"></div>
           </div>
 
-          <!-- Message -->
           <label class="block">
             <span class="block mb-2 text-sm font-medium text-slate-700">Message (optional)</span>
             <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
           </label>
 
-          <!-- Submit -->
           <div class="flex flex-wrap items-center gap-3">
             <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">
               Submit RSVP
@@ -222,55 +209,49 @@
 
     <footer class="mt-24 py-10 text-center text-sm text-slate-500" data-footer>Crafted with ♥ for Greg & Drew</footer>
 
-    <!-- Config -->
+    <!-- Config + Invites -->
     <script src="./assets/config.js"></script>
+    <script src="./assets/invites.js"></script>
 
     <!-- Logic -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // --- Read config (with fallbacks) ---
         const cfg = window.SITE_CONFIG || {};
-        const CONTACT_EMAIL = cfg.contactEmail || gregory.r.humble@gmail.com";
+        const CONTACT_EMAIL = cfg.contactEmail || "drewbrownlee@hotmail.com";
         const FORMSPREE = cfg.formspreeEndpoint || "";
+        const INVITES = window.INVITES || {};
 
-        // Wire up the "Open in Maps" buttons from config
+        // Maps links
         const venueMapEl  = document.querySelector("[data-venue-map]");
         const dinnerMapEl = document.querySelector("[data-dinner-map]");
-        if (venueMapEl) {
-          if (cfg.event?.mapsUrl) venueMapEl.href = cfg.event.mapsUrl;
-          else { venueMapEl.classList.add("opacity-50", "pointer-events-none"); venueMapEl.title = "Map link not available"; }
-        }
-        if (dinnerMapEl) {
-          if (cfg.event?.dinner?.mapsUrl) dinnerMapEl.href = cfg.event.dinner.mapsUrl;
-          else { dinnerMapEl.classList.add("opacity-50", "pointer-events-none"); dinnerMapEl.title = "Map link not available"; }
-        }
+        if (venueMapEl)  { if (cfg.event?.mapsUrl) venueMapEl.href = cfg.event.mapsUrl; else { venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available"; } }
+        if (dinnerMapEl) { if (cfg.event?.dinner?.mapsUrl) dinnerMapEl.href = cfg.event.dinner.mapsUrl; else { dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available"; } }
 
-        // --- Toggle helpers for pill groups ---
-        function wirePillGroup(containerSelector, dataAttr) {
-          const group = document.querySelector(containerSelector);
-          if (!group) return;
-          const labels = Array.from(group.querySelectorAll(`label[${dataAttr}]`));
-          function setActive(label) {
-            labels.forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
-            label.classList.add("bg-slate-900","text-white","border-slate-900");
-            const input = label.querySelector("input[type='radio']");
-            if (input) input.checked = true;
-          }
-          labels.forEach(l => l.addEventListener("click", () => setActive(l)));
-        }
-        wirePillGroup("#attending-ceremony", "data-attend-ceremony");
-        wirePillGroup("#attending-dinner", "data-attend-dinner");
+        // --- Invite code helpers ---
+        function getParam(name){ return new URLSearchParams(window.location.search).get(name); }
+        function normalizeCode(c){ return (c||"").trim().toUpperCase(); }
 
-        // --- Guest card template ---
-        const DIETARY = ["Vegetarian","Vegan","Glutard (AKA Gluten Free)","Dairy free","Nut allergy","No seafood","Egg allergy"];
-        function guestCard(index) {
-          const n = index + 1; // 1-based for labels
+        const form = document.getElementById("rsvp-form");
+        const gate = document.getElementById("invite-gate");
+        const codeInput = document.getElementById("invite-code-input");
+        const codeBtn   = document.getElementById("invite-code-continue");
+        const codeErr   = document.getElementById("invite-code-error");
+
+        const partyInput = document.getElementById("party-size");
+        const partyHint  = document.getElementById("party-hint");
+        const partyLabel = document.getElementById("party-label");
+        const guestList  = document.getElementById("guest-list");
+
+        const DIETARY = ["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","No seafood","Halal"];
+
+        function guestCard(index, name="") {
+          const n = index + 1;
           return `
             <div class="rounded-2xl border border-slate-200 p-4">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="block">
                   <span class="block mb-2 text-sm font-medium text-slate-700">Guest ${n} name ${n===1 ? "(you) *" : "*"}</span>
-                  <input name="guestName_${index}" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? 'Your full name' : 'Full name'}">
+                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? 'Your full name' : 'Full name'}">
                 </label>
                 <div></div>
               </div>
@@ -289,18 +270,6 @@
           `;
         }
 
-        // Render guest list by party size
-        const partyInput = document.getElementById("party-size");
-        const guestList = document.getElementById("guest-list");
-        function renderGuests() {
-          const size = Math.max(1, Math.min(10, parseInt(partyInput.value || "1", 10)));
-          guestList.innerHTML = Array.from({length: size}).map((_, i) => guestCard(i)).join("");
-          wireDietaryHighlights(); // rebind highlights after rendering
-        }
-        partyInput.addEventListener("input", renderGuests);
-        renderGuests(); // initial
-
-        // Dietary checkbox highlights (works for all guest blocks)
         function wireDietaryHighlights() {
           const allDietInputs = document.querySelectorAll("input[type='checkbox'][name^='guestDiet_']");
           allDietInputs.forEach(input => {
@@ -317,41 +286,125 @@
           });
         }
 
-        // --- Submission handler (Formspree OR mailto fallback) ---
-        const form = document.getElementById("rsvp-form");
+        function wirePillGroup(containerSelector, dataAttr) {
+          const group = document.querySelector(containerSelector);
+          if (!group) return;
+          const labels = Array.from(group.querySelectorAll(`label[${dataAttr}]`));
+          function setActive(label) {
+            labels.forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
+            label.classList.add("bg-slate-900","text-white","border-slate-900");
+            const input = label.querySelector("input[type='radio']");
+            if (input) input.checked = true;
+          }
+          labels.forEach(l => l.addEventListener("click", () => setActive(l)));
+        }
+        wirePillGroup("#attending-ceremony", "data-attend-ceremony");
+        wirePillGroup("#attending-dinner", "data-attend-dinner");
+
+        function renderGuests(count, defaults=[]) {
+          const size = Math.max(1, Math.min(10, parseInt(count || "1", 10)));
+          guestList.innerHTML = Array.from({length: size}).map((_, i) => guestCard(i, defaults[i] || "")).join("");
+          wireDietaryHighlights();
+        }
+
+        // Apply invite limits
+        function applyInvite(inv) {
+          const max = inv.maxGuests || 1;
+          partyInput.max = String(max);
+          partyInput.value = "1";
+          partyLabel.textContent = "How many people attending (including you)?";
+          partyHint.textContent = `Your invitation allows up to ${max} guest${max>1?"s":""}.`;
+
+          renderGuests(1, inv.defaultNames || []);
+        }
+
+        // Invite gate logic
+        function enterCodeFlow() {
+          form.classList.add("hidden");
+          gate.classList.remove("hidden");
+          codeBtn.addEventListener("click", () => {
+            const entered = normalizeCode(codeInput.value);
+            if (!entered || !INVITES[entered]) {
+              codeErr.classList.remove("hidden");
+              return;
+            }
+            // Update URL to include the code (no full reload)
+            const url = new URL(window.location.href);
+            url.searchParams.set("code", entered);
+            window.history.replaceState({}, "", url.toString());
+            // Show form
+            gate.classList.add("hidden");
+            form.classList.remove("hidden");
+            applyInvite(INVITES[entered]);
+          });
+        }
+
+        const urlCode = normalizeCode(getParam("code"));
+        if (!urlCode || !INVITES[urlCode]) {
+          enterCodeFlow();
+        } else {
+          // valid code in URL
+          applyInvite(INVITES[urlCode]);
+        }
+
+        // Party size changes stay within invite cap
+        partyInput.addEventListener("input", () => {
+          const max = parseInt(partyInput.max, 10) || 1;
+          let val = parseInt(partyInput.value || "1", 10);
+          if (isNaN(val) || val < 1) val = 1;
+          if (val > max) val = max;
+          partyInput.value = String(val);
+
+          const code = normalizeCode(getParam("code"));
+          const inv = INVITES[code];
+          const defaults = inv?.defaultNames || [];
+          renderGuests(val, defaults);
+        });
+
+        // Submission handler
+        const ceremonyGroup = document.getElementById("attending-ceremony");
+        const dinnerGroup   = document.getElementById("attending-dinner");
+
         form.addEventListener("submit", async function (e) {
-          e.preventDefault(); // stop page reload
+          e.preventDefault();
 
           const fd = new FormData(form);
           const first = (fd.get("firstName") || "").toString().trim();
           const last  = (fd.get("lastName")  || "").toString().trim();
           const email = (fd.get("email")     || "").toString().trim();
           if (!first || !last || !email) {
-            alert("Please complete your first name, last name, and email before submitting.");
+            alert("Please complete your first name, last name, and email.");
+            return;
+          }
+
+          const code = normalizeCode(getParam("code"));
+          const inv  = INVITES[code];
+          if (!inv) {
+            alert("Invite code missing. Please enter your invite code.");
             return;
           }
 
           const phone  = (fd.get("phone") || "").toString().trim();
-          const partySize = Math.max(1, Math.min(10, parseInt((fd.get("partySize") || "1").toString(), 10)));
+          const partySize = Math.max(1, Math.min(parseInt(partyInput.value || "1", 10), inv.maxGuests || 1));
           const attendingCeremony = (fd.get("attendingCeremony") || "yes").toString();
           const attendingDinner   = (fd.get("attendingDinner")   || "yes").toString();
           const note   = (fd.get("note") || "").toString().trim();
 
-          // Build guests array
           const guests = [];
           for (let i = 0; i < partySize; i++) {
-            const name = (fd.get(`guestName_${i}`) || "").toString().trim();
+            const name = (fd.get(\`guestName_\${i}\`) || "").toString().trim();
             if (!name) {
-              alert(`Please enter a name for Guest ${i+1}.`);
+              alert(\`Please enter a name for Guest \${i+1}.\`);
               return;
             }
-            const diets = fd.getAll(`guestDiet_${i}`).map(String);
-            const other = (fd.get(`guestDietOther_${i}`) || "").toString().trim();
-            const dietarySummary = [ ...diets, other ? `Other: ${other}` : null ].filter(Boolean).join("; ");
+            const diets = fd.getAll(\`guestDiet_\${i}\`).map(String);
+            const other = (fd.get(\`guestDietOther_\${i}\`) || "").toString().trim();
+            const dietarySummary = [ ...diets, other ? \`Other: \${other}\` : null ].filter(Boolean).join("; ");
             guests.push({ index: i+1, name, dietary: diets, dietaryOther: other, dietarySummary });
           }
 
           const payload = {
+            invite: { code, household: inv.household, maxGuests: inv.maxGuests },
             contact: { firstName: first, lastName: last, email, phone },
             partySize,
             attending: { ceremony: attendingCeremony, dinner: attendingDinner },
@@ -367,7 +420,6 @@
             timestamp: new Date().toISOString()
           };
 
-          // Prefer Formspree if configured
           if (FORMSPREE) {
             try {
               const res = await fetch(FORMSPREE, {
@@ -379,42 +431,31 @@
               alert("Thank you! Your RSVP was submitted.");
               form.reset();
               partyInput.value = "1";
-              renderGuests();
-              // Re-highlight default selected pills
-              ["#attending-ceremony [data-attend-ceremony='yes']",
-               "#attending-dinner [data-attend-dinner='yes']"].forEach(sel => {
-                document.querySelectorAll(sel.replace("yes","yes")).forEach(y => {
-                  const group = y.closest("div");
-                  group?.querySelectorAll("label").forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
-                  y.classList.add("bg-slate-900","text-white","border-slate-900");
-                });
-              });
+              renderGuests(1, []);
               return;
             } catch (err) {
               console.error(err);
               alert("We couldn't reach the RSVP service. We'll open an email instead.");
-              // fall through to mailto
             }
           }
 
-          // Mailto fallback (readable summary)
+          // Mailto fallback
           const subject = encodeURIComponent("RSVP — Greg & Drew");
           const lines = [];
-          lines.push(`Contact: ${first} ${last}`);
-          lines.push(`Email: ${email}`);
-          if (phone) lines.push(`Phone: ${phone}`);
-          lines.push(`Party size: ${partySize}`);
-          lines.push(`Ceremony: ${attendingCeremony}`);
-          lines.push(`Dinner: ${attendingDinner}`);
+          lines.push(\`Invite code: \${code} (\${inv.household})\`);
+          lines.push(\`Contact: \${first} \${last}\`);
+          lines.push(\`Email: \${email}\`);
+          if (phone) lines.push(\`Phone: \${phone}\`);
+          lines.push(\`Party size (attending): \${partySize} / max \${inv.maxGuests}\`);
+          lines.push(\`Ceremony: \${attendingCeremony}\`);
+          lines.push(\`Dinner: \${attendingDinner}\`);
           lines.push("");
           lines.push("Guests & dietaries:");
-          guests.forEach(g => {
-            lines.push(`  • ${g.name}${g.dietarySummary ? " — " + g.dietarySummary : ""}`);
-          });
+          guests.forEach(g => { lines.push(\`  • \${g.name}\${g.dietarySummary ? " — " + g.dietarySummary : ""}\`); });
           if (note) { lines.push(""); lines.push("Note:"); lines.push(note); }
 
           const body = encodeURIComponent(lines.join("\n"));
-          window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+          window.location.href = \`mailto:\${CONTACT_EMAIL}?subject=\${subject}&body=\${body}\`;
         });
       });
     </script>
