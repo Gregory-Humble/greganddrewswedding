@@ -263,7 +263,6 @@
         const DIETARY = ["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
 
         function pillGroupHTML(name, selected="yes") {
-          // name must be unique per guest per group
           const tpl = (val, label) => `
             <label class="inline-flex items-center px-3 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer ${selected===val?'bg-slate-900 text-white border-slate-900':''}">
               <input type="radio" name="${name}" value="${val}" class="sr-only" ${selected===val?'checked':''}>
@@ -277,6 +276,7 @@
             </div>`;
         }
 
+        // UPDATED: dietary wrapper has data-dietary-for so we can hide it per guest
         function guestCard(index, name="") {
           const n = index + 1;
           return `
@@ -292,15 +292,15 @@
               <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <span class="block mb-2 text-sm font-medium text-slate-700">Ceremony?</span>
-                  ${pillGroupHTML(`guestCeremony_${index}`, "yes")}
+                  ${pillGroupHTML(\`guestCeremony_${index}\`, "yes")}
                 </div>
                 <div>
                   <span class="block mb-2 text-sm font-medium text-slate-700">Dinner?</span>
-                  ${pillGroupHTML(`guestDinner_${index}`, "yes")}
+                  ${pillGroupHTML(\`guestDinner_${index}\`, "yes")}
                 </div>
               </div>
 
-              <div class="mt-4">
+              <div class="mt-4" data-dietary-for="${index}">
                 <span class="block mb-2 text-sm font-medium text-slate-700">Dietary requirements</span>
                 <div class="grid grid-cols-2 gap-3">
                   ${DIETARY.map(d => `
@@ -339,6 +339,35 @@
           });
         }
 
+        // NEW: hide/show dietary section based on Dinner choice per guest
+        function updateDietaryVisibility(i) {
+          const wrapper = document.querySelector(\`[data-dietary-for="\${i}"]\`);
+          if (!wrapper) return;
+          const radios = Array.from(document.getElementsByName(\`guestDinner_\${i}\`));
+          const val = (radios.find(r => r.checked)?.value) || "yes";
+          const hide = (val === "no");
+
+          wrapper.classList.toggle("hidden", hide);
+
+          if (hide) {
+            wrapper.querySelectorAll(\`input[name="guestDiet_\${i}"]\`).forEach(cb => {
+              cb.checked = false;
+              const lbl = cb.closest("label");
+              if (lbl) lbl.classList.remove("bg-slate-900","text-white","border-slate-900");
+            });
+            const other = wrapper.querySelector(\`input[name="guestDietOther_\${i}"]\`);
+            if (other) other.value = "";
+          }
+        }
+        function wireDinnerVisibilityFor(i) {
+          const radios = Array.from(document.getElementsByName(\`guestDinner_\${i}\`));
+          radios.forEach(r => {
+            r.addEventListener("change", () => updateDietaryVisibility(i));
+            r.addEventListener("click",  () => updateDietaryVisibility(i));
+          });
+          updateDietaryVisibility(i); // initial
+        }
+
         function renderGuests(count, defaults=[]) {
           const size = Math.max(1, Math.min(10, parseInt(count || "1", 10)));
           guestList.innerHTML = Array.from({length: size})
@@ -346,6 +375,8 @@
             .join("");
           wireDietaryHighlights(guestList);
           wirePills(guestList);
+          // ensure dietary hides for guests who select Dinner = No
+          for (let i = 0; i < size; i++) wireDinnerVisibilityFor(i);
         }
 
         // Pre-fill party size from invite (defaultNames length if set; else maxGuests)
@@ -423,13 +454,13 @@
 
           const guests = [];
           for (let i = 0; i < partySize; i++) {
-            const name = (fd.get(`guestName_${i}`) || "").toString().trim();
-            if (!name) { alert(`Please enter a name for Guest ${i+1}.`); return; }
-            const ceremony = (fd.get(`guestCeremony_${i}`) || "yes").toString();
-            const dinner   = (fd.get(`guestDinner_${i}`)   || "yes").toString();
-            const diets = fd.getAll(`guestDiet_${i}`).map(String);
-            const other = (fd.get(`guestDietOther_${i}`) || "").toString().trim();
-            const dietarySummary = [...diets, other ? `Other: ${other}` : null].filter(Boolean).join("; ");
+            const name = (fd.get(\`guestName_\${i}\`) || "").toString().trim();
+            if (!name) { alert(\`Please enter a name for Guest \${i+1}.\`); return; }
+            const ceremony = (fd.get(\`guestCeremony_\${i}\`) || "yes").toString();
+            const dinner   = (fd.get(\`guestDinner_\${i}\`)   || "yes").toString();
+            const diets = dinner === "no" ? [] : fd.getAll(\`guestDiet_\${i}\`).map(String);
+            const other = dinner === "no" ? "" : (fd.get(\`guestDietOther_\${i}\`) || "").toString().trim();
+            const dietarySummary = dinner === "no" ? "" : [...diets, other ? \`Other: \${other}\` : null].filter(Boolean).join("; ");
             guests.push({ index: i+1, name, ceremony, dinner, dietary: diets, dietaryOther: other, dietarySummary });
           }
 
@@ -472,19 +503,19 @@
           // Mailto fallback (per-guest attendance included)
           const subject = encodeURIComponent("RSVP — Greg & Drew");
           const lines = [];
-          if (inv) lines.push(`Invite code: ${code} (${inv.household})`);
-          lines.push(`Contact: ${first} ${last}`);
-          lines.push(`Email: ${email}`);
-          if (phone) lines.push(`Phone: ${phone}`);
-          lines.push(`Party size (attending): ${partySize}${inv ? " / max " + inv.maxGuests : ""}`);
+          if (inv) lines.push(\`Invite code: \${code} (\${inv.household})\`);
+          lines.push(\`Contact: \${first} \${last}\`);
+          lines.push(\`Email: \${email}\`);
+          if (phone) lines.push(\`Phone: \${phone}\`);
+          lines.push(\`Party size (attending): \${partySize}\${inv ? " / max " + inv.maxGuests : ""}\`);
           lines.push("");
           lines.push("Guests:");
           guests.forEach(g => {
-            lines.push(`  • ${g.name} — Ceremony: ${g.ceremony} | Dinner: ${g.dinner}${g.dietarySummary ? " | Dietary: " + g.dietarySummary : ""}`);
+            lines.push(\`  • \${g.name} — Ceremony: \${g.ceremony} | Dinner: \${g.dinner}\${g.dietarySummary ? " | Dietary: " + g.dietarySummary : ""}\`);
           });
           if (note) { lines.push(""); lines.push("Note:"); lines.push(note); }
           const body = encodeURIComponent(lines.join("\n"));
-          window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+          window.location.href = \`mailto:\${CONTACT_EMAIL}?subject=\${subject}&body=\${body}\`;
         });
       });
     </script>
