@@ -13,6 +13,8 @@
       :root { --accent: #0f172a; }
       .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
       .font-sans { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
+      .tabular-nums { font-variant-numeric: tabular-nums; }
+      .info-card { backdrop-filter: saturate(120%); }
     </style>
   </head>
   <body class="font-sans text-slate-800 bg-white">
@@ -99,7 +101,7 @@
 </section>
 
     <!-- DETAILS -->
-    <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24" bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]>
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Plan</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">The Details</h2>
@@ -121,7 +123,7 @@
     </section>
 
     <!-- SCHEDULE -->
-    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24" bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]>
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Order of the day</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
@@ -139,7 +141,7 @@
     </section>
 
     <!-- VENUE -->
-    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24" bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]>
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Where to go</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
@@ -179,7 +181,7 @@
     </section>
 
     <!-- RSVP -->
-    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24" bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]>
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">We'd love to celebrate with you</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
@@ -560,5 +562,44 @@
         });
       });
     </script>
+    <script>
+  (function countdownAU(){
+    // Ceremony: 13 Nov 2026, 4:00 pm Australia/Melbourne (AEDT)
+    // Using explicit offset to respect DST on that date (+11:00)
+    const target = new Date('2026-11-13T16:00:00+11:00').getTime();
+
+    const el = {
+      d: document.getElementById('cd-days'),
+      h: document.getElementById('cd-hours'),
+      m: document.getElementById('cd-mins'),
+      s: document.getElementById('cd-secs')
+    };
+
+    function pad(n){ return String(n).padStart(2,'0'); }
+
+    function tick(){
+      const now = Date.now();
+      let diff = Math.max(0, target - now);
+
+      const days  = Math.floor(diff / (1000*60*60*24)); diff -= days*1000*60*60*24;
+      const hours = Math.floor(diff / (1000*60*60));    diff -= hours*1000*60*60;
+      const mins  = Math.floor(diff / (1000*60));       diff -= mins*1000*60;
+      const secs  = Math.floor(diff / 1000);
+
+      if (el.d) el.d.textContent = pad(days);
+      if (el.h) el.h.textContent = pad(hours);
+      if (el.m) el.m.textContent = pad(mins);
+      if (el.s) el.s.textContent = pad(secs);
+    }
+
+    tick();
+    setInterval(tick, 1000);
+
+    // Also set the visible date line in case config.js differs
+    const dateLine = document.querySelector('[data-date-time]');
+    if (dateLine) dateLine.textContent = 'Friday, 13 November 2026 · Ceremony 4:00 pm';
+  })();
+</script>
+
   </body>
 </html>
