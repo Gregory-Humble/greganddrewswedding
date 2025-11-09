@@ -35,6 +35,12 @@ window.INVITES = {
     household: "Helen Kuriata & Rick Kwasek",
     maxGuests: 2,
     defaultNames: ["Helen Kuriata", "Rick Kwasek"]
+  },
+    "GAYBEAUS": {
+    household: "The Humble-Brownlees",
+    maxGuests: 2,
+    defaultNames: ["Gregory Humble", "Drew Humble"]
   }
+
 };
 // leave this file as pure JS – no HTML, no comments with < or >
