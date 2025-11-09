@@ -100,7 +100,7 @@
     <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div class="mb-10">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Where to go</p>
-        <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
+      <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
       </div>
       <div class="grid lg:grid-cols-2 gap-8 items-start">
         <div class="rounded-2xl border border-slate-200 p-6">
@@ -113,9 +113,7 @@
             target="_blank"
             rel="noreferrer"
             class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400"
-          >
-            Open in Maps
-          </a>
+          >Open in Maps</a>
           <p class="mt-6 text-sm text-slate-600">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
         </div>
         <div class="rounded-2xl border border-slate-200 p-6">
@@ -129,9 +127,7 @@
             target="_blank"
             rel="noreferrer"
             class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400"
-          >
-            Open in Maps
-          </a>
+          >Open in Maps</a>
         </div>
       </div>
     </section>
@@ -212,17 +208,20 @@
 
     <footer class="mt-24 py-10 text-center text-sm text-slate-500">Crafted with ♥ for Greg & Drew</footer>
 
-    <!-- Config first -->
+    <!-- Config & invite table (cache-busted) -->
     <script src="./assets/config.js"></script>
-    <script src="./assets/invites.js"></script>
-    <script src="./assets/script.js"></script>
+    <script src="./assets/invites.js?v=4"></script>
 
-    <!-- Main logic -->
+    <!-- Main logic (inline) -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const cfg = window.SITE_CONFIG || {};
-        const INVITES = window.INVITES || {}; // fine if missing/empty
-        const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@hotmail.com";
+        const INVITES = (window.INVITES && Object.keys(window.INVITES).length ? window.INVITES : null);
+
+        // Quick sanity check in Console that invites loaded
+        console.log("INVITES loaded?", !!INVITES, INVITES && Object.keys(INVITES));
+
+        const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@gmail.com";
         const FORMSPREE = cfg.formspreeEndpoint || "";
 
         /* ---------- 1) Fix/ensure Maps links ---------- */
@@ -260,6 +259,7 @@
         // globals to reuse after submit
         let CURRENT_INVITE = null;
 
+        // Keep your dietary set
         const DIETARY = ["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
 
         function pillGroupHTML(name, selected="yes") {
@@ -276,7 +276,6 @@
             </div>`;
         }
 
-        // UPDATED: dietary wrapper has data-dietary-for so we can hide it per guest
         function guestCard(index, name="") {
           const n = index + 1;
           return `
@@ -339,7 +338,7 @@
           });
         }
 
-        // NEW: hide/show dietary section based on Dinner choice per guest
+        // Hide/show dietary per guest based on Dinner
         function updateDietaryVisibility(i) {
           const wrapper = document.querySelector(\`[data-dietary-for="\${i}"]\`);
           if (!wrapper) return;
@@ -365,7 +364,7 @@
             r.addEventListener("change", () => updateDietaryVisibility(i));
             r.addEventListener("click",  () => updateDietaryVisibility(i));
           });
-          updateDietaryVisibility(i); // initial
+          updateDietaryVisibility(i); // initial state
         }
 
         function renderGuests(count, defaults=[]) {
@@ -375,11 +374,10 @@
             .join("");
           wireDietaryHighlights(guestList);
           wirePills(guestList);
-          // ensure dietary hides for guests who select Dinner = No
           for (let i = 0; i < size; i++) wireDinnerVisibilityFor(i);
         }
 
-        // Pre-fill party size from invite (defaultNames length if set; else maxGuests)
+        // Pre-fill party size from invite
         function applyInvite(inv) {
           CURRENT_INVITE = inv || null;
 
@@ -410,7 +408,7 @@
         }
 
         // Decide if we gate or not
-        const hasInviteTable = INVITES && Object.keys(INVITES).length > 0;
+        const hasInviteTable = !!INVITES;
         const urlCode = normalizeCode(getParam("code"));
         if (hasInviteTable) {
           if (urlCode && INVITES[urlCode]) {
@@ -419,7 +417,9 @@
             showGate();
           }
         } else {
-          applyInvite(null);
+          // If invites didn't load for any reason, gate the form so people can't free-type
+          console.warn("invites.js missing; falling back to gate.");
+          showGate();
         }
 
         // Keep party size within cap and re-render guest cards
@@ -444,9 +444,9 @@
           const email = (fd.get("email")     || "").toString().trim();
           if (!first || !last || !email) { alert("Please complete your first name, last name, and email."); return; }
 
-          const hasTable = INVITES && Object.keys(INVITES).length > 0;
+          const hasTable = !!INVITES;
           const code = normalizeCode(getParam("code"));
-          const inv  = (hasTable && INVITES[code]) ? INVITES[code] : null;
+          const inv  = (hasTable && INVITES && INVITES[code]) ? INVITES[code] : null;
 
           const phone  = (fd.get("phone") || "").toString().trim();
           const partySize = Math.max(1, Math.min(parseInt(document.getElementById("party-size").value || "1", 10), inv?.maxGuests ?? 10));
@@ -490,9 +490,7 @@
               if (!res.ok) throw new Error("Formspree error " + res.status);
               alert("Thank you! Your RSVP was submitted.");
               form.reset();
-
-              // Re-seed form to invite defaults after reset
-              applyInvite(CURRENT_INVITE);
+              applyInvite(CURRENT_INVITE); // re-seed to invite defaults
               return;
             } catch (err) {
               console.error(err);
