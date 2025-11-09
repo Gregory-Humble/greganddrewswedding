@@ -36,25 +36,67 @@
       </div>
     </header>
 
-    <!-- HERO -->
-    <section class="relative overflow-hidden">
-      <div class="absolute inset-0" aria-hidden>
-        <div class="absolute -top-40 -right-32 w-[42rem] h-[42rem] rounded-full bg-[radial-gradient(closest-side,rgba(2,6,23,0.08),transparent)]"></div>
-        <div class="absolute -bottom-32 -left-16 w-[32rem] h-[32rem] rounded-full bg-[radial-gradient(closest-side,rgba(2,6,23,0.06),transparent)]"></div>
+    <!-- HERO (elevated) -->
+<section class="relative overflow-hidden" style="--hero-image: url('assets/hero.jpg');">
+  <!-- background image -->
+  <div class="absolute inset-0">
+    <img src="" alt="" class="hidden" aria-hidden="true">
+    <div class="absolute inset-0 bg-[image:var(--hero-image)] bg-cover bg-center"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,6,23,0.25),rgba(2,6,23,0.55))]"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-6 py-24 md:py-40">
+    <!-- monogram chip -->
+    <div class="inline-flex items-center gap-2 rounded-2xl bg-white/80 backdrop-blur px-4 py-2 text-sm shadow-sm">
+      <span class="font-display tracking-widest">G · D</span>
+      <span class="h-4 w-px bg-slate-300"></span>
+      <span class="text-slate-600">You’re invited</span>
+    </div>
+
+    <!-- names -->
+    <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white drop-shadow">
+      Greg &amp; Drew
+    </h1>
+
+    <!-- date & venue line (keeps your data-* hooks if you still set them elsewhere) -->
+    <p class="mt-4 text-lg md:text-xl text-white/90" data-date-time>
+      Friday, 13 November 2026 · Ceremony 4:00&nbsp;pm
+    </p>
+    <p class="mt-1 text-white/80 flex items-center gap-2">
+      <span>📍</span> <span data-venue>Old Treasury Building, Melbourne</span>
+    </p>
+
+    <!-- countdown -->
+    <div class="mt-10 inline-flex items-stretch rounded-2xl bg-white/85 backdrop-blur ring-1 ring-white/60 shadow-lg">
+      <!-- each cell -->
+      <div class="px-6 py-4 text-center">
+        <div id="cd-days" class="font-display text-4xl md:text-5xl leading-none tabular-nums">00</div>
+        <div class="mt-1 text-xs uppercase tracking-[0.25em] text-slate-600">Days</div>
       </div>
-      <div class="mx-auto max-w-6xl px-6 py-24 md:py-32 relative">
-        <p class="text-sm tracking-widest uppercase text-slate-600">You are invited to celebrate</p>
-        <h1 class="font-display text-5xl md:text-7xl mt-3 leading-tight">Greg & Drew</h1>
-        <p class="mt-5 text-lg text-slate-700" data-date-time>Friday, 13 February · Ceremony 3:45 pm</p>
-        <p class="mt-1 text-slate-700 flex items-center gap-2">
-        <span data-venue>Old Treasury Building, Melbourne</span>
-        </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href="#details" class="px-5 py-3 rounded-xl border border-slate-300 hover:border-slate-400">Event details</a>
-          <a href="#rsvp" class="px-5 py-3 rounded-xl bg-slate-900 text-white">RSVP now</a>
-        </div>
+      <div class="w-px bg-slate-200/70"></div>
+      <div class="px-6 py-4 text-center">
+        <div id="cd-hours" class="font-display text-4xl md:text-5xl leading-none tabular-nums">00</div>
+        <div class="mt-1 text-xs uppercase tracking-[0.25em] text-slate-600">Hours</div>
       </div>
-    </section>
+      <div class="w-px bg-slate-200/70"></div>
+      <div class="px-6 py-4 text-center">
+        <div id="cd-mins" class="font-display text-4xl md:text-5xl leading-none tabular-nums">00</div>
+        <div class="mt-1 text-xs uppercase tracking-[0.25em] text-slate-600">Mins</div>
+      </div>
+      <div class="w-px bg-slate-200/70"></div>
+      <div class="px-6 py-4 text-center">
+        <div id="cd-secs" class="font-display text-4xl md:text-5xl leading-none tabular-nums">00</div>
+        <div class="mt-1 text-xs uppercase tracking-[0.25em] text-slate-600">Secs</div>
+      </div>
+    </div>
+
+    <!-- CTAs -->
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href="#details" class="px-5 py-3 rounded-xl bg-white/90 backdrop-blur text-slate-900 border border-white/70 hover:bg-white">Event details</a>
+      <a href="#rsvp" class="px-5 py-3 rounded-xl bg-slate-900 text-white hover:bg-slate-800">RSVP now</a>
+    </div>
+  </div>
+</section>
 
     <!-- DETAILS -->
     <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
