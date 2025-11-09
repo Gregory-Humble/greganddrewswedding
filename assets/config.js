@@ -2,7 +2,7 @@ window.SITE_CONFIG = {
   couple: { a: "Greg", b: "Drew" },
   contactEmail: "Gregory.r.humble@gmail.com",
   event: {
-    dateLong: "Friday, 13 February",
+    dateLong: "Friday, 13 February 2026",
     time: "Ceremony 4:00 pm",
     venueName: "Margaret Craig Room, Old Treasury Building",
     venueAddress: "20 Spring St, Melbourne VIC",
