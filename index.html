@@ -65,32 +65,43 @@
       Friday, 13 November 2026 · Ceremony 4:00&nbsp;pm
     </p>
     <p class="mt-1 text-white/80 flex items-center gap-2">
-      <span>📍</span> <span data-venue>Old Treasury Building, Melbourne</span>
+    <span data-venue>Old Treasury Building, Melbourne</span>
     </p>
 
-    <!-- countdown -->
-    <div class="mt-10 inline-flex items-stretch rounded-2xl bg-white/85 backdrop-blur ring-1 ring-white/60 shadow-lg">
-      <!-- each cell -->
-      <div class="px-6 py-4 text-center">
-        <div id="cd-days" class="font-display text-4xl md:text-5xl leading-none tabular-nums">00</div>
-        <div class="mt-1 text-xs uppercase tracking-[0.25em] text-slate-600">Days</div>
-      </div>
-      <div class="w-px bg-slate-200/70"></div>
-      <div class="px-6 py-4 text-center">
-        <div id="cd-hours" class="font-display text-4xl md:text-5xl leading-none tabular-nums">00</div>
-        <div class="mt-1 text-xs uppercase tracking-[0.25em] text-slate-600">Hours</div>
-      </div>
-      <div class="w-px bg-slate-200/70"></div>
-      <div class="px-6 py-4 text-center">
-        <div id="cd-mins" class="font-display text-4xl md:text-5xl leading-none tabular-nums">00</div>
-        <div class="mt-1 text-xs uppercase tracking-[0.25em] text-slate-600">Mins</div>
-      </div>
-      <div class="w-px bg-slate-200/70"></div>
-      <div class="px-6 py-4 text-center">
-        <div id="cd-secs" class="font-display text-4xl md:text-5xl leading-none tabular-nums">00</div>
-        <div class="mt-1 text-xs uppercase tracking-[0.25em] text-slate-600">Secs</div>
+   <!-- COUNTDOWN BANNER -->
+<section id="countdown" class="relative">
+  <!-- Swap this URL for your hero/banner image -->
+  <div class="h-[42vh] md:h-[58vh] w-full bg-center bg-cover"
+       style="background-image:url('./assets/your-banner.jpg');"></div>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 flex items-center justify-center">
+    <div class="backdrop-blur-sm bg-white/60 rounded-3xl px-6 md:px-10 py-6 md:py-8 shadow-lg border border-white/40">
+      <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-600">Counting down to</p>
+      <h2 class="font-display text-3xl md:text-5xl mt-2 text-slate-900">Greg &amp; Drew</h2>
+      <p class="mt-1 text-center text-slate-700">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
+
+      <div class="mt-5 grid grid-cols-4 gap-3 text-center">
+        <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
+          <div id="cd-days" class="font-display text-3xl md:text-4xl">0</div>
+          <div class="text-xs uppercase tracking-wider text-slate-600">Days</div>
+        </div>
+        <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
+          <div id="cd-hours" class="font-display text-3xl md:text-4xl">0</div>
+          <div class="text-xs uppercase tracking-wider text-slate-600">Hours</div>
+        </div>
+        <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
+          <div id="cd-mins" class="font-display text-3xl md:text-4xl">0</div>
+          <div class="text-xs uppercase tracking-wider text-slate-600">Mins</div>
+        </div>
+        <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
+          <div id="cd-secs" class="font-display text-3xl md:text-4xl">0</div>
+          <div class="text-xs uppercase tracking-wider text-slate-600">Secs</div>
+        </div>
       </div>
     </div>
+  </div>
+</section>
 
     <!-- CTAs -->
     <div class="mt-10 flex flex-wrap gap-3">
@@ -269,6 +280,31 @@
         const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@hotmail.com";
         const FORMSPREE = cfg.formspreeEndpoint || "";
 
+        // ---- AUS-time countdown to Fri 13 Feb 2026, 4:00 pm (Melbourne, AEDT) ----
+// Hard-code the offset for that date (+11:00). JS will keep it stable for all viewers.
+const WEDDING_TARGET = new Date("2026-02-13T16:00:00+11:00"); 
+
+function updateCountdown() {
+  const now = new Date();
+  let diff = WEDDING_TARGET.getTime() - now.getTime();
+  if (diff < 0) diff = 0;
+
+  const s = Math.floor(diff / 1000);
+  const days  = Math.floor(s / 86400);
+  const hours = Math.floor((s % 86400) / 3600);
+  const mins  = Math.floor((s % 3600) / 60);
+  const secs  = s % 60;
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = String(val).padStart(2, "0"); };
+  set("cd-days", days);
+  set("cd-hours", hours);
+  set("cd-mins", mins);
+  set("cd-secs", secs);
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+        
         /* ---------- 1) Fix/ensure Maps links ---------- */
         function mapHrefFrom(address) {
           return "https://www.google.com/maps?q=" + encodeURIComponent(address);
