@@ -106,7 +106,6 @@
         <div class="rounded-2xl border border-slate-200 p-6">
           <h3 class="text-xl font-medium">Old Treasury Building</h3>
           <p class="mt-1 text-slate-700">Margaret Craig Room · 20 Spring St, Melbourne VIC</p>
-          <!-- href is set/confirmed by JS; give a harmless default so it's still clickable -->
           <a
             href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
             data-venue-map
@@ -188,50 +187,12 @@
             </label>
             <div class="hidden md:block"></div>
           </div>
-
-          <!-- Ceremony RSVP -->
-          <label class="block">
-            <span class="block mb-2 text-sm font-medium text-slate-700">Will your party attend the ceremony?</span>
-            <div id="attending-ceremony" class="flex gap-4 flex-wrap">
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer bg-slate-900 text-white border-slate-900" data-attend-ceremony="yes">
-                <input type="radio" name="attendingCeremony" value="yes" class="sr-only" checked>
-                Joyfully accepts
-              </label>
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend-ceremony="no">
-                <input type="radio" name="attendingCeremony" value="no" class="sr-only">
-                Regretfully declines
-              </label>
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend-ceremony="unsure">
-                <input type="radio" name="attendingCeremony" value="unsure" class="sr-only">
-                Unsure (TBC)
-              </label>
-            </div>
-          </label>
-
-          <!-- Dinner RSVP -->
-          <label class="block">
-            <span class="block mb-2 text-sm font-medium text-slate-700">Will your party attend the dinner?</span>
-            <div id="attending-dinner" class="flex gap-4 flex-wrap">
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer bg-slate-900 text-white border-slate-900" data-attend-dinner="yes">
-                <input type="radio" name="attendingDinner" value="yes" class="sr-only" checked>
-                Yes, we'll be there
-              </label>
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend-dinner="no">
-                <input type="radio" name="attendingDinner" value="no" class="sr-only">
-                Sorry, can't make dinner
-              </label>
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend-dinner="unsure">
-                <input type="radio" name="attendingDinner" value="unsure" class="sr-only">
-                Unsure (TBC)
-              </label>
-            </div>
-          </label>
         </div>
 
         <!-- Column 2 -->
         <div class="space-y-6">
           <div>
-            <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names & dietaries)</span>
+            <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names, dietaries & attendance)</span>
             <div id="guest-list" class="space-y-4"></div>
           </div>
 
@@ -298,10 +259,24 @@
 
         // globals to reuse after submit
         let CURRENT_INVITE = null;
-        let CURRENT_DEFAULT_COUNT = 1;
 
-        // Build per-guest cards
         const DIETARY = ["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
+
+        function pillGroupHTML(name, selected="yes") {
+          // name must be unique per guest per group
+          const tpl = (val, label) => `
+            <label class="inline-flex items-center px-3 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer ${selected===val?'bg-slate-900 text-white border-slate-900':''}">
+              <input type="radio" name="${name}" value="${val}" class="sr-only" ${selected===val?'checked':''}>
+              ${label}
+            </label>`;
+          return `
+            <div class="flex gap-3 flex-wrap" data-pill-group>
+              ${tpl("yes", "Yes")}
+              ${tpl("no", "No")}
+              ${tpl("unsure", "Unsure")}
+            </div>`;
+        }
+
         function guestCard(index, name="") {
           const n = index + 1;
           return `
@@ -313,8 +288,20 @@
                 </label>
                 <div></div>
               </div>
-              <div class="mt-3">
-                <span class="block mb-2 text-sm font-medium text-slate-700">Guest ${n} dietary requirements</span>
+
+              <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <span class="block mb-2 text-sm font-medium text-slate-700">Ceremony?</span>
+                  ${pillGroupHTML(`guestCeremony_${index}`, "yes")}
+                </div>
+                <div>
+                  <span class="block mb-2 text-sm font-medium text-slate-700">Dinner?</span>
+                  ${pillGroupHTML(`guestDinner_${index}`, "yes")}
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <span class="block mb-2 text-sm font-medium text-slate-700">Dietary requirements</span>
                 <div class="grid grid-cols-2 gap-3">
                   ${DIETARY.map(d => `
                     <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
@@ -327,8 +314,9 @@
             </div>
           `;
         }
-        function wireDietaryHighlights() {
-          document.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input => {
+
+        function wireDietaryHighlights(scope=document) {
+          scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input => {
             const label = input.closest("label");
             if (!label) return;
             function updateLabel(){ label.classList.toggle("bg-slate-900", input.checked); label.classList.toggle("text-white", input.checked); label.classList.toggle("border-slate-900", input.checked); }
@@ -337,20 +325,36 @@
             updateLabel();
           });
         }
-        function renderGuests(count, defaults=[]) {
-          const size = Math.max(1, Math.min(10, parseInt(count || "1", 10)));
-          guestList.innerHTML = Array.from({length: size}).map((_, i) => guestCard(i, defaults[i] || "")).join("");
-          wireDietaryHighlights();
+
+        function wirePills(scope=document) {
+          scope.querySelectorAll("[data-pill-group]").forEach(group => {
+            const labels = Array.from(group.querySelectorAll("label"));
+            function setActive(target) {
+              labels.forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
+              target.classList.add("bg-slate-900","text-white","border-slate-900");
+              const input = target.querySelector("input[type='radio']");
+              if (input) input.checked = true;
+            }
+            labels.forEach(l => l.addEventListener("click", () => setActive(l)));
+          });
         }
 
-        // UPDATED: pre-fill party size to defaultNames.length (if provided) else maxGuests
+        function renderGuests(count, defaults=[]) {
+          const size = Math.max(1, Math.min(10, parseInt(count || "1", 10)));
+          guestList.innerHTML = Array.from({length: size})
+            .map((_, i) => guestCard(i, defaults[i] || ""))
+            .join("");
+          wireDietaryHighlights(guestList);
+          wirePills(guestList);
+        }
+
+        // Pre-fill party size from invite (defaultNames length if set; else maxGuests)
         function applyInvite(inv) {
           CURRENT_INVITE = inv || null;
 
           const max = inv?.maxGuests ?? 10;
           const defaults = Array.isArray(inv?.defaultNames) ? inv.defaultNames : [];
           const defaultCount = Math.max(1, Math.min(defaults.length || max, max));
-          CURRENT_DEFAULT_COUNT = defaultCount;
 
           partyInput.max = String(max);
           partyInput.value = String(defaultCount);
@@ -384,7 +388,6 @@
             showGate();
           }
         } else {
-          // No invites.js present — let the form work with a gentle default
           applyInvite(null);
         }
 
@@ -399,21 +402,6 @@
           const defaults = (hasInviteTable && urlCode && INVITES[urlCode]?.defaultNames) ? INVITES[urlCode].defaultNames : [];
           renderGuests(val, defaults);
         });
-
-        // Pill toggles for ceremony/dinner
-        function wirePillGroup(selector, attr) {
-          const group = document.querySelector(selector);
-          if (!group) return;
-          const labels = Array.from(group.querySelectorAll(`label[${attr}]`));
-          function setActive(l) {
-            labels.forEach(el => el.classList.remove("bg-slate-900","text-white","border-slate-900"));
-            l.classList.add("bg-slate-900","text-white","border-slate-900");
-            const input = l.querySelector("input[type='radio']"); if (input) input.checked = true;
-          }
-          labels.forEach(l => l.addEventListener("click", () => setActive(l)));
-        }
-        wirePillGroup("#attending-ceremony","data-attend-ceremony");
-        wirePillGroup("#attending-dinner","data-attend-dinner");
 
         /* ---------- 3) Submit ---------- */
         form.addEventListener("submit", async function (e) {
@@ -431,25 +419,24 @@
 
           const phone  = (fd.get("phone") || "").toString().trim();
           const partySize = Math.max(1, Math.min(parseInt(document.getElementById("party-size").value || "1", 10), inv?.maxGuests ?? 10));
-          const attendingCeremony = (fd.get("attendingCeremony") || "yes").toString();
-          const attendingDinner   = (fd.get("attendingDinner")   || "yes").toString();
           const note   = (fd.get("note") || "").toString().trim();
 
           const guests = [];
           for (let i = 0; i < partySize; i++) {
             const name = (fd.get(`guestName_${i}`) || "").toString().trim();
             if (!name) { alert(`Please enter a name for Guest ${i+1}.`); return; }
+            const ceremony = (fd.get(`guestCeremony_${i}`) || "yes").toString();
+            const dinner   = (fd.get(`guestDinner_${i}`)   || "yes").toString();
             const diets = fd.getAll(`guestDiet_${i}`).map(String);
             const other = (fd.get(`guestDietOther_${i}`) || "").toString().trim();
             const dietarySummary = [...diets, other ? `Other: ${other}` : null].filter(Boolean).join("; ");
-            guests.push({ index: i+1, name, dietary: diets, dietaryOther: other, dietarySummary });
+            guests.push({ index: i+1, name, ceremony, dinner, dietary: diets, dietaryOther: other, dietarySummary });
           }
 
           const payload = {
             invite: inv ? { code, household: inv.household, maxGuests: inv.maxGuests } : null,
             contact: { firstName: first, lastName: last, email, phone },
             partySize,
-            attending: { ceremony: attendingCeremony, dinner: attendingDinner },
             guests,
             note,
             couple: "Greg & Drew",
@@ -473,14 +460,8 @@
               alert("Thank you! Your RSVP was submitted.");
               form.reset();
 
-              // After reset, re-seed the party size to the invite’s default
-              const invAfter = CURRENT_INVITE;
-              const maxAfter = invAfter?.maxGuests ?? 10;
-              const defaultsAfter = Array.isArray(invAfter?.defaultNames) ? invAfter.defaultNames : [];
-              const defaultCountAfter = Math.max(1, Math.min(defaultsAfter.length || maxAfter, maxAfter));
-              partyInput.max = String(maxAfter);
-              partyInput.value = String(defaultCountAfter);
-              renderGuests(defaultCountAfter, defaultsAfter);
+              // Re-seed form to invite defaults after reset
+              applyInvite(CURRENT_INVITE);
               return;
             } catch (err) {
               console.error(err);
@@ -488,7 +469,7 @@
             }
           }
 
-          // Mailto fallback
+          // Mailto fallback (per-guest attendance included)
           const subject = encodeURIComponent("RSVP — Greg & Drew");
           const lines = [];
           if (inv) lines.push(`Invite code: ${code} (${inv.household})`);
@@ -496,11 +477,11 @@
           lines.push(`Email: ${email}`);
           if (phone) lines.push(`Phone: ${phone}`);
           lines.push(`Party size (attending): ${partySize}${inv ? " / max " + inv.maxGuests : ""}`);
-          lines.push(`Ceremony: ${attendingCeremony}`);
-          lines.push(`Dinner: ${attendingDinner}`);
           lines.push("");
-          lines.push("Guests & dietaries:");
-          guests.forEach(g => { lines.push(`  • ${g.name}${g.dietarySummary ? " — " + g.dietarySummary : ""}`); });
+          lines.push("Guests:");
+          guests.forEach(g => {
+            lines.push(`  • ${g.name} — Ceremony: ${g.ceremony} | Dinner: ${g.dinner}${g.dietarySummary ? " | Dietary: " + g.dietarySummary : ""}`);
+          });
           if (note) { lines.push(""); lines.push("Note:"); lines.push(note); }
           const body = encodeURIComponent(lines.join("\n"));
           window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
