@@ -238,6 +238,32 @@
         const CONTACT_EMAIL = cfg.contactEmail || "drewbrownlee@hotmail.com";
         const FORMSPREE = cfg.formspreeEndpoint || "";
 
+// Wire up the "Open in Maps" buttons from config
+const venueMapEl  = document.querySelector("[data-venue-map]");
+const dinnerMapEl = document.querySelector("[data-dinner-map]");
+
+// Venue map (ceremony)
+if (venueMapEl) {
+  if (cfg.event?.mapsUrl) {
+    venueMapEl.href = cfg.event.mapsUrl;
+  } else {
+    // No URL? Grey it out so it’s obvious it’s not clickable.
+    venueMapEl.classList.add("opacity-50", "pointer-events-none");
+    venueMapEl.title = "Map link not available";
+  }
+}
+
+// Dinner map
+if (dinnerMapEl) {
+  if (cfg.event?.dinner?.mapsUrl) {
+    dinnerMapEl.href = cfg.event.dinner.mapsUrl;
+  } else {
+    dinnerMapEl.classList.add("opacity-50", "pointer-events-none");
+    dinnerMapEl.title = "Map link not available";
+  }
+}
+
+        
         // --- Attending pills toggle ---
         const attendingGroup = document.getElementById("attending-group");
         if (attendingGroup) {
