@@ -3,7 +3,7 @@ window.SITE_CONFIG = {
   contactEmail: "Gregory.r.humble@gmail.com",
   event: {
     dateLong: "Friday, 13 February",
-    time: "Ceremony 3:00 pm",
+    time: "Ceremony 4:00 pm",
     venueName: "Margaret Craig Room, Old Treasury Building",
     venueAddress: "20 Spring St, Melbourne VIC",
     mapsUrl: "https://www.google.com/maps?q=Old+Treasury+Building+Melbourne",
@@ -16,7 +16,7 @@ window.SITE_CONFIG = {
   },
   details: {
     rsvpBy: "",
-    dressCode: "Cocktail / Garden formal. Stilettos not recommended on heritage floors.",
+    dressCode: "Your favourite outfit.",
     notes: "Ceremony at Old Treasury Building followed by dinner at Reed House."
   },
   branding: {
