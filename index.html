@@ -30,12 +30,11 @@
       .ios #page-bg { position: absolute; } /* iOS fallback */
 
       /* Page overlay gradient to keep text legible across sections */
-.page-scrim{
-  position: fixed; inset: 0; z-index: -1;
-  /* uniform, subtle tint across the whole page */
-  background: linear-gradient(to bottom, rgba(2,6,23,0.22), rgba(2,6,23,0.22));
-  pointer-events: none;
-}
+      .page-scrim{
+        position: fixed; inset: 0; z-index: -1;
+        background: radial-gradient(1200px 800px at 50% 10%, rgba(2,6,23,0.01), rgba(2,6,23,0.01));
+        pointer-events: none;
+      }
 
       /* Glass surfaces */
       .glass{
