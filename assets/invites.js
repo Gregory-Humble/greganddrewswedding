@@ -28,8 +28,8 @@ window.INVITES = {
   },
     "GAY4PAY": {
     household: "Benné Kulesza & Andrew Noble",
-    maxGuests: 2,
-    defaultNames: ["Benné Kulesza", "Andrew Noble"]
+    maxGuests: 3,
+    defaultNames: ["Benné Kulesza", "Andrew Noble", "Little Gregoriahson Angle-Smyth Knicker-Bocker 9 Kulesza Noble"]
   },
     "BYE-F3L1C1A": {
     household: "Helen Kuriata & Rick Kwasek",
