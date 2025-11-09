@@ -10,204 +10,214 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      :root {
+      :root{
         --accent: #0f172a;
-        /* Set your background image once here */
-        --page-image: url('assets/koons.webp'); /* swap to your uploaded path if needed */
+        /* 👉 swap this to your uploaded file if different */
+        --page-bg-url: url('assets/koons.webp');
       }
       .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
       .font-sans    { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
       .tabular-nums { font-variant-numeric: tabular-nums; }
 
-      /* Global fixed background behind everything */
-      #page-bg { position: fixed; inset: 0; z-index: -10; }
-      #page-bg .img { position: absolute; inset: 0; background-image: var(--page-image); background-size: cover; background-position: center; }
-      #page-bg .veil { position: absolute; inset: 0;
-        /* Gentle veil to improve legibility site-wide */
-        background: radial-gradient(ellipse at 30% 20%, rgba(2,6,23,0.25), transparent 60%),
-                    radial-gradient(ellipse at 70% 80%, rgba(2,6,23,0.18), transparent 55%),
-                    rgba(2,6,23,0.10);
+      /* Full-page fixed background (desktop). iOS degrades to non-fixed for stability. */
+      #page-bg{
+        position: fixed; inset: 0; z-index: -1;
+        background-image: var(--page-bg-url);
+        background-size: cover; background-position: center; background-repeat: no-repeat;
+        /* soften beneath glass cards */
+        filter: none;
+      }
+      .ios #page-bg { position: absolute; } /* iOS fallback */
+
+      /* Page overlay gradient to keep text legible across sections */
+      .page-scrim{
+        position: fixed; inset: 0; z-index: -1;
+        background: radial-gradient(1200px 800px at 50% 10%, rgba(2,6,23,0.25), rgba(2,6,23,0.55));
+        pointer-events: none;
       }
 
-      /* “Glass” card styling for readable blocks over image */
-      .glass {
-        backdrop-filter: saturate(120%) blur(8px);
-        -webkit-backdrop-filter: saturate(120%) blur(8px);
-        background: rgba(255,255,255,0.72);
-        border: 1px solid rgba(255,255,255,0.45);
-        box-shadow: 0 10px 30px rgba(2,6,23,0.15);
+      /* Glass surfaces */
+      .glass{
+        background: rgba(255,255,255,0.68);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.42);
+        box-shadow: 0 10px 24px rgba(2,6,23,0.12);
+      }
+      .glass-soft{
+        background: rgba(255,255,255,0.55);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        border: 1px solid rgba(255,255,255,0.35);
       }
 
-      /* Inputs remain solid for accessibility */
-      .input-solid { background: #fff; }
+      /* Section separators are now subtle only */
+      section.section-pad { padding-top: 4rem; padding-bottom: 6rem; }
+      @media (min-width: 768px){
+        section.section-pad { padding-top: 6rem; padding-bottom: 8rem; }
+      }
 
-      /* Optional text shadow for hero text on photos */
-      .text-shadow-soft { text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+      /* Remove solid page background */
+      body { background: transparent; }
 
-      /* iOS Safari fixed-background fallback (adds .ios on <html>) */
-      .ios #page-bg { position: absolute; } /* behaves like scroll background to avoid jank */
+      /* Utility tweaks */
+      .chip { border: 1px solid rgba(255,255,255,0.5); }
     </style>
   </head>
-  <body class="font-sans text-slate-800">
-    <!-- Global fixed background -->
-    <div id="page-bg" aria-hidden="true">
-      <div class="img"></div>
-      <div class="veil"></div>
-    </div>
+  <body class="font-sans text-slate-50">
+    <!-- Background layers -->
+    <div id="page-bg" aria-hidden="true"></div>
+    <div class="page-scrim" aria-hidden="true"></div>
 
     <noscript>
-      <div class="mx-auto max-w-3xl m-4 p-4 border rounded-xl glass">
+      <div class="mx-auto max-w-3xl m-4 p-4 rounded-xl glass text-slate-800">
         This site needs JavaScript enabled for RSVP and maps links.
       </div>
     </noscript>
 
     <!-- NAV -->
-    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/70 border-b border-white/40">
+    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/10 bg-white/10 border-b border-white/20">
       <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-        <span class="font-display tracking-wider text-xl">G · D</span>
+        <span class="font-display tracking-wider text-xl text-white">G · D</span>
         <nav class="hidden md:flex gap-8 text-sm">
-          <a href="#details" class="hover:text-slate-900">Details</a>
-          <a href="#schedule" class="hover:text-slate-900">Schedule</a>
-          <a href="#venue" class="hover:text-slate-900">Venue</a>
-          <a href="#rsvp" class="hover:text-slate-900">RSVP</a>
+          <a href="#details" class="hover:text-white/90 text-white/80">Details</a>
+          <a href="#schedule" class="hover:text-white/90 text-white/80">Schedule</a>
+          <a href="#venue" class="hover:text-white/90 text-white/80">Venue</a>
+          <a href="#rsvp" class="hover:text-white/90 text-white/80">RSVP</a>
         </nav>
-        <a href="#rsvp" class="inline-flex items-center gap-2 text-sm font-medium bg-slate-900 text-white px-4 py-2 rounded-xl shadow-sm">RSVP</a>
+        <a href="#rsvp" class="inline-flex items-center gap-2 text-sm font-medium bg-white/90 text-slate-900 px-4 py-2 rounded-xl shadow-sm">
+          RSVP
+        </a>
       </div>
     </header>
 
-    <!-- HERO (centred, with its own soft gradient for contrast) -->
-    <section class="relative overflow-hidden min-h-screen flex items-center">
-      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div class="absolute inset-0"
-             style="background: radial-gradient(ellipse at center, rgba(2,6,23,0.25), rgba(2,6,23,0.55));">
-        </div>
-      </div>
-
-      <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-32 w-full">
+    <!-- HERO -->
+    <section class="relative overflow-hidden section-pad">
+      <div class="relative mx-auto max-w-6xl px-6">
         <div class="mx-auto max-w-3xl text-center">
-          <div class="inline-flex items-center gap-2 rounded-2xl bg-white/80 backdrop-blur px-4 py-2 text-sm shadow-sm">
+          <div class="inline-flex items-center gap-2 rounded-2xl glass-soft px-4 py-2 text-sm chip text-slate-900">
             <span class="font-display tracking-widest">G · D</span>
-            <span class="h-4 w-px bg-slate-300"></span>
-            <span class="text-slate-600">You’re invited</span>
+            <span class="h-4 w-px bg-slate-300/60"></span>
+            <span class="text-slate-700">You’re invited</span>
           </div>
 
-          <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white text-shadow-soft">
+          <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white drop-shadow">
             Greg &amp; Drew
           </h1>
 
-          <p class="mt-4 text-lg md:text-xl text-white/90 text-shadow-soft" data-date-time>
+          <p class="mt-4 text-lg md:text-xl text-white/90" data-date-time>
             Friday, 13 February 2026 · Ceremony 4:00&nbsp;pm
           </p>
-          <p class="mt-1 text-white/85 text-shadow-soft" data-venue>
+          <p class="mt-1 text-white/80" data-venue>
             Margaret Craig Room, Old Treasury Building, 20 Spring St, Melbourne VIC
           </p>
 
-          <!-- Countdown card -->
-          <div class="mt-10 inline-block rounded-3xl px-6 md:px-10 py-6 md:py-8 glass">
-            <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-600">Counting down to</p>
-            <p class="mt-1 text-center text-slate-700">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
+          <!-- Countdown -->
+          <div class="mt-10 inline-block glass rounded-3xl px-6 md:px-10 py-6 md:py-8">
+            <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-700">Counting down to</p>
+            <p class="mt-1 text-center text-slate-800">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
             <div class="mt-5 grid grid-cols-4 gap-3 text-center">
-              <div class="rounded-2xl px-4 py-3 bg-white/90 border border-white/70">
-                <div id="cd-days" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+                <div id="cd-days" class="font-display text-3xl md:text-4xl tabular-nums text-slate-900">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Days</div>
               </div>
-              <div class="rounded-2xl px-4 py-3 bg-white/90 border border-white/70">
-                <div id="cd-hours" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+                <div id="cd-hours" class="font-display text-3xl md:text-4xl tabular-nums text-slate-900">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Hours</div>
               </div>
-              <div class="rounded-2xl px-4 py-3 bg-white/90 border border-white/70">
-                <div id="cd-mins" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+                <div id="cd-mins" class="font-display text-3xl md:text-4xl tabular-nums text-slate-900">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Mins</div>
               </div>
-              <div class="rounded-2xl px-4 py-3 bg-white/90 border border-white/70">
-                <div id="cd-secs" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+                <div id="cd-secs" class="font-display text-3xl md:text-4xl tabular-nums text-slate-900">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Secs</div>
               </div>
             </div>
           </div>
-          <!-- No extra hero CTA buttons; use the nav -->
+          <!-- No duplicate hero CTAs -->
         </div>
       </div>
     </section>
 
     <!-- DETAILS -->
-    <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
-        <div class="mb-8 text-center">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Plan</p>
-          <h2 class="font-display text-3xl md:text-4xl mt-2">The Details</h2>
+    <section id="details" class="section-pad">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-10 text-center md:text-left">
+          <p class="text-xs uppercase tracking-[0.2em] text-white/80">Plan</p>
+          <h2 class="font-display text-3xl md:text-4xl mt-2 text-white">The Details</h2>
         </div>
         <div class="grid md:grid-cols-3 gap-6">
-          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+          <div class="rounded-2xl glass p-6">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">RSVP by</p>
-            <p class="mt-2 text-slate-800 leading-relaxed" data-rsvpby>—</p>
+            <p class="mt-2 text-slate-900 leading-relaxed" data-rsvpby>—</p>
           </div>
-          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+          <div class="rounded-2xl glass p-6">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Dress code</p>
-            <p class="mt-2 text-slate-800 leading-relaxed" data-dress></p>
+            <p class="mt-2 text-slate-900 leading-relaxed" data-dress></p>
           </div>
-          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+          <div class="rounded-2xl glass p-6">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Notes</p>
-            <p class="mt-2 text-slate-800 leading-relaxed" data-notes></p>
+            <p class="mt-2 text-slate-900 leading-relaxed" data-notes></p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- SCHEDULE -->
-    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
-        <div class="mb-8 text-center">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Order of the day</p>
-          <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
+    <section id="schedule" class="section-pad">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-10 text-center md:text-left">
+          <p class="text-xs uppercase tracking-[0.2em] text-white/80">Order of the day</p>
+          <h2 class="font-display text-3xl md:text-4xl mt-2 text-white">Schedule</h2>
         </div>
         <ul class="grid md:grid-cols-2 gap-4">
-          <li class="rounded-2xl border border-white/60 bg-white/75 p-5">
+          <li class="rounded-2xl glass p-5">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">4:00 pm</p>
-            <p class="mt-1 text-lg">Ceremony at the Old Treasury Building</p>
+            <p class="mt-1 text-lg text-slate-900">Ceremony at the Old Treasury Building</p>
           </li>
-          <li class="rounded-2xl border border-white/60 bg-white/75 p-5">
+          <li class="rounded-2xl glass p-5">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">6:00 pm – 9:30 pm</p>
-            <p class="mt-1 text-lg">Dinner at Reed House</p>
+            <p class="mt-1 text-lg text-slate-900">Dinner at Reed House</p>
           </li>
         </ul>
       </div>
     </section>
 
     <!-- VENUE -->
-    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
-        <div class="mb-8 text-center">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Where to go</p>
-          <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
+    <section id="venue" class="section-pad">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-10 text-center md:text-left">
+          <p class="text-xs uppercase tracking-[0.2em] text-white/80">Where to go</p>
+          <h2 class="font-display text-3xl md:text-4xl mt-2 text-white">Venues</h2>
         </div>
         <div class="grid lg:grid-cols-2 gap-8 items-start">
-          <div class="rounded-2xl border border-white/60 bg-white/75 p-6">
-            <h3 class="text-xl font-medium">Old Treasury Building</h3>
-            <p class="mt-1 text-slate-700">Margaret Craig Room · 20 Spring St, Melbourne VIC</p>
+          <div class="rounded-2xl glass p-6">
+            <h3 class="text-xl font-medium text-slate-900">Old Treasury Building</h3>
+            <p class="mt-1 text-slate-800">Margaret Craig Room · 20 Spring St, Melbourne VIC</p>
             <a
               href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
               data-venue-map
               data-address="20 Spring St, Melbourne VIC"
               target="_blank"
               rel="noreferrer"
-              class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400 bg-white/70"
+              class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
             >
               Open in Maps
             </a>
             <p class="mt-6 text-sm text-slate-700">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
           </div>
-          <div class="rounded-2xl border border-white/60 bg-white/75 p-6">
-            <h3 class="text-xl font-medium" data-dinner-name>Dinner at Reed House</h3>
-            <p class="mt-1 text-slate-700" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
-            <p class="mt-1 text-slate-700" data-dinner-time>6:00 pm – 9:30 pm</p>
+          <div class="rounded-2xl glass p-6">
+            <h3 class="text-xl font-medium text-slate-900" data-dinner-name>Dinner at Reed House</h3>
+            <p class="mt-1 text-slate-800" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
+            <p class="mt-1 text-slate-800" data-dinner-time>6:00 pm – 9:30 pm</p>
             <a
               href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
               data-dinner-map
               data-address="130 Lonsdale St, Melbourne VIC"
               target="_blank"
               rel="noreferrer"
-              class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400 bg-white/70"
+              class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
             >
               Open in Maps
             </a>
@@ -217,102 +227,100 @@
     </section>
 
     <!-- RSVP -->
-    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
-        <div class="mb-8 text-center">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">We'd love to celebrate with you</p>
-          <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
+    <section id="rsvp" class="section-pad">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-10 text-center md:text-left">
+          <p class="text-xs uppercase tracking-[0.2em] text-white/80">We'd love to celebrate with you</p>
+          <h2 class="font-display text-3xl md:text-4xl mt-2 text-white">RSVP</h2>
         </div>
 
         <!-- Invite code gate -->
-        <div id="invite-gate" class="hidden rounded-2xl border border-white/60 bg-white/75 p-6 max-w-xl mx-auto">
-          <p class="text-slate-700 mb-3">Please enter your invite code (found on your invitation):</p>
+        <div id="invite-gate" class="hidden rounded-2xl glass p-6 max-w-xl text-slate-900">
+          <p class="text-slate-800 mb-3">Please enter your invite code (found on your invitation):</p>
           <div class="flex gap-3">
-            <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 input-solid px-4 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. R7K4" maxlength="12">
+            <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 bg-white/90 px-4 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase text-slate-900" placeholder="e.g. R7K4" maxlength="12">
             <button id="invite-code-continue" class="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl">Continue</button>
           </div>
           <p id="invite-code-error" class="mt-3 text-sm text-rose-600 hidden">That code wasn’t recognised. Please check and try again.</p>
         </div>
 
-        <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8">
-          <!-- Column 1 -->
-          <div class="space-y-6">
+        <!-- Single-column RSVP form -->
+        <form id="rsvp-form" class="grid grid-cols-1 gap-8">
+          <!-- Contact block -->
+          <div class="rounded-2xl glass p-6 text-slate-900">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <label class="block">
                 <span class="block mb-2 text-sm font-medium text-slate-700">Your first name *</span>
-                <input name="firstName" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+                <input name="firstName" class="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 text-slate-900">
               </label>
               <label class="block">
                 <span class="block mb-2 text-sm font-medium text-slate-700">Your last name *</span>
-                <input name="lastName" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+                <input name="lastName" class="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 text-slate-900">
               </label>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <label class="block">
                 <span class="block mb-2 text-sm font-medium text-slate-700">Email *</span>
-                <input type="email" name="email" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+                <input type="email" name="email" class="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 text-slate-900">
               </label>
               <label class="block">
                 <span class="block mb-2 text-sm font-medium text-slate-700">Phone</span>
-                <input name="phone" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+                <input name="phone" class="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 text-slate-900">
               </label>
             </div>
 
-            <!-- Party size -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <label class="block">
                 <span id="party-label" class="block mb-1 text-sm font-medium text-slate-700">How many people attending (including you)?</span>
-                <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+                <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 text-slate-900">
                 <span id="party-hint" class="block mt-1 text-xs text-slate-600"></span>
               </label>
               <div class="hidden md:block"></div>
             </div>
           </div>
 
-          <!-- Column 2 -->
-          <div class="space-y-6">
-            <div>
-              <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names, dietaries & attendance)</span>
-              <div id="guest-list" class="space-y-4"></div>
-            </div>
+          <!-- Guest list (generated) -->
+          <div class="space-y-4" id="guest-list-wrapper">
+            <span class="block mb-2 text-sm font-medium text-white/90">Guest details (names, attendance & dietaries)</span>
+            <div id="guest-list" class="space-y-4"></div>
+          </div>
 
+          <!-- Message + Submit -->
+          <div class="rounded-2xl glass p-6 text-slate-900">
             <label class="block">
               <span class="block mb-2 text-sm font-medium text-slate-700">Message (optional)</span>
-              <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
+              <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 text-slate-900" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
             </label>
 
-            <div class="flex flex-wrap items-center gap-3">
+            <div class="flex flex-wrap items-center gap-3 mt-4">
               <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">Submit RSVP</button>
-              <a href="#" class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-4 py-2 rounded-xl bg-white/70" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
+              <a href="#" class="inline-flex items-center gap-2 border border-white/50 text-white hover:bg-white/10 px-4 py-2 rounded-xl" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
             </div>
-            <p class="text-xs text-slate-700">Your details are kept private and used only for wedding planning.</p>
+            <p class="text-xs text-slate-700 mt-2">Your details are kept private and used only for wedding planning.</p>
           </div>
         </form>
       </div>
     </section>
 
-    <footer class="mt-24 py-10 text-center text-sm text-slate-200 drop-shadow">Crafted with ♥ for Greg & Drew</footer>
+    <footer class="mt-10 pb-10 text-center text-sm text-white/80">Crafted with ♥ for Greg & Drew</footer>
 
     <!-- Config first -->
     <script src="./assets/config.js"></script>
     <script src="./assets/invites.js?v=5"></script>
     <script src="./assets/script.js"></script>
 
-    <!-- iOS detection for the fixed-background fallback -->
-    <script>
-      (function(){
-        const ua = navigator.userAgent || "";
-        const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-        if (isIOS) document.documentElement.classList.add("ios");
-      })();
-    </script>
-
     <!-- Main logic -->
     <script>
+      // iOS detection to degrade fixed background gracefully
+      (function(){
+        const iOS = /iP(hone|od|ad)/.test(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+        if (iOS) document.documentElement.classList.add('ios');
+      })();
+
       document.addEventListener("DOMContentLoaded", function () {
         const cfg = window.SITE_CONFIG || {};
-        const INVITES = window.INVITES || {}; // fine if missing/empty
+        const INVITES = window.INVITES || {};
         const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@gmail.com";
         const FORMSPREE = cfg.formspreeEndpoint || "";
 
@@ -376,11 +384,11 @@
         function guestCard(index, name="") {
           const n = index + 1;
           return `
-            <div class="rounded-2xl border border-white/60 bg-white/75 p-4">
+            <div class="rounded-2xl glass p-4 text-slate-900">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="block">
                   <span class="block mb-2 text-sm font-medium text-slate-700">Guest ${n} name ${n===1 ? "(you) *" : "*"}</span>
-                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? 'Your full name' : 'Full name'}">
+                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 bg-white/90 text-slate-900 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? 'Your full name' : 'Full name'}">
                 </label>
                 <div></div>
               </div>
@@ -400,11 +408,11 @@
                 <span class="block mb-2 text-sm font-medium text-slate-700">Dietary requirements</span>
                 <div class="grid grid-cols-2 gap-3">
                   ${DIETARY.map(d => `
-                    <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer bg-white/80">
+                    <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer bg-white/90">
                       <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only"><span>✔</span><span>${d}</span>
                     </label>
                   `).join("")}
-                  <input class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
+                  <input class="w-full rounded-xl border border-slate-300 bg-white/90 text-slate-900 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
                 </div>
               </div>
             </div>
@@ -469,8 +477,13 @@
           for (let i = 0; i < size; i++) wireDinnerVisibilityFor(i);
         }
 
+        function getParam(name){ return new URLSearchParams(window.location.search).get(name); }
         function applyInvite(inv) {
-          CURRENT_INVITE = inv || null;
+          const partyInput = document.getElementById("party-size");
+          const partyHint  = document.getElementById("party-hint");
+          const urlCode = normalizeCode(getParam("code"));
+
+          window.CURRENT_INVITE = inv || null;
           const max = inv?.maxGuests ?? 10;
           const defaults = Array.isArray(inv?.defaultNames) ? inv.defaultNames : [];
           const defaultCount = Math.max(1, Math.min(defaults.length || max, max));
@@ -481,53 +494,60 @@
         }
 
         function showGate() {
-          document.getElementById("rsvp-form").classList.add("hidden");
+          const url = new URL(window.location.href);
+          const form = document.getElementById("rsvp-form");
           const gate = document.getElementById("invite-gate");
-          const codeErr = document.getElementById("invite-code-error");
+          const codeInput = document.getElementById("invite-code-input");
+          const codeBtn   = document.getElementById("invite-code-continue");
+          const codeErr   = document.getElementById("invite-code-error");
+
+          form.classList.add("hidden");
           gate.classList.remove("hidden");
           codeErr.classList.add("hidden");
-          document.getElementById("invite-code-continue").onclick = () => {
-            const entered = (document.getElementById("invite-code-input").value || "").trim().toUpperCase();
+          codeBtn.onclick = () => {
+            const entered = normalizeCode(codeInput.value);
             const inv = (INVITES && INVITES[entered]) ? INVITES[entered] : null;
             if (!inv) { codeErr.classList.remove("hidden"); return; }
-            const url = new URL(window.location.href); url.searchParams.set("code", entered);
+            url.searchParams.set("code", entered);
             window.history.replaceState({}, "", url.toString());
-            gate.classList.add("hidden"); document.getElementById("rsvp-form").classList.remove("hidden");
+            gate.classList.add("hidden"); form.classList.remove("hidden");
             applyInvite(inv);
           };
         }
 
         const hasInviteTable = INVITES && Object.keys(INVITES).length > 0;
-        const urlCode = (new URLSearchParams(window.location.search).get("code") || "").trim().toUpperCase();
+        const urlCode = normalizeCode(getParam("code"));
         if (hasInviteTable) {
           if (urlCode && INVITES[urlCode]) { applyInvite(INVITES[urlCode]); } else { showGate(); }
         } else {
           applyInvite(null);
         }
 
-        document.getElementById("party-size").addEventListener("input", () => {
-          const input = document.getElementById("party-size");
-          const max = parseInt(input.max, 10) || 10;
-          let val = parseInt(input.value || "1", 10);
+        const partyInput = document.getElementById("party-size");
+        partyInput.addEventListener("input", () => {
+          const urlCode = normalizeCode(getParam("code"));
+          const max = parseInt(partyInput.max, 10) || 10;
+          let val = parseInt(partyInput.value || "1", 10);
           if (isNaN(val) || val < 1) val = 1;
           if (val > max) val = max;
-          input.value = String(val);
+          partyInput.value = String(val);
           const defaults = (hasInviteTable && urlCode && INVITES[urlCode]?.defaultNames) ? INVITES[urlCode].defaultNames : [];
           renderGuests(val, defaults);
         });
 
         /* ---------- Submit ---------- */
-        document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
+        const formEl = document.getElementById("rsvp-form");
+        formEl.addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          const fd = new FormData(this);
+          const fd = new FormData(formEl);
           const first = (fd.get("firstName") || "").toString().trim();
           const last  = (fd.get("lastName")  || "").toString().trim();
           const email = (fd.get("email")     || "").toString().trim();
           if (!first || !last || !email) { alert("Please complete your first name, last name, and email."); return; }
 
           const hasTable = INVITES && Object.keys(INVITES).length > 0;
-          const code = (new URLSearchParams(window.location.search).get("code") || "").trim().toUpperCase();
+          const code = normalizeCode(getParam("code"));
           const inv  = (hasTable && INVITES[code]) ? INVITES[code] : null;
 
           const phone  = (fd.get("phone") || "").toString().trim();
@@ -571,8 +591,8 @@
               });
               if (!res.ok) throw new Error("Formspree error " + res.status);
               alert("Thank you! Your RSVP was submitted.");
-              this.reset();
-              applyInvite(CURRENT_INVITE);
+              formEl.reset();
+              applyInvite(inv);
               return;
             } catch (err) {
               console.error(err);
