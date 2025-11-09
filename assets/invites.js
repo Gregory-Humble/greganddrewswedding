@@ -9,7 +9,7 @@ window.INVITES = {
   "EXAMPLE2": {
     household: "The Humble Family",
     maxGuests: 4,
-    defaultNames: ["Bruce Humble ", "Yoon Choi", "Tashi Humble", "Saffi Humble"]
+    defaultNames: ["Bruce Humble", "Yoon Choi", "Tashi Humble", "Saffi Humble"]
   }
 };
 // leave this file as pure JS – no HTML, no comments with < or >
