@@ -12,9 +12,9 @@
     <style>
       :root { --accent: #0f172a; }
       .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
-      .font-sans { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
+      .font-sans    { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
       .tabular-nums { font-variant-numeric: tabular-nums; }
-      .info-card { backdrop-filter: saturate(120%); }
+      .info-card    { backdrop-filter: saturate(120%); }
     </style>
   </head>
   <body class="font-sans text-slate-800 bg-white">
@@ -38,82 +38,64 @@
       </div>
     </header>
 
-    <!-- HERO (elevated) -->
+    <!-- HERO (centred, no duplicated buttons/titles) -->
     <section class="relative overflow-hidden" style="--hero-image: url('assets/hero.jpg');">
-      <!-- background image -->
+      <!-- background -->
       <div class="absolute inset-0">
-        <img src="" alt="" class="hidden" aria-hidden="true">
         <div class="absolute inset-0 bg-[image:var(--hero-image)] bg-cover bg-center"></div>
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,6,23,0.25),rgba(2,6,23,0.55))]"></div>
       </div>
 
-      <div class="relative mx-auto max-w-6xl px-6 py-24 md:py-40">
-        <!-- monogram chip -->
-        <div class="inline-flex items-center gap-2 rounded-2xl bg-white/80 backdrop-blur px-4 py-2 text-sm shadow-sm">
-          <span class="font-display tracking-widest">G · D</span>
-          <span class="h-4 w-px bg-slate-300"></span>
-          <span class="text-slate-600">You’re invited</span>
-        </div>
+      <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-32">
+        <div class="mx-auto max-w-3xl text-center">
+          <div class="inline-flex items-center gap-2 rounded-2xl bg-white/80 backdrop-blur px-4 py-2 text-sm shadow-sm">
+            <span class="font-display tracking-widest">G · D</span>
+            <span class="h-4 w-px bg-slate-300"></span>
+            <span class="text-slate-600">You’re invited</span>
+          </div>
 
-        <!-- names -->
-        <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white drop-shadow">
-          Greg &amp; Drew
-        </h1>
+          <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white drop-shadow">
+            Greg &amp; Drew
+          </h1>
 
-        <!-- date & venue line -->
-        <p class="mt-4 text-lg md:text-xl text-white/90" data-date-time>
-          Friday, 13 February 2026 · Ceremony 4:00&nbsp;pm
-        </p>
-        <p class="mt-1 text-white/80 flex items-center gap-2">
-          <span data-venue>Old Treasury Building, Melbourne</span>
-        </p>
+          <p class="mt-4 text-lg md:text-xl text-white/90" data-date-time>
+            Friday, 13 February 2026 · Ceremony 4:00&nbsp;pm
+          </p>
+          <p class="mt-1 text-white/80" data-venue>
+            Margaret Craig Room, Old Treasury Building, 20 Spring St, Melbourne VIC
+          </p>
 
-        <!-- COUNTDOWN BANNER -->
-        <section id="countdown" class="relative mt-8">
-          <!-- Swap this URL for your hero/banner image -->
-          <div class="h-[42vh] md:h-[58vh] w-full bg-center bg-cover rounded-3xl overflow-hidden shadow"
-               style="background-image:url('./assets/your-banner.jpg');"></div>
-
-          <!-- Overlay -->
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="backdrop-blur-sm bg-white/60 rounded-3xl px-6 md:px-10 py-6 md:py-8 shadow-lg border border-white/40">
-              <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-600">Counting down to</p>
-              <h2 class="font-display text-3xl md:text-5xl mt-2 text-slate-900">Greg &amp; Drew</h2>
-              <p class="mt-1 text-center text-slate-700">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
-
-              <div class="mt-5 grid grid-cols-4 gap-3 text-center">
-                <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
-                  <div id="cd-days" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
-                  <div class="text-xs uppercase tracking-wider text-slate-600">Days</div>
-                </div>
-                <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
-                  <div id="cd-hours" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
-                  <div class="text-xs uppercase tracking-wider text-slate-600">Hours</div>
-                </div>
-                <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
-                  <div id="cd-mins" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
-                  <div class="text-xs uppercase tracking-wider text-slate-600">Mins</div>
-                </div>
-                <div class="rounded-2xl bg-white/80 border border-white/70 px-4 py-3">
-                  <div id="cd-secs" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
-                  <div class="text-xs uppercase tracking-wider text-slate-600">Secs</div>
-                </div>
+          <!-- Countdown card (no repeated names) -->
+          <div class="mt-10 inline-block backdrop-blur-sm bg-white/65 rounded-3xl px-6 md:px-10 py-6 md:py-8 shadow-lg border border-white/40">
+            <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-600">Counting down to</p>
+            <p class="mt-1 text-center text-slate-700">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
+            <div class="mt-5 grid grid-cols-4 gap-3 text-center">
+              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+                <div id="cd-days" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+                <div class="text-xs uppercase tracking-wider text-slate-600">Days</div>
+              </div>
+              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+                <div id="cd-hours" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+                <div class="text-xs uppercase tracking-wider text-slate-600">Hours</div>
+              </div>
+              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+                <div id="cd-mins" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+                <div class="text-xs uppercase tracking-wider text-slate-600">Mins</div>
+              </div>
+              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+                <div id="cd-secs" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
+                <div class="text-xs uppercase tracking-wider text-slate-600">Secs</div>
               </div>
             </div>
           </div>
-        </section>
-
-        <!-- CTAs -->
-        <div class="mt-10 flex flex-wrap gap-3">
-          <a href="#details" class="px-5 py-3 rounded-xl bg-white/90 backdrop-blur text-slate-900 border border-white/70 hover:bg-white">Event details</a>
-          <a href="#rsvp" class="px-5 py-3 rounded-xl bg-slate-900 text-white hover:bg-slate-800">RSVP now</a>
+          <!-- No extra hero CTA buttons here to avoid duplication with the nav -->
         </div>
       </div>
     </section>
 
     <!-- DETAILS -->
     <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
-      <div class="mb-10">
+      <div class="mb-10 text-center md:text-left">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Plan</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">The Details</h2>
       </div>
@@ -135,7 +117,7 @@
 
     <!-- SCHEDULE -->
     <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
-      <div class="mb-10">
+      <div class="mb-10 text-center md:text-left">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Order of the day</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
       </div>
@@ -153,7 +135,7 @@
 
     <!-- VENUE -->
     <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
-      <div class="mb-10">
+      <div class="mb-10 text-center md:text-left">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Where to go</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
       </div>
@@ -193,7 +175,7 @@
 
     <!-- RSVP -->
     <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
-      <div class="mb-10">
+      <div class="mb-10 text-center md:text-left">
         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">We'd love to celebrate with you</p>
         <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
       </div>
@@ -398,6 +380,7 @@
           });
         }
 
+        // Show/hide dietary section based on Dinner choice per guest
         function updateDietaryVisibility(i) {
           const wrapper = document.querySelector(`[data-dietary-for="${i}"]`);
           if (!wrapper) return;
