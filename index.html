@@ -120,16 +120,16 @@
         <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
       </div>
 
-      <!-- IMPORTANT: no onsubmit="return false" -->
       <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8">
+        <!-- Column 1: Contact + Party -->
         <div class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">First name *</span>
+              <span class="block mb-2 text-sm font-medium text-slate-700">Your first name *</span>
               <input name="firstName" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
             </label>
             <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">Last name *</span>
+              <span class="block mb-2 text-sm font-medium text-slate-700">Your last name *</span>
               <input name="lastName" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
             </label>
           </div>
@@ -144,74 +144,69 @@
             </label>
           </div>
 
-          <!-- Attending pills built with utilities -->
+          <!-- Party size -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="block mb-2 text-sm font-medium text-slate-700">How many people (including you)?</span>
+              <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+            </label>
+            <div class="hidden md:block"></div>
+          </div>
+
+          <!-- Ceremony RSVP -->
           <label class="block">
-            <span class="block mb-2 text-sm font-medium text-slate-700">Will you be attending?</span>
-            <div id="attending-group" class="flex gap-4 flex-wrap">
-              <!-- YES (default active) -->
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer bg-slate-900 text-white border-slate-900" data-attend="yes">
-                <input type="radio" name="attending" value="yes" class="sr-only" checked>
+            <span class="block mb-2 text-sm font-medium text-slate-700">Will your party attend the ceremony?</span>
+            <div id="attending-ceremony" class="flex gap-4 flex-wrap">
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer bg-slate-900 text-white border-slate-900" data-attend-ceremony="yes">
+                <input type="radio" name="attendingCeremony" value="yes" class="sr-only" checked>
                 Joyfully accepts
               </label>
-              <!-- NO -->
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend="no">
-                <input type="radio" name="attending" value="no" class="sr-only">
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend-ceremony="no">
+                <input type="radio" name="attendingCeremony" value="no" class="sr-only">
                 Regretfully declines
               </label>
-              <!-- UNSURE -->
-              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend="unsure">
-                <input type="radio" name="attending" value="unsure" class="sr-only">
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend-ceremony="unsure">
+                <input type="radio" name="attendingCeremony" value="unsure" class="sr-only">
                 Unsure (TBC)
               </label>
             </div>
           </label>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">Guests (including you)</span>
-              <input type="number" name="guests" min="1" value="1" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-            </label>
-            <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">Song request</span>
-              <input name="song" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Title – Artist">
-            </label>
-          </div>
-        </div>
-
-        <div class="space-y-6">
+          <!-- Dinner RSVP -->
           <label class="block">
-            <span class="block mb-2 text-sm font-medium text-slate-700">Dietary requirements</span>
-            <div class="grid grid-cols-2 gap-3">
-              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
-                <input type="checkbox" name="dietary" value="Vegetarian" class="sr-only"><span>✔</span><span>Vegetarian</span>
+            <span class="block mb-2 text-sm font-medium text-slate-700">Will your party attend the dinner?</span>
+            <div id="attending-dinner" class="flex gap-4 flex-wrap">
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer bg-slate-900 text-white border-slate-900" data-attend-dinner="yes">
+                <input type="radio" name="attendingDinner" value="yes" class="sr-only" checked>
+                Yes, we'll be there
               </label>
-              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
-                <input type="checkbox" name="dietary" value="Vegan" class="sr-only"><span>✔</span><span>Vegan</span>
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend-dinner="no">
+                <input type="radio" name="attendingDinner" value="no" class="sr-only">
+                Sorry, can't make dinner
               </label>
-              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
-                <input type="checkbox" name="dietary" value="Gluten free" class="sr-only"><span>✔</span><span>Gluten free</span>
+              <label class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer" data-attend-dinner="unsure">
+                <input type="radio" name="attendingDinner" value="unsure" class="sr-only">
+                Unsure (TBC)
               </label>
-              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
-                <input type="checkbox" name="dietary" value="Dairy free" class="sr-only"><span>✔</span><span>Dairy free</span>
-              </label>
-              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
-                <input type="checkbox" name="dietary" value="Nut allergy" class="sr-only"><span>✔</span><span>Nut allergy</span>
-              </label>
-              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
-                <input type="checkbox" name="dietary" value="No seafood" class="sr-only"><span>✔</span><span>No seafood</span>
-              </label>
-              <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
-                <input type="checkbox" name="dietary" value="Halal" class="sr-only"><span>✔</span><span>Halal</span>
-              </label>
-              <input class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="dietaryOther" placeholder="Other (please specify)">
             </div>
           </label>
+        </div>
 
+        <!-- Column 2: Guests + Notes -->
+        <div class="space-y-6">
+          <!-- Dynamic guest list -->
+          <div>
+            <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names & dietaries)</span>
+            <div id="guest-list" class="space-y-4"></div>
+          </div>
+
+          <!-- Message -->
           <label class="block">
             <span class="block mb-2 text-sm font-medium text-slate-700">Message (optional)</span>
             <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
           </label>
 
+          <!-- Submit -->
           <div class="flex flex-wrap items-center gap-3">
             <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">
               Submit RSVP
@@ -227,10 +222,10 @@
 
     <footer class="mt-24 py-10 text-center text-sm text-slate-500" data-footer>Crafted with ♥ for Greg & Drew</footer>
 
-    <!-- Your site settings (if present) -->
+    <!-- Config -->
     <script src="./assets/config.js"></script>
 
-    <!-- Submission + visual helpers -->
+    <!-- Logic -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         // --- Read config (with fallbacks) ---
@@ -238,105 +233,136 @@
         const CONTACT_EMAIL = cfg.contactEmail || "drewbrownlee@hotmail.com";
         const FORMSPREE = cfg.formspreeEndpoint || "";
 
-// Wire up the "Open in Maps" buttons from config
-const venueMapEl  = document.querySelector("[data-venue-map]");
-const dinnerMapEl = document.querySelector("[data-dinner-map]");
+        // Wire up the "Open in Maps" buttons from config
+        const venueMapEl  = document.querySelector("[data-venue-map]");
+        const dinnerMapEl = document.querySelector("[data-dinner-map]");
+        if (venueMapEl) {
+          if (cfg.event?.mapsUrl) venueMapEl.href = cfg.event.mapsUrl;
+          else { venueMapEl.classList.add("opacity-50", "pointer-events-none"); venueMapEl.title = "Map link not available"; }
+        }
+        if (dinnerMapEl) {
+          if (cfg.event?.dinner?.mapsUrl) dinnerMapEl.href = cfg.event.dinner.mapsUrl;
+          else { dinnerMapEl.classList.add("opacity-50", "pointer-events-none"); dinnerMapEl.title = "Map link not available"; }
+        }
 
-// Venue map (ceremony)
-if (venueMapEl) {
-  if (cfg.event?.mapsUrl) {
-    venueMapEl.href = cfg.event.mapsUrl;
-  } else {
-    // No URL? Grey it out so it’s obvious it’s not clickable.
-    venueMapEl.classList.add("opacity-50", "pointer-events-none");
-    venueMapEl.title = "Map link not available";
-  }
-}
-
-// Dinner map
-if (dinnerMapEl) {
-  if (cfg.event?.dinner?.mapsUrl) {
-    dinnerMapEl.href = cfg.event.dinner.mapsUrl;
-  } else {
-    dinnerMapEl.classList.add("opacity-50", "pointer-events-none");
-    dinnerMapEl.title = "Map link not available";
-  }
-}
-
-        
-        // --- Attending pills toggle ---
-        const attendingGroup = document.getElementById("attending-group");
-        if (attendingGroup) {
-          const attendLabels = Array.from(attendingGroup.querySelectorAll("label[data-attend]"));
+        // --- Toggle helpers for pill groups ---
+        function wirePillGroup(containerSelector, dataAttr) {
+          const group = document.querySelector(containerSelector);
+          if (!group) return;
+          const labels = Array.from(group.querySelectorAll(`label[${dataAttr}]`));
           function setActive(label) {
-            attendLabels.forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
+            labels.forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
             label.classList.add("bg-slate-900","text-white","border-slate-900");
             const input = label.querySelector("input[type='radio']");
             if (input) input.checked = true;
           }
-          attendLabels.forEach(l => l.addEventListener("click", () => setActive(l)));
+          labels.forEach(l => l.addEventListener("click", () => setActive(l)));
+        }
+        wirePillGroup("#attending-ceremony", "data-attend-ceremony");
+        wirePillGroup("#attending-dinner", "data-attend-dinner");
+
+        // --- Guest card template ---
+        const DIETARY = ["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","No seafood","Halal"];
+        function guestCard(index) {
+          const n = index + 1; // 1-based for labels
+          return `
+            <div class="rounded-2xl border border-slate-200 p-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label class="block">
+                  <span class="block mb-2 text-sm font-medium text-slate-700">Guest ${n} name ${n===1 ? "(you) *" : "*"}</span>
+                  <input name="guestName_${index}" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? 'Your full name' : 'Full name'}">
+                </label>
+                <div></div>
+              </div>
+              <div class="mt-3">
+                <span class="block mb-2 text-sm font-medium text-slate-700">Guest ${n} dietary requirements</span>
+                <div class="grid grid-cols-2 gap-3">
+                  ${DIETARY.map(d => `
+                    <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                      <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only"><span>✔</span><span>${d}</span>
+                    </label>
+                  `).join("")}
+                  <input class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
+                </div>
+              </div>
+            </div>
+          `;
         }
 
-        // --- Dietary checkbox highlights ---
-        const dietInputs = document.querySelectorAll("input[name='dietary']");
-        dietInputs.forEach(input => {
-          const label = input.closest("label");
-          if (!label) return;
-          label.classList.add("cursor-pointer");
-          function updateLabel() {
-            if (input.checked) label.classList.add("bg-slate-900","text-white","border-slate-900");
-            else label.classList.remove("bg-slate-900","text-white","border-slate-900");
-          }
-          label.addEventListener("click", () => setTimeout(updateLabel, 0));
-          input.addEventListener("change", updateLabel);
-          updateLabel();
-        });
+        // Render guest list by party size
+        const partyInput = document.getElementById("party-size");
+        const guestList = document.getElementById("guest-list");
+        function renderGuests() {
+          const size = Math.max(1, Math.min(10, parseInt(partyInput.value || "1", 10)));
+          guestList.innerHTML = Array.from({length: size}).map((_, i) => guestCard(i)).join("");
+          wireDietaryHighlights(); // rebind highlights after rendering
+        }
+        partyInput.addEventListener("input", renderGuests);
+        renderGuests(); // initial
+
+        // Dietary checkbox highlights (works for all guest blocks)
+        function wireDietaryHighlights() {
+          const allDietInputs = document.querySelectorAll("input[type='checkbox'][name^='guestDiet_']");
+          allDietInputs.forEach(input => {
+            const label = input.closest("label");
+            if (!label) return;
+            label.classList.add("cursor-pointer");
+            function updateLabel() {
+              if (input.checked) label.classList.add("bg-slate-900","text-white","border-slate-900");
+              else label.classList.remove("bg-slate-900","text-white","border-slate-900");
+            }
+            label.addEventListener("click", () => setTimeout(updateLabel, 0));
+            input.addEventListener("change", updateLabel);
+            updateLabel();
+          });
+        }
 
         // --- Submission handler (Formspree OR mailto fallback) ---
         const form = document.getElementById("rsvp-form");
         form.addEventListener("submit", async function (e) {
           e.preventDefault(); // stop page reload
 
-          // Gather values
           const fd = new FormData(form);
           const first = (fd.get("firstName") || "").toString().trim();
           const last  = (fd.get("lastName")  || "").toString().trim();
           const email = (fd.get("email")     || "").toString().trim();
           if (!first || !last || !email) {
-            alert("Please complete first name, last name, and email before submitting.");
+            alert("Please complete your first name, last name, and email before submitting.");
             return;
           }
 
           const phone  = (fd.get("phone") || "").toString().trim();
-          const attend = (fd.get("attending") || "yes").toString();
-          const guests = (fd.get("guests") || "1").toString();
-          const song   = (fd.get("song") || "").toString().trim();
+          const partySize = Math.max(1, Math.min(10, parseInt((fd.get("partySize") || "1").toString(), 10)));
+          const attendingCeremony = (fd.get("attendingCeremony") || "yes").toString();
+          const attendingDinner   = (fd.get("attendingDinner")   || "yes").toString();
           const note   = (fd.get("note") || "").toString().trim();
-          const dietaries = fd.getAll("dietary").map(String);
-          const dietaryOther = (fd.get("dietaryOther") || "").toString().trim();
-          const dietarySummary = [
-            ...dietaries,
-            dietaryOther ? `Other: ${dietaryOther}` : null
-          ].filter(Boolean).join("; ");
+
+          // Build guests array
+          const guests = [];
+          for (let i = 0; i < partySize; i++) {
+            const name = (fd.get(`guestName_${i}`) || "").toString().trim();
+            if (!name) {
+              alert(`Please enter a name for Guest ${i+1}.`);
+              return;
+            }
+            const diets = fd.getAll(`guestDiet_${i}`).map(String);
+            const other = (fd.get(`guestDietOther_${i}`) || "").toString().trim();
+            const dietarySummary = [ ...diets, other ? `Other: ${other}` : null ].filter(Boolean).join("; ");
+            guests.push({ index: i+1, name, dietary: diets, dietaryOther: other, dietarySummary });
+          }
 
           const payload = {
-            attending: attend,
-            firstName: first,
-            lastName: last,
-            email,
-            phone,
+            contact: { firstName: first, lastName: last, email, phone },
+            partySize,
+            attending: { ceremony: attendingCeremony, dinner: attendingDinner },
             guests,
-            dietary: dietaries,
-            dietaryOther,
-            dietarySummary,
-            song,
             note,
             couple: "Greg & Drew",
             event: {
-              dateLong: "Friday, 13 February",
-              time: "3:00 pm",
-              venueName: "Old Treasury Building – Margaret Craig Room",
-              venueAddress: "20 Spring St, Melbourne VIC"
+              dateLong: cfg.event?.dateLong || "Friday, 13 February",
+              time: cfg.event?.time || "3:00 pm",
+              venueName: cfg.event?.venueName || "Old Treasury Building – Margaret Craig Room",
+              venueAddress: cfg.event?.venueAddress || "20 Spring St, Melbourne VIC"
             },
             timestamp: new Date().toISOString()
           };
@@ -352,13 +378,16 @@ if (dinnerMapEl) {
               if (!res.ok) throw new Error("Formspree error " + res.status);
               alert("Thank you! Your RSVP was submitted.");
               form.reset();
-              // re-initialise visual states after reset
-              document.querySelectorAll("label[data-attend]").forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
-              const yesLabel = document.querySelector("label[data-attend='yes']");
-              if (yesLabel) yesLabel.classList.add("bg-slate-900","text-white","border-slate-900");
-              dietInputs.forEach(i => {
-                const lbl = i.closest("label");
-                if (lbl) lbl.classList.remove("bg-slate-900","text-white","border-slate-900");
+              partyInput.value = "1";
+              renderGuests();
+              // Re-highlight default selected pills
+              ["#attending-ceremony [data-attend-ceremony='yes']",
+               "#attending-dinner [data-attend-dinner='yes']"].forEach(sel => {
+                document.querySelectorAll(sel.replace("yes","yes")).forEach(y => {
+                  const group = y.closest("div");
+                  group?.querySelectorAll("label").forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
+                  y.classList.add("bg-slate-900","text-white","border-slate-900");
+                });
               });
               return;
             } catch (err) {
@@ -368,21 +397,24 @@ if (dinnerMapEl) {
             }
           }
 
-          // Mailto fallback
+          // Mailto fallback (readable summary)
           const subject = encodeURIComponent("RSVP — Greg & Drew");
-          const bodyLines = [
-            `Name: ${first} ${last}`,
-            `Email: ${email}`,
-            phone ? `Phone: ${phone}` : null,
-            `Attending: ${attend}`,
-            `Guests (incl. you): ${guests}`,
-            `Dietary: ${dietarySummary || "None"}`,
-            song ? `Song request: ${song}` : null,
-            note ? `Note: ${note}` : null
-          ].filter(Boolean);
-          const body = encodeURIComponent(bodyLines.join("\n"));
+          const lines = [];
+          lines.push(`Contact: ${first} ${last}`);
+          lines.push(`Email: ${email}`);
+          if (phone) lines.push(`Phone: ${phone}`);
+          lines.push(`Party size: ${partySize}`);
+          lines.push(`Ceremony: ${attendingCeremony}`);
+          lines.push(`Dinner: ${attendingDinner}`);
+          lines.push("");
+          lines.push("Guests & dietaries:");
+          guests.forEach(g => {
+            lines.push(`  • ${g.name}${g.dietarySummary ? " — " + g.dietarySummary : ""}`);
+          });
+          if (note) { lines.push(""); lines.push("Note:"); lines.push(note); }
+
+          const body = encodeURIComponent(lines.join("\n"));
           window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-          // do NOT reset immediately; let the mail app open first
         });
       });
     </script>
