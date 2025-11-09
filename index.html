@@ -10,23 +10,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      :root { --accent: #0f172a; }
+      :root {
+        --accent: #0f172a;
+        /* Set your background image once here */
+        --page-image: url('assets/koons.webp'); /* swap to your uploaded path if needed */
+      }
       .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
       .font-sans    { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
       .tabular-nums { font-variant-numeric: tabular-nums; }
-      .info-card    { backdrop-filter: saturate(120%); }
-      /* iOS Safari has limited support for fixed backgrounds; no change needed if you accept a non-fixed fallback on iOS */
+
+      /* Global fixed background behind everything */
+      #page-bg { position: fixed; inset: 0; z-index: -10; }
+      #page-bg .img { position: absolute; inset: 0; background-image: var(--page-image); background-size: cover; background-position: center; }
+      #page-bg .veil { position: absolute; inset: 0;
+        /* Gentle veil to improve legibility site-wide */
+        background: radial-gradient(ellipse at 30% 20%, rgba(2,6,23,0.25), transparent 60%),
+                    radial-gradient(ellipse at 70% 80%, rgba(2,6,23,0.18), transparent 55%),
+                    rgba(2,6,23,0.10);
+      }
+
+      /* “Glass” card styling for readable blocks over image */
+      .glass {
+        backdrop-filter: saturate(120%) blur(8px);
+        -webkit-backdrop-filter: saturate(120%) blur(8px);
+        background: rgba(255,255,255,0.72);
+        border: 1px solid rgba(255,255,255,0.45);
+        box-shadow: 0 10px 30px rgba(2,6,23,0.15);
+      }
+
+      /* Inputs remain solid for accessibility */
+      .input-solid { background: #fff; }
+
+      /* Optional text shadow for hero text on photos */
+      .text-shadow-soft { text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+
+      /* iOS Safari fixed-background fallback (adds .ios on <html>) */
+      .ios #page-bg { position: absolute; } /* behaves like scroll background to avoid jank */
     </style>
   </head>
-  <body class="font-sans text-slate-800 bg-white">
+  <body class="font-sans text-slate-800">
+    <!-- Global fixed background -->
+    <div id="page-bg" aria-hidden="true">
+      <div class="img"></div>
+      <div class="veil"></div>
+    </div>
+
     <noscript>
-      <div class="mx-auto max-w-3xl m-4 p-4 border rounded-xl bg-amber-50">
+      <div class="mx-auto max-w-3xl m-4 p-4 border rounded-xl glass">
         This site needs JavaScript enabled for RSVP and maps links.
       </div>
     </noscript>
 
     <!-- NAV -->
-    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 border-b border-slate-200">
+    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/70 border-b border-white/40">
       <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
         <span class="font-display tracking-wider text-xl">G · D</span>
         <nav class="hidden md:flex gap-8 text-sm">
@@ -39,16 +75,15 @@
       </div>
     </header>
 
-    <!-- HERO (centred, fixed/parallax background) -->
-    <section class="relative overflow-hidden" style="--hero-image: url('assets/koons.webp');">
-      <!-- background -->
-      <div class="absolute inset-0">
-        <!-- ADDED bg-fixed here -->
-        <div class="absolute inset-0 bg-[image:var(--hero-image)] bg-cover bg-center bg-fixed"></div>
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,6,23,0.25),rgba(2,6,23,0.55))]"></div>
+    <!-- HERO (centred, with its own soft gradient for contrast) -->
+    <section class="relative overflow-hidden min-h-screen flex items-center">
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute inset-0"
+             style="background: radial-gradient(ellipse at center, rgba(2,6,23,0.25), rgba(2,6,23,0.55));">
+        </div>
       </div>
 
-      <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-32">
+      <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-32 w-full">
         <div class="mx-auto max-w-3xl text-center">
           <div class="inline-flex items-center gap-2 rounded-2xl bg-white/80 backdrop-blur px-4 py-2 text-sm shadow-sm">
             <span class="font-display tracking-widest">G · D</span>
@@ -56,205 +91,222 @@
             <span class="text-slate-600">You’re invited</span>
           </div>
 
-          <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white drop-shadow">
+          <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white text-shadow-soft">
             Greg &amp; Drew
           </h1>
 
-          <p class="mt-4 text-lg md:text-xl text-white/90" data-date-time>
+          <p class="mt-4 text-lg md:text-xl text-white/90 text-shadow-soft" data-date-time>
             Friday, 13 February 2026 · Ceremony 4:00&nbsp;pm
           </p>
-          <p class="mt-1 text-white/80" data-venue>
+          <p class="mt-1 text-white/85 text-shadow-soft" data-venue>
             Margaret Craig Room, Old Treasury Building, 20 Spring St, Melbourne VIC
           </p>
 
           <!-- Countdown card -->
-          <div class="mt-10 inline-block backdrop-blur-sm bg-white/65 rounded-3xl px-6 md:px-10 py-6 md:py-8 shadow-lg border border-white/40">
+          <div class="mt-10 inline-block rounded-3xl px-6 md:px-10 py-6 md:py-8 glass">
             <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-600">Counting down to</p>
             <p class="mt-1 text-center text-slate-700">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
             <div class="mt-5 grid grid-cols-4 gap-3 text-center">
-              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+              <div class="rounded-2xl px-4 py-3 bg-white/90 border border-white/70">
                 <div id="cd-days" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Days</div>
               </div>
-              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+              <div class="rounded-2xl px-4 py-3 bg-white/90 border border-white/70">
                 <div id="cd-hours" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Hours</div>
               </div>
-              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+              <div class="rounded-2xl px-4 py-3 bg-white/90 border border-white/70">
                 <div id="cd-mins" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Mins</div>
               </div>
-              <div class="rounded-2xl bg-white/90 border border-white/70 px-4 py-3">
+              <div class="rounded-2xl px-4 py-3 bg-white/90 border border-white/70">
                 <div id="cd-secs" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Secs</div>
               </div>
             </div>
           </div>
-          <!-- No extra hero CTA buttons here to avoid duplication with the nav -->
+          <!-- No extra hero CTA buttons; use the nav -->
         </div>
       </div>
     </section>
 
     <!-- DETAILS -->
-    <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
-      <div class="mb-10 text-center md:text-left">
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Plan</p>
-        <h2 class="font-display text-3xl md:text-4xl mt-2">The Details</h2>
-      </div>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="rounded-2xl border border-slate-200 p-6 bg-white info-card">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">RSVP by</p>
-          <p class="mt-2 text-slate-800 leading-relaxed" data-rsvpby>—</p>
+    <section id="details" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
+        <div class="mb-8 text-center">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Plan</p>
+          <h2 class="font-display text-3xl md:text-4xl mt-2">The Details</h2>
         </div>
-        <div class="rounded-2xl border border-slate-200 p-6 bg-white">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Dress code</p>
-          <p class="mt-2 text-slate-800 leading-relaxed" data-dress></p>
-        </div>
-        <div class="rounded-2xl border border-slate-200 p-6 bg-white">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Notes</p>
-          <p class="mt-2 text-slate-800 leading-relaxed" data-notes></p>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-600">RSVP by</p>
+            <p class="mt-2 text-slate-800 leading-relaxed" data-rsvpby>—</p>
+          </div>
+          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Dress code</p>
+            <p class="mt-2 text-slate-800 leading-relaxed" data-dress></p>
+          </div>
+          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Notes</p>
+            <p class="mt-2 text-slate-800 leading-relaxed" data-notes></p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- SCHEDULE -->
-    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
-      <div class="mb-10 text-center md:text-left">
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Order of the day</p>
-        <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
+    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
+        <div class="mb-8 text-center">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Order of the day</p>
+          <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
+        </div>
+        <ul class="grid md:grid-cols-2 gap-4">
+          <li class="rounded-2xl border border-white/60 bg-white/75 p-5">
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-600">4:00 pm</p>
+            <p class="mt-1 text-lg">Ceremony at the Old Treasury Building</p>
+          </li>
+          <li class="rounded-2xl border border-white/60 bg-white/75 p-5">
+            <p class="text-xs uppercase tracking-[0.2em] text-slate-600">6:00 pm – 9:30 pm</p>
+            <p class="mt-1 text-lg">Dinner at Reed House</p>
+          </li>
+        </ul>
       </div>
-      <ul class="grid md:grid-cols-2 gap-4">
-        <li class="rounded-2xl border border-slate-200 p-5">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">4:00 pm</p>
-          <p class="mt-1 text-lg">Ceremony at the Old Treasury Building</p>
-        </li>
-        <li class="rounded-2xl border border-slate-200 p-5">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">6:00 pm – 9:30 pm</p>
-          <p class="mt-1 text-lg">Dinner at Reed House</p>
-        </li>
-      </ul>
     </section>
 
     <!-- VENUE -->
-    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
-      <div class="mb-10 text-center md:text-left">
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Where to go</p>
-        <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
-      </div>
-      <div class="grid lg:grid-cols-2 gap-8 items-start">
-        <div class="rounded-2xl border border-slate-200 p-6">
-          <h3 class="text-xl font-medium">Old Treasury Building</h3>
-          <p class="mt-1 text-slate-700">Margaret Craig Room · 20 Spring St, Melbourne VIC</p>
-          <a
-            href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
-            data-venue-map
-            data-address="20 Spring St, Melbourne VIC"
-            target="_blank"
-            rel="noreferrer"
-            class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400"
-          >
-            Open in Maps
-          </a>
-          <p class="mt-6 text-sm text-slate-600">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
+    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
+        <div class="mb-8 text-center">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Where to go</p>
+          <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
         </div>
-        <div class="rounded-2xl border border-slate-200 p-6">
-          <h3 class="text-xl font-medium" data-dinner-name>Dinner at Reed House</h3>
-          <p class="mt-1 text-slate-700" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
-          <p class="mt-1 text-slate-700" data-dinner-time>6:00 pm – 9:30 pm</p>
-          <a
-            href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
-            data-dinner-map
-            data-address="130 Lonsdale St, Melbourne VIC"
-            target="_blank"
-            rel="noreferrer"
-            class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400"
-          >
-            Open in Maps
-          </a>
+        <div class="grid lg:grid-cols-2 gap-8 items-start">
+          <div class="rounded-2xl border border-white/60 bg-white/75 p-6">
+            <h3 class="text-xl font-medium">Old Treasury Building</h3>
+            <p class="mt-1 text-slate-700">Margaret Craig Room · 20 Spring St, Melbourne VIC</p>
+            <a
+              href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
+              data-venue-map
+              data-address="20 Spring St, Melbourne VIC"
+              target="_blank"
+              rel="noreferrer"
+              class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400 bg-white/70"
+            >
+              Open in Maps
+            </a>
+            <p class="mt-6 text-sm text-slate-700">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
+          </div>
+          <div class="rounded-2xl border border-white/60 bg-white/75 p-6">
+            <h3 class="text-xl font-medium" data-dinner-name>Dinner at Reed House</h3>
+            <p class="mt-1 text-slate-700" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
+            <p class="mt-1 text-slate-700" data-dinner-time>6:00 pm – 9:30 pm</p>
+            <a
+              href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
+              data-dinner-map
+              data-address="130 Lonsdale St, Melbourne VIC"
+              target="_blank"
+              rel="noreferrer"
+              class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400 bg-white/70"
+            >
+              Open in Maps
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- RSVP -->
-    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0.04),transparent)]">
-      <div class="mb-10 text-center md:text-left">
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">We'd love to celebrate with you</p>
-        <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
+    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
+        <div class="mb-8 text-center">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-600">We'd love to celebrate with you</p>
+          <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
+        </div>
+
+        <!-- Invite code gate -->
+        <div id="invite-gate" class="hidden rounded-2xl border border-white/60 bg-white/75 p-6 max-w-xl mx-auto">
+          <p class="text-slate-700 mb-3">Please enter your invite code (found on your invitation):</p>
+          <div class="flex gap-3">
+            <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 input-solid px-4 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. R7K4" maxlength="12">
+            <button id="invite-code-continue" class="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl">Continue</button>
+          </div>
+          <p id="invite-code-error" class="mt-3 text-sm text-rose-600 hidden">That code wasn’t recognised. Please check and try again.</p>
+        </div>
+
+        <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8">
+          <!-- Column 1 -->
+          <div class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <label class="block">
+                <span class="block mb-2 text-sm font-medium text-slate-700">Your first name *</span>
+                <input name="firstName" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+              </label>
+              <label class="block">
+                <span class="block mb-2 text-sm font-medium text-slate-700">Your last name *</span>
+                <input name="lastName" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+              </label>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <label class="block">
+                <span class="block mb-2 text-sm font-medium text-slate-700">Email *</span>
+                <input type="email" name="email" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+              </label>
+              <label class="block">
+                <span class="block mb-2 text-sm font-medium text-slate-700">Phone</span>
+                <input name="phone" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+              </label>
+            </div>
+
+            <!-- Party size -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <label class="block">
+                <span id="party-label" class="block mb-1 text-sm font-medium text-slate-700">How many people attending (including you)?</span>
+                <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
+                <span id="party-hint" class="block mt-1 text-xs text-slate-600"></span>
+              </label>
+              <div class="hidden md:block"></div>
+            </div>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="space-y-6">
+            <div>
+              <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names, dietaries & attendance)</span>
+              <div id="guest-list" class="space-y-4"></div>
+            </div>
+
+            <label class="block">
+              <span class="block mb-2 text-sm font-medium text-slate-700">Message (optional)</span>
+              <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
+            </label>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">Submit RSVP</button>
+              <a href="#" class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-4 py-2 rounded-xl bg-white/70" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
+            </div>
+            <p class="text-xs text-slate-700">Your details are kept private and used only for wedding planning.</p>
+          </div>
+        </form>
       </div>
-
-      <!-- Invite code gate -->
-      <div id="invite-gate" class="hidden rounded-2xl border border-slate-200 p-6 bg-white max-w-xl">
-        <p class="text-slate-700 mb-3">Please enter your invite code (found on your invitation):</p>
-        <div class="flex gap-3">
-          <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 bg-white px-4 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. R7K4" maxlength="12">
-          <button id="invite-code-continue" class="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl">Continue</button>
-        </div>
-        <p id="invite-code-error" class="mt-3 text-sm text-rose-600 hidden">That code wasn’t recognised. Please check and try again.</p>
-      </div>
-
-      <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8">
-        <!-- Column 1 -->
-        <div class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">Your first name *</span>
-              <input name="firstName" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-            </label>
-            <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">Your last name *</span>
-              <input name="lastName" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-            </label>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">Email *</span>
-              <input type="email" name="email" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-            </label>
-            <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">Phone</span>
-              <input name="phone" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-            </label>
-          </div>
-
-          <!-- Party size -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label class="block">
-              <span id="party-label" class="block mb-1 text-sm font-medium text-slate-700">How many people attending (including you)?</span>
-              <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-              <span id="party-hint" class="block mt-1 text-xs text-slate-500"></span>
-            </label>
-            <div class="hidden md:block"></div>
-          </div>
-        </div>
-
-        <!-- Column 2 -->
-        <div class="space-y-6">
-          <div>
-            <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names, dietaries & attendance)</span>
-            <div id="guest-list" class="space-y-4"></div>
-          </div>
-
-          <label class="block">
-            <span class="block mb-2 text-sm font-medium text-slate-700">Message (optional)</span>
-            <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
-          </label>
-
-          <div class="flex flex-wrap items-center gap-3">
-            <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">Submit RSVP</button>
-            <a href="#" class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-4 py-2 rounded-xl" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
-          </div>
-          <p class="text-xs text-slate-500">Your details are kept private and used only for wedding planning.</p>
-        </div>
-      </form>
     </section>
 
-    <footer class="mt-24 py-10 text-center text-sm text-slate-500">Crafted with ♥ for Greg & Drew</footer>
+    <footer class="mt-24 py-10 text-center text-sm text-slate-200 drop-shadow">Crafted with ♥ for Greg & Drew</footer>
 
     <!-- Config first -->
     <script src="./assets/config.js"></script>
     <script src="./assets/invites.js?v=5"></script>
     <script src="./assets/script.js"></script>
+
+    <!-- iOS detection for the fixed-background fallback -->
+    <script>
+      (function(){
+        const ua = navigator.userAgent || "";
+        const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        if (isIOS) document.documentElement.classList.add("ios");
+      })();
+    </script>
 
     <!-- Main logic -->
     <script>
@@ -324,11 +376,11 @@
         function guestCard(index, name="") {
           const n = index + 1;
           return `
-            <div class="rounded-2xl border border-slate-200 p-4">
+            <div class="rounded-2xl border border-white/60 bg-white/75 p-4">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="block">
                   <span class="block mb-2 text-sm font-medium text-slate-700">Guest ${n} name ${n===1 ? "(you) *" : "*"}</span>
-                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? 'Your full name' : 'Full name'}">
+                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? 'Your full name' : 'Full name'}">
                 </label>
                 <div></div>
               </div>
@@ -348,11 +400,11 @@
                 <span class="block mb-2 text-sm font-medium text-slate-700">Dietary requirements</span>
                 <div class="grid grid-cols-2 gap-3">
                   ${DIETARY.map(d => `
-                    <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer">
+                    <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer bg-white/80">
                       <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only"><span>✔</span><span>${d}</span>
                     </label>
                   `).join("")}
-                  <input class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
+                  <input class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
                 </div>
               </div>
             </div>
@@ -429,50 +481,53 @@
         }
 
         function showGate() {
-          form.classList.add("hidden");
+          document.getElementById("rsvp-form").classList.add("hidden");
+          const gate = document.getElementById("invite-gate");
+          const codeErr = document.getElementById("invite-code-error");
           gate.classList.remove("hidden");
           codeErr.classList.add("hidden");
-          codeBtn.onclick = () => {
-            const entered = normalizeCode(codeInput.value);
+          document.getElementById("invite-code-continue").onclick = () => {
+            const entered = (document.getElementById("invite-code-input").value || "").trim().toUpperCase();
             const inv = (INVITES && INVITES[entered]) ? INVITES[entered] : null;
             if (!inv) { codeErr.classList.remove("hidden"); return; }
             const url = new URL(window.location.href); url.searchParams.set("code", entered);
             window.history.replaceState({}, "", url.toString());
-            gate.classList.add("hidden"); form.classList.remove("hidden");
+            gate.classList.add("hidden"); document.getElementById("rsvp-form").classList.remove("hidden");
             applyInvite(inv);
           };
         }
 
         const hasInviteTable = INVITES && Object.keys(INVITES).length > 0;
-        const urlCode = normalizeCode(getParam("code"));
+        const urlCode = (new URLSearchParams(window.location.search).get("code") || "").trim().toUpperCase();
         if (hasInviteTable) {
           if (urlCode && INVITES[urlCode]) { applyInvite(INVITES[urlCode]); } else { showGate(); }
         } else {
           applyInvite(null);
         }
 
-        partyInput.addEventListener("input", () => {
-          const max = parseInt(partyInput.max, 10) || 10;
-          let val = parseInt(partyInput.value || "1", 10);
+        document.getElementById("party-size").addEventListener("input", () => {
+          const input = document.getElementById("party-size");
+          const max = parseInt(input.max, 10) || 10;
+          let val = parseInt(input.value || "1", 10);
           if (isNaN(val) || val < 1) val = 1;
           if (val > max) val = max;
-          partyInput.value = String(val);
+          input.value = String(val);
           const defaults = (hasInviteTable && urlCode && INVITES[urlCode]?.defaultNames) ? INVITES[urlCode].defaultNames : [];
           renderGuests(val, defaults);
         });
 
         /* ---------- Submit ---------- */
-        form.addEventListener("submit", async function (e) {
+        document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          const fd = new FormData(form);
+          const fd = new FormData(this);
           const first = (fd.get("firstName") || "").toString().trim();
           const last  = (fd.get("lastName")  || "").toString().trim();
           const email = (fd.get("email")     || "").toString().trim();
           if (!first || !last || !email) { alert("Please complete your first name, last name, and email."); return; }
 
           const hasTable = INVITES && Object.keys(INVITES).length > 0;
-          const code = normalizeCode(getParam("code"));
+          const code = (new URLSearchParams(window.location.search).get("code") || "").trim().toUpperCase();
           const inv  = (hasTable && INVITES[code]) ? INVITES[code] : null;
 
           const phone  = (fd.get("phone") || "").toString().trim();
@@ -516,7 +571,7 @@
               });
               if (!res.ok) throw new Error("Formspree error " + res.status);
               alert("Thank you! Your RSVP was submitted.");
-              form.reset();
+              this.reset();
               applyInvite(CURRENT_INVITE);
               return;
             } catch (err) {
