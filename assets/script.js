@@ -31,7 +31,7 @@
         if (card) card.style.display = "none";
       }
       const mono = cfg?.branding?.monogram || "G · D";
-      const foot = `Crafted with ♥ for ${cfg?.couple?.a || "Greg"} & ${cfg?.couple?.b || "Drew"}`;
+      const foot = `Vibe-coded with ♥ by ${cfg?.couple?.a || "Greg"} & ${cfg?.couple?.b || "Drew"}`;
       setText("[data-monogram]", mono);
       setText("[data-footer]", foot);
     } catch (err) {
@@ -293,7 +293,7 @@
         payload.note ? `Note: ${payload.note}` : null,
       ].filter(Boolean).join("\n");
       const body = encodeURIComponent(lines);
-      const to = cfg?.contactEmail || "drewbrownlee@hotmail.com";
+      const to = cfg?.contactEmail || "gregory.r.humble@gmail.com";
       window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
     }
 
