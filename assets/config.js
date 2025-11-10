@@ -3,14 +3,14 @@ window.SITE_CONFIG = {
   contactEmail: "Gregory.r.humble@gmail.com",
   event: {
     dateLong: "Friday, 13 February 2026",
-    time: "Ceremony 4:00 pm",
+    time: "Ceremony 3:45 pm",
     venueName: "Margaret Craig Room, Old Treasury Building",
     venueAddress: "20 Spring St, Melbourne VIC",
     mapsUrl: "https://www.google.com/maps?q=Old+Treasury+Building+Melbourne",
     dinner: {
       name: "Dinner at Reed House",
       address: "130 Lonsdale St, Melbourne VIC",
-      time: "6:00 pm – 9:30 pm",
+      time: "6:30 pm – 9:30 pm",
       mapsUrl: "https://www.google.com/maps?q=130+Lonsdale+St+Melbourne"
     }
   },
