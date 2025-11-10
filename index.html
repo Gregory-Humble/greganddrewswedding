@@ -279,11 +279,21 @@
             <textarea rows="4" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
           </label>
 
-          <!-- Actions -->
-          <div class="flex flex-wrap items-center gap-2.5">
-            <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-3.5 py-2.5 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">Submit RSVP</button>
-            <a href="#" class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-3 py-2 rounded-xl bg-white/85" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
-          </div>
+<!-- Actions -->
+<div class="flex justify-center mt-8">
+  <button
+    id="submit-btn"
+    type="submit"
+    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-white
+           bg-amber-500/60 backdrop-blur-md border border-amber-300/40
+           shadow-[0_4px_20px_rgba(255,191,0,0.25)]
+           hover:bg-amber-500/80 hover:border-amber-300/60
+           hover:shadow-[0_6px_24px_rgba(255,191,0,0.35)]
+           transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-amber-300/60"
+  >
+    Submit RSVP
+  </button>
+</div>
           <p class="text-xs text-slate-700"></p>
         </form>
       </div>
