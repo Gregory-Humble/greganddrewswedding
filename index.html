@@ -75,62 +75,66 @@
       </div>
     </header>
 
-<!-- HERO -->
+<!-- HERO (fully centred with integrated countdown) -->
 <section class="relative overflow-hidden min-h-screen flex items-center justify-center text-center">
-  <div class="relative z-10 max-w-3xl w-full px-6">
-    <!-- Glass backdrop for the hero text -->
-    <div class="glass rounded-3xl px-6 md:px-10 py-8 md:py-12 inline-block bg-white/20 backdrop-blur-md border border-white/30 shadow-lg">
-      <p class="font-display text-3xl md:text-4xl text-emerald-900 text-shadow-soft mb-2">
-        Join us in celebration
-      </p>
+  <div class="relative z-10 w-full px-6">
+    <div class="mx-auto max-w-3xl flex flex-col items-center">
 
-      <h1 class="font-display text-4xl md:text-5xl mt-3 leading-[1.1] text-amber-400 text-shadow-soft">
-        <span class="block">Gregory Humble</span>
-        <span class="block text-amber-400 text-4xl md:text-5xl">&amp;</span>
-        <span class="block">Drew Brownlee</span>
-      </h1>
+      <!-- Glass hero block -->
+      <div class="glass rounded-3xl px-6 md:px-10 py-8 md:py-10 inline-block bg-white/15 backdrop-blur-xl border border-white/25 shadow-lg">
+        <p class="font-display text-3xl md:text-4xl text-white drop-shadow mb-2">
+          Join us in celebration
+        </p>
 
-<p class="mt-5 text-[1.05rem] md:text-lg text-white/95 tracking-wide">
-  Friday, 13 February 2026 <span class="mx-2 opacity-70">·</span> Ceremony 3:45&nbsp;pm
-</p>
-<p class="mt-1.5 text-white/90">
-  Margaret Craig Room, Old Treasury Building, 20 Spring St, Melbourne VIC
-</p>
+        <h1 class="font-display text-4xl md:text-5xl mt-2 leading-[1.1] text-amber-400 text-shadow-soft">
+          <span class="block">Gregory Humble</span>
+          <span class="block text-amber-400 text-4xl md:text-5xl">&amp;</span>
+          <span class="block">Drew Brownlee</span>
+        </h1>
+
+        <p class="mt-4 text-[1.05rem] md:text-lg text-white/95 tracking-wide">
+          Friday, 13 February 2026 <span class="mx-2 opacity-70">·</span> Ceremony 3:45&nbsp;pm
+        </p>
+        <p class="mt-1.5 text-white/90">
+          Margaret Craig Room, Old Treasury Building, 20 Spring St, Melbourne VIC
+        </p>
+      </div>
+
+      <!-- Countdown (centred directly beneath) -->
+      <div class="mt-4 glass rounded-xl px-4 md:px-5 py-3.5 md:py-4 inline-block">
+        <div class="text-center">
+          <span class="block text-[11px] tracking-[0.28em] uppercase text-slate-700/90">
+            Time to ceremony
+          </span>
+          <span class="inline-flex items-center mt-1 px-2 py-1 rounded-md bg-white/80 border border-white/60 text-[12px] text-slate-700">
+            3:45&nbsp;pm&nbsp;AEDT
+          </span>
+        </div>
+
+        <div class="mt-3.5 grid grid-cols-4 gap-2.5 text-center">
+          <div class="rounded-lg px-2.5 py-2.5 bg-white/92 border border-white/70">
+            <div id="cd-days" class="font-display text-3xl md:text-[34px] leading-none tabular-nums">00</div>
+            <div class="text-[11px] uppercase tracking-wider text-slate-600 mt-0.5">Days</div>
+          </div>
+          <div class="rounded-lg px-2.5 py-2.5 bg-white/92 border border-white/70">
+            <div id="cd-hours" class="font-display text-3xl md:text-[34px] leading-none tabular-nums">00</div>
+            <div class="text-[11px] uppercase tracking-wider text-slate-600 mt-0.5">Hours</div>
+          </div>
+          <div class="rounded-lg px-2.5 py-2.5 bg-white/92 border border-white/70">
+            <div id="cd-mins" class="font-display text-3xl md:text-[34px] leading-none tabular-nums">00</div>
+            <div class="text-[11px] uppercase tracking-wider text-slate-600 mt-0.5">Mins</div>
+          </div>
+          <div class="rounded-lg px-2.5 py-2.5 bg-white/92 border border-white/70">
+            <div id="cd-secs" class="font-display text-3xl md:text-[34px] leading-none tabular-nums">00</div>
+            <div class="text-[11px] uppercase tracking-wider text-slate-600 mt-0.5">Secs</div>
+          </div>
+        </div>
+      </div>
+
     </div>
-
-    <!-- Countdown (centred under the hero block) -->
-<!-- Countdown (tighter, no duplicate date) -->
-<div class="mt-5 inline-block rounded-xl px-4 md:px-5 py-3.5 md:py-4 glass">
-  <div class="mt-0 text-center">
-    <span class="block text-[11px] tracking-[0.28em] uppercase text-slate-600">
-      Time to ceremony
-    </span>
-    <span class="inline-flex items-center mt-1 px-2 py-1 rounded-md bg-white/80 border border-white/60 text-[12px] text-slate-700">
-      3:45&nbsp;pm&nbsp;AEDT
-    </span>
   </div>
-
-  <div class="mt-3.5 grid grid-cols-4 gap-2.5 text-center">
-    <div class="rounded-lg px-2.5 py-2.5 bg-white/92 border border-white/70">
-      <div id="cd-days" class="font-display text-3xl md:text-[34px] leading-none tabular-nums">00</div>
-      <div class="text-[11px] uppercase tracking-wider text-slate-600 mt-0.5">Days</div>
-    </div>
-    <div class="rounded-lg px-2.5 py-2.5 bg-white/92 border border-white/70">
-      <div id="cd-hours" class="font-display text-3xl md:text-[34px] leading-none tabular-nums">00</div>
-      <div class="text-[11px] uppercase tracking-wider text-slate-600 mt-0.5">Hours</div>
-    </div>
-    <div class="rounded-lg px-2.5 py-2.5 bg-white/92 border border-white/70">
-      <div id="cd-mins" class="font-display text-3xl md:text-[34px] leading-none tabular-nums">00</div>
-      <div class="text-[11px] uppercase tracking-wider text-slate-600 mt-0.5">Mins</div>
-    </div>
-    <div class="rounded-lg px-2.5 py-2.5 bg-white/92 border border-white/70">
-      <div id="cd-secs" class="font-display text-3xl md:text-[34px] leading-none tabular-nums">00</div>
-      <div class="text-[11px] uppercase tracking-wider text-slate-600 mt-0.5">Secs</div>
-    </div>
-  </div>
-</div>
 </section>
-
+    
     <!-- DETAILS (tighter paddings/gaps) -->
     <section id="details" class="mx-auto max-w-6xl px-3 py-10 md:py-12">
       <div class="mx-auto max-w-4xl glass rounded-xl p-5 md:p-6">
