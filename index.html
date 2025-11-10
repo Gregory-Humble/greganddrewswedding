@@ -10,42 +10,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      :root {
-        --accent: #0f172a;
+      :root{
+        --accent:#0f172a;
         /* Set your background image once here */
-        --page-image: url('assets/koons.webp'); /* swap to your uploaded path if needed */
+        --page-image:url('assets/koons.webp'); /* swap path if needed */
       }
-      .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
-      .font-sans    { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans'; }
-      .tabular-nums { font-variant-numeric: tabular-nums; }
+      .font-display{font-family:'Fraunces',ui-serif,Georgia,serif;}
+      .font-sans{font-family:'Inter',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,'Noto Sans';}
+      .tabular-nums{font-variant-numeric:tabular-nums;}
 
-      /* Global fixed background behind everything */
-      #page-bg { position: fixed; inset: 0; z-index: -10; }
-      #page-bg .img { position: absolute; inset: 0; background-image: var(--page-image); background-size: cover; background-position: center; }
-      #page-bg .veil { position: absolute; inset: 0;
-        /* Gentle veil to improve legibility site-wide */
-        background: radial-gradient(ellipse at 30% 20%, rgba(2,6,23,0.10), transparent 60%),
-                    radial-gradient(ellipse at 70% 80%, rgba(2,6,23,0.10), transparent 60%),
-                    rgba(2,6,23,0.10);
-      }
-
-      /* “Glass” card styling for readable blocks over image */
-      .glass {
-        backdrop-filter: saturate(120%) blur(8px);
-        -webkit-backdrop-filter: saturate(120%) blur(8px);
-        background: rgba(255,255,255,0.50);
-        border: 1px solid rgba(255,255,255,0.10);
-        box-shadow: 0 10px 30px rgba(2,6,23,0.10);
+      /* Fixed background behind everything */
+      #page-bg{position:fixed;inset:0;z-index:-10;}
+      #page-bg .img{position:absolute;inset:0;background-image:var(--page-image);background-size:cover;background-position:center;}
+      #page-bg .veil{position:absolute;inset:0;
+        background:
+          radial-gradient(ellipse at 30% 20%,rgba(2,6,23,.10),transparent 60%),
+          radial-gradient(ellipse at 70% 80%,rgba(2,6,23,.10),transparent 60%),
+          rgba(2,6,23,.10);
       }
 
-      /* Inputs remain solid for accessibility */
-      .input-solid { background: #fff; }
+      /* “Glass” cards for readability over image */
+      .glass{
+        backdrop-filter:saturate(120%) blur(8px);
+        -webkit-backdrop-filter:saturate(120%) blur(8px);
+        background:rgba(255,255,255,.45);
+        border:1px solid rgba(255,255,255,.10);
+        box-shadow:0 10px 30px rgba(2,6,23,.10);
+      }
+      .input-solid{background:#fff;}
+      .text-shadow-soft{text-shadow:0 1px 2px rgba(0,0,0,.25);}
 
-      /* Optional text shadow for hero text on photos */
-      .text-shadow-soft { text-shadow: 0 1px 2px rgba(0,0,0,.25); }
-
-      /* iOS Safari fixed-background fallback (adds .ios on <html>) */
-      .ios #page-bg { position: absolute; } /* behaves like scroll background to avoid jank */
+      /* iOS Safari fallback (fixed backgrounds stutter on iOS) */
+      .ios #page-bg{position:absolute;}
     </style>
   </head>
   <body class="font-sans text-slate-800">
@@ -56,7 +52,7 @@
     </div>
 
     <noscript>
-      <div class="mx-auto max-w-3xl m-4 p-4 border rounded-xl glass">
+      <div class="mx-auto max-w-3xl m-4 p-4 rounded-xl glass">
         This site needs JavaScript enabled for RSVP and maps links.
       </div>
     </noscript>
@@ -65,7 +61,7 @@
     <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/70 border-b border-white/40">
       <div class="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
         <span class="font-display tracking-wider text-xl">G · D</span>
-        <nav class="hidden md:flex gap-8 text-sm">
+        <nav class="hidden md:flex gap-6 text-sm">
           <a href="#details" class="hover:text-slate-900">Details</a>
           <a href="#schedule" class="hover:text-slate-900">Schedule</a>
           <a href="#venue" class="hover:text-slate-900">Venue</a>
@@ -75,78 +71,72 @@
       </div>
     </header>
 
-    <!-- HERO (centred, with its own soft gradient for contrast) -->
+    <!-- HERO (no extra dark overlay; consistent background) -->
     <section class="relative overflow-hidden min-h-screen flex items-center">
-      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div class="absolute inset-0"
-             style="background: radial-gradient(ellipse at center, rgba(2,6,23,0.10), rgba(2,6,23,0.10));">
-        </div>
-      </div>
-
-      <div class="relative mx-auto max-w-6xl px-4 py-16 md:py-224 w-full">
+      <div class="relative mx-auto max-w-6xl px-4 py-12 md:py-20 w-full">
         <div class="mx-auto max-w-3xl text-center">
-          <div class="inline-flex items-center gap-2 rounded-2xl bg-white/80 backdrop-blur px-4 py-2 text-sm shadow-sm">
+          <div class="inline-flex items-center gap-2 rounded-xl bg-white/80 backdrop-blur px-3.5 py-1.5 text-sm shadow-sm">
             <span class="font-display tracking-widest">G · D</span>
             <span class="h-4 w-px bg-slate-300"></span>
             <span class="text-slate-600">You’re invited</span>
           </div>
 
-          <h1 class="font-display text-5xl md:text-7xl mt-6 leading-tight text-white text-shadow-soft">
+          <h1 class="font-display text-5xl md:text-7xl mt-4 leading-tight text-white text-shadow-soft">
             Greg &amp; Drew
           </h1>
 
-          <p class="mt-4 text-lg md:text-xl text-white/90 text-shadow-soft" data-date-time>
+          <p class="mt-3 text-lg md:text-xl text-white/90 text-shadow-soft" data-date-time>
             Friday, 13 February 2026 · Ceremony 4:00&nbsp;pm
           </p>
           <p class="mt-1 text-white/85 text-shadow-soft" data-venue>
             Margaret Craig Room, Old Treasury Building, 20 Spring St, Melbourne VIC
           </p>
 
-          <!-- Countdown card -->
-          <div class="mt-10 inline-block rounded-3xl px-4 md:px-6 py-4 md:py-6 glass">
+          <!-- Countdown -->
+          <div class="mt-6 inline-block rounded-2xl px-5 md:px-6 py-4 md:py-5 glass">
             <p class="text-center text-xs tracking-[0.3em] uppercase text-slate-600">Counting down to</p>
             <p class="mt-1 text-center text-slate-700">Friday, 13 February 2026 &middot; 4:00&nbsp;pm</p>
-            <div class="mt-5 grid grid-cols-4 gap-3 text-center">
-              <div class="rounded-2xl px-2 py-3 bg-white/90 border border-white/70">
+            <div class="mt-4 grid grid-cols-4 gap-3 text-center">
+              <div class="rounded-xl px-3 py-2.5 bg-white/90 border border-white/70">
                 <div id="cd-days" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Days</div>
               </div>
-              <div class="rounded-2xl px-2 py-3 bg-white/90 border border-white/70">
+              <div class="rounded-xl px-3 py-2.5 bg-white/90 border border-white/70">
                 <div id="cd-hours" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Hours</div>
               </div>
-              <div class="rounded-2xl px-2 py-3 bg-white/90 border border-white/70">
+              <div class="rounded-xl px-3 py-2.5 bg-white/90 border border-white/70">
                 <div id="cd-mins" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Mins</div>
               </div>
-              <div class="rounded-2xl px-2 py-3 bg-white/90 border border-white/70">
+              <div class="rounded-xl px-3 py-2.5 bg-white/90 border border-white/70">
                 <div id="cd-secs" class="font-display text-3xl md:text-4xl tabular-nums">00</div>
                 <div class="text-xs uppercase tracking-wider text-slate-600">Secs</div>
               </div>
             </div>
           </div>
-          <!-- No extra hero CTA buttons; use the nav -->
+          <!-- No hero CTAs here; the nav button covers it -->
         </div>
       </div>
     </section>
 
     <!-- DETAILS -->
-    <section id="details" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
-      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
-        <div class="mb-8 text-center">
+    <section id="details" class="mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <div class="mx-auto max-w-4xl glass rounded-2xl p-6 md:p-8">
+        <div class="mb-6 text-center">
           <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Plan</p>
-          <h2 class="font-display text-3xl md:text-4xl mt-2">The Details</h2>
+          <h2 class="font-display text-3xl md:text-4xl mt-1.5">The Details</h2>
         </div>
-        <div class="grid md:grid-cols-3 gap-6">
-          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="rounded-xl p-4 bg-white/75 border border-white/60">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">RSVP by</p>
             <p class="mt-2 text-slate-800 leading-relaxed" data-rsvpby>January 10th, 2026</p>
           </div>
-          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+          <div class="rounded-xl p-4 bg-white/75 border border-white/60">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Dress code</p>
             <p class="mt-2 text-slate-800 leading-relaxed" data-dress></p>
           </div>
-          <div class="rounded-2xl p-6 bg-white/70 border border-white/60">
+          <div class="rounded-xl p-4 bg-white/75 border border-white/60">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Notes</p>
             <p class="mt-2 text-slate-800 leading-relaxed" data-notes></p>
           </div>
@@ -155,18 +145,18 @@
     </section>
 
     <!-- SCHEDULE -->
-    <section id="schedule" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
-        <div class="mb-8 text-center">
+    <section id="schedule" class="mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <div class="mx-auto max-w-4xl glass rounded-2xl p-6 md:p-8">
+        <div class="mb-6 text-center">
           <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Order of the day</p>
-          <h2 class="font-display text-3xl md:text-4xl mt-2">Schedule</h2>
+          <h2 class="font-display text-3xl md:text-4xl mt-1.5">Schedule</h2>
         </div>
-        <ul class="grid md:grid-cols-2 gap-4">
-          <li class="rounded-2xl border border-white/60 bg-white/75 p-5">
+        <ul class="grid md:grid-cols-2 gap-3">
+          <li class="rounded-xl border border-white/60 bg-white/75 p-3.5">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">4:00 pm</p>
             <p class="mt-1 text-lg">Ceremony at the Old Treasury Building</p>
           </li>
-          <li class="rounded-2xl border border-white/60 bg-white/75 p-5">
+          <li class="rounded-xl border border-white/60 bg-white/75 p-3.5">
             <p class="text-xs uppercase tracking-[0.2em] text-slate-600">6:00 pm – 9:30 pm</p>
             <p class="mt-1 text-lg">Dinner at Reed House</p>
           </li>
@@ -175,15 +165,15 @@
     </section>
 
     <!-- VENUE -->
-    <section id="venue" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
-        <div class="mb-8 text-center">
+    <section id="venue" class="mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <div class="mx-auto max-w-4xl glass rounded-2xl p-6 md:p-8">
+        <div class="mb-6 text-center">
           <p class="text-xs uppercase tracking-[0.2em] text-slate-600">Where to go</p>
-          <h2 class="font-display text-3xl md:text-4xl mt-2">Venues</h2>
+          <h2 class="font-display text-3xl md:text-4xl mt-1.5">Venues</h2>
         </div>
-        <div class="grid lg:grid-cols-2 gap-8 items-start">
-          <div class="rounded-2xl border border-white/60 bg-white/75 p-6">
-            <h3 class="text-xl font-medium">Old Treasury Building</h3>
+        <div class="grid lg:grid-cols-2 gap-5 items-start">
+          <div class="rounded-xl border border-white/60 bg-white/75 p-4">
+            <h3 class="text-lg font-medium">Old Treasury Building</h3>
             <p class="mt-1 text-slate-700">Margaret Craig Room · 20 Spring St, Melbourne VIC</p>
             <a
               href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
@@ -191,14 +181,14 @@
               data-address="20 Spring St, Melbourne VIC"
               target="_blank"
               rel="noreferrer"
-              class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400 bg-white/70"
+              class="mt-3 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-300 hover:border-slate-400 bg-white/80"
             >
               Open in Maps
             </a>
-            <p class="mt-6 text-sm text-slate-700">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
+            <p class="mt-4 text-sm text-slate-700">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
           </div>
-          <div class="rounded-2xl border border-white/60 bg-white/75 p-6">
-            <h3 class="text-xl font-medium" data-dinner-name>Dinner at Reed House</h3>
+          <div class="rounded-xl border border-white/60 bg-white/75 p-4">
+            <h3 class="text-lg font-medium" data-dinner-name>Dinner at Reed House</h3>
             <p class="mt-1 text-slate-700" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
             <p class="mt-1 text-slate-700" data-dinner-time>6:00 pm – 9:30 pm</p>
             <a
@@ -207,7 +197,7 @@
               data-address="130 Lonsdale St, Melbourne VIC"
               target="_blank"
               rel="noreferrer"
-              class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 hover:border-slate-400 bg-white/70"
+              class="mt-3 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-300 hover:border-slate-400 bg-white/80"
             >
               Open in Maps
             </a>
@@ -217,82 +207,78 @@
     </section>
 
     <!-- RSVP -->
-    <section id="rsvp" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div class="mx-auto max-w-4xl glass rounded-3xl p-8 md:p-10">
-        <div class="mb-8 text-center">
+    <section id="rsvp" class="mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <div class="mx-auto max-w-4xl glass rounded-2xl p-6 md:p-8">
+        <div class="mb-6 text-center">
           <p class="text-xs uppercase tracking-[0.2em] text-slate-600">We'd love to celebrate with you</p>
-          <h2 class="font-display text-3xl md:text-4xl mt-2">RSVP</h2>
+          <h2 class="font-display text-3xl md:text-4xl mt-1.5">RSVP</h2>
         </div>
 
         <!-- Invite code gate -->
-        <div id="invite-gate" class="hidden rounded-2xl border border-white/60 bg-white/75 p-6 max-w-xl mx-auto">
-          <p class="text-slate-700 mb-3">Please enter your invite code (found on your invitation):</p>
+        <div id="invite-gate" class="hidden rounded-xl border border-white/60 bg-white/75 p-4 max-w-xl mx-auto">
+          <p class="text-slate-700 mb-2.5">Please enter your invite code (found on your invitation):</p>
           <div class="flex gap-3">
-            <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 input-solid px-4 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. R7K4" maxlength="12">
+            <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. R7K4" maxlength="12">
             <button id="invite-code-continue" class="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl">Continue</button>
           </div>
-          <p id="invite-code-error" class="mt-3 text-sm text-rose-600 hidden">That code wasn’t recognised. Please check and try again.</p>
+          <p id="invite-code-error" class="mt-2 text-sm text-rose-600 hidden">That code wasn’t recognised. Please check and try again.</p>
         </div>
 
-        <form id="rsvp-form" class="grid lg:grid-cols-2 gap-8">
-          <!-- Column 1 -->
-          <div class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label class="block">
-                <span class="block mb-2 text-sm font-medium text-slate-700">Your first name *</span>
-                <input name="firstName" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-              </label>
-              <label class="block">
-                <span class="block mb-2 text-sm font-medium text-slate-700">Your last name *</span>
-                <input name="lastName" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-              </label>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label class="block">
-                <span class="block mb-2 text-sm font-medium text-slate-700">Email *</span>
-                <input type="email" name="email" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-              </label>
-              <label class="block">
-                <span class="block mb-2 text-sm font-medium text-slate-700">Phone</span>
-                <input name="phone" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-              </label>
-            </div>
-
-            <!-- Party size -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label class="block">
-                <span id="party-label" class="block mb-1 text-sm font-medium text-slate-700">How many people attending (including you)?</span>
-                <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300">
-                <span id="party-hint" class="block mt-1 text-xs text-slate-600"></span>
-              </label>
-              <div class="hidden md:block"></div>
-            </div>
-          </div>
-
-          <!-- Column 2 -->
-          <div class="space-y-6">
-            <div>
-              <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names, dietaries & attendance)</span>
-              <div id="guest-list" class="space-y-4"></div>
-            </div>
-
+        <!-- STACKED form (single column) -->
+        <form id="rsvp-form" class="space-y-6">
+          <!-- Contact -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label class="block">
-              <span class="block mb-2 text-sm font-medium text-slate-700">Message (optional)</span>
-              <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
+              <span class="block mb-1.5 text-sm font-medium text-slate-700">Your first name *</span>
+              <input name="firstName" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300">
             </label>
-
-            <div class="flex flex-wrap items-center gap-3">
-              <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">Submit RSVP</button>
-              <a href="#" class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-4 py-2 rounded-xl bg-white/70" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
-            </div>
-            <p class="text-xs text-slate-700">Your details are kept private and used only for wedding planning.</p>
+            <label class="block">
+              <span class="block mb-1.5 text-sm font-medium text-slate-700">Your last name *</span>
+              <input name="lastName" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300">
+            </label>
           </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="block mb-1.5 text-sm font-medium text-slate-700">Email *</span>
+              <input type="email" name="email" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300">
+            </label>
+            <label class="block">
+              <span class="block mb-1.5 text-sm font-medium text-slate-700">Phone</span>
+              <input name="phone" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300">
+            </label>
+          </div>
+
+          <!-- Party size -->
+          <label class="block">
+            <span id="party-label" class="block mb-1 text-sm font-medium text-slate-700">How many people attending (including you)?</span>
+            <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300">
+            <span id="party-hint" class="block mt-1 text-xs text-slate-600"></span>
+          </label>
+
+          <!-- Guest list -->
+          <div>
+            <span class="block mb-2 text-sm font-medium text-slate-700">Guest details (names, dietaries & attendance)</span>
+            <div id="guest-list" class="space-y-4"></div>
+          </div>
+
+          <!-- Note -->
+          <label class="block">
+            <span class="block mb-1.5 text-sm font-medium text-slate-700">Message (optional)</span>
+            <textarea rows="5" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
+          </label>
+
+          <!-- Actions -->
+          <div class="flex flex-wrap items-center gap-3">
+            <button id="submit-btn" type="submit" class="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-sm hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed">Submit RSVP</button>
+            <a href="#" class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 px-3.5 py-2 rounded-xl bg-white/80" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</a>
+          </div>
+          <p class="text-xs text-slate-700">Your details are kept private and used only for wedding planning.</p>
         </form>
       </div>
     </section>
 
-    <footer class="mt-24 py-10 text-center text-sm text-slate-200 drop-shadow">Crafted with ♥ for Greg & Drew</footer>
+    <footer class="mt-16 py-8 text-center text-sm text-slate-200 drop-shadow">Crafted with ♥ for Greg & Drew</footer>
 
     <!-- Config first -->
     <script src="./assets/config.js"></script>
@@ -302,300 +288,293 @@
     <!-- iOS detection for the fixed-background fallback -->
     <script>
       (function(){
-        const ua = navigator.userAgent || "";
-        const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-        if (isIOS) document.documentElement.classList.add("ios");
+        const ua=navigator.userAgent||"";
+        const isIOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+        if(isIOS) document.documentElement.classList.add("ios");
       })();
     </script>
 
     <!-- Main logic -->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const cfg = window.SITE_CONFIG || {};
-        const INVITES = window.INVITES || {}; // fine if missing/empty
-        const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@gmail.com";
-        const FORMSPREE = cfg.formspreeEndpoint || "";
+      document.addEventListener("DOMContentLoaded",function(){
+        const cfg=window.SITE_CONFIG||{};
+        const INVITES=window.INVITES||{};
+        const CONTACT_EMAIL=cfg.contactEmail||"gregory.r.humble@gmail.com";
+        const FORMSPREE=cfg.formspreeEndpoint||"";
 
-        /* ---------- Countdown (AUS time) ---------- */
-        // Fri 13 Feb 2026, 4:00 pm Australia/Melbourne (AEDT, +11:00)
-        const WEDDING_TARGET = new Date("2026-02-13T16:00:00+11:00");
-        function updateCountdown() {
-          const now = new Date();
-          let diff = WEDDING_TARGET.getTime() - now.getTime();
-          if (diff < 0) diff = 0;
-          const s = Math.floor(diff / 1000);
-          const days  = Math.floor(s / 86400);
-          const hours = Math.floor((s % 86400) / 3600);
-          const mins  = Math.floor((s % 3600) / 60);
-          const secs  = s % 60;
-          const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = String(val).padStart(2, "0"); };
-          set("cd-days", days); set("cd-hours", hours); set("cd-mins", mins); set("cd-secs", secs);
+        /* Countdown (AUS time) — Fri 13 Feb 2026, 4:00 pm AEDT (+11:00) */
+        const WEDDING_TARGET=new Date("2026-02-13T16:00:00+11:00");
+        function updateCountdown(){
+          const now=new Date();
+          let diff=WEDDING_TARGET.getTime()-now.getTime();
+          if(diff<0) diff=0;
+          const s=Math.floor(diff/1000);
+          const days=Math.floor(s/86400);
+          const hours=Math.floor((s%86400)/3600);
+          const mins=Math.floor((s%3600)/60);
+          const secs=s%60;
+          const set=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=String(val).padStart(2,"0");};
+          set("cd-days",days); set("cd-hours",hours); set("cd-mins",mins); set("cd-secs",secs);
         }
-        updateCountdown(); setInterval(updateCountdown, 1000);
+        updateCountdown(); setInterval(updateCountdown,1000);
 
-        /* ---------- Maps links ---------- */
-        function mapHrefFrom(address) { return "https://www.google.com/maps?q=" + encodeURIComponent(address); }
-        const venueMapEl  = document.querySelector("[data-venue-map]");
-        const dinnerMapEl = document.querySelector("[data-dinner-map]");
-        const ceremonyHref = cfg.event?.mapsUrl || (cfg.event?.venueAddress ? mapHrefFrom(cfg.event.venueAddress) : "#");
-        const dinnerHref   = (cfg.event?.dinner?.mapsUrl) || (cfg.event?.dinner?.address ? mapHrefFrom(cfg.event.dinner.address) : "#");
-        if (venueMapEl) { venueMapEl.href = ceremonyHref; if (ceremonyHref === "#") { venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available"; } }
-        if (dinnerMapEl) { dinnerMapEl.href = dinnerHref; if (dinnerHref === "#") { dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available"; } }
+        /* Maps links */
+        function mapHrefFrom(address){return "https://www.google.com/maps?q="+encodeURIComponent(address);}
+        const venueMapEl=document.querySelector("[data-venue-map]");
+        const dinnerMapEl=document.querySelector("[data-dinner-map]");
+        const ceremonyHref=cfg.event?.mapsUrl||(cfg.event?.venueAddress?mapHrefFrom(cfg.event.venueAddress):"#");
+        const dinnerHref=(cfg.event?.dinner?.mapsUrl)||(cfg.event?.dinner?.address?mapHrefFrom(cfg.event.dinner.address):"#");
+        if(venueMapEl){venueMapEl.href=ceremonyHref; if(ceremonyHref==="#"){venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available";}}
+        if(dinnerMapEl){dinnerMapEl.href=dinnerHref; if(dinnerHref==="#"){dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available";}}
 
-        /* ---------- Invite code & party size ---------- */
-        const form = document.getElementById("rsvp-form");
-        const gate = document.getElementById("invite-gate");
-        const codeInput = document.getElementById("invite-code-input");
-        const codeBtn   = document.getElementById("invite-code-continue");
-        const codeErr   = document.getElementById("invite-code-error");
-        const partyInput = document.getElementById("party-size");
-        const partyHint  = document.getElementById("party-hint");
-        const guestList  = document.getElementById("guest-list");
+        /* Invite code & party size */
+        const form=document.getElementById("rsvp-form");
+        const gate=document.getElementById("invite-gate");
+        const codeInput=document.getElementById("invite-code-input");
+        const codeBtn=document.getElementById("invite-code-continue");
+        const codeErr=document.getElementById("invite-code-error");
+        const partyInput=document.getElementById("party-size");
+        const partyHint=document.getElementById("party-hint");
+        const guestList=document.getElementById("guest-list");
 
-        function getParam(name){ return new URLSearchParams(window.location.search).get(name); }
-        function normalizeCode(c){ return (c||"").trim().toUpperCase(); }
+        function getParam(name){return new URLSearchParams(window.location.search).get(name);}
+        function normalizeCode(c){return (c||"").trim().toUpperCase();}
+        let CURRENT_INVITE=null;
 
-        let CURRENT_INVITE = null;
+        const DIETARY=["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
 
-        const DIETARY = ["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
-
-        function pillGroupHTML(name, selected="yes") {
-          const tpl = (val, label) => `
-            <label class="inline-flex items-center px-3 py-2 rounded-xl border border-slate-300 text-slate-700 cursor-pointer ${selected===val?'bg-slate-900 text-white border-slate-900':''}">
+        function pillGroupHTML(name,selected="yes"){
+          const tpl=(val,label)=>`
+            <label class="inline-flex items-center px-2.5 py-1.5 rounded-xl border border-slate-300 text-slate-700 cursor-pointer ${selected===val?'bg-slate-900 text-white border-slate-900':''}">
               <input type="radio" name="${name}" value="${val}" class="sr-only" ${selected===val?'checked':''}>
               ${label}
             </label>`;
           return `
-            <div class="flex gap-3 flex-wrap" data-pill-group>
-              ${tpl("yes", "Yes")}
-              ${tpl("no", "No")}
-              ${tpl("unsure", "Unsure")}
+            <div class="flex gap-2.5 flex-wrap" data-pill-group>
+              ${tpl("yes","Yes")}
+              ${tpl("no","No")}
+              ${tpl("unsure","Unsure")}
             </div>`;
         }
 
-        function guestCard(index, name="") {
-          const n = index + 1;
+        function guestCard(index,name=""){
+          const n=index+1;
           return `
-            <div class="rounded-2xl border border-white/60 bg-white/75 p-4">
+            <div class="rounded-xl border border-white/60 bg-white/75 p-4">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="block">
-                  <span class="block mb-2 text-sm font-medium text-slate-700">Guest ${n} name ${n===1 ? "(you) *" : "*"}</span>
-                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? 'Your full name' : 'Full name'}">
+                  <span class="block mb-1.5 text-sm font-medium text-slate-700">Guest ${n} name ${n===1?"(you) *":"*"}</span>
+                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1?'Your full name':'Full name'}">
                 </label>
                 <div></div>
               </div>
 
-              <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <span class="block mb-2 text-sm font-medium text-slate-700">Ceremony?</span>
-                  ${pillGroupHTML(`guestCeremony_${index}`, "yes")}
+                  <span class="block mb-1.5 text-sm font-medium text-slate-700">Ceremony?</span>
+                  ${pillGroupHTML(`guestCeremony_${index}`,"yes")}
                 </div>
                 <div>
-                  <span class="block mb-2 text-sm font-medium text-slate-700">Dinner?</span>
-                  ${pillGroupHTML(`guestDinner_${index}`, "yes")}
+                  <span class="block mb-1.5 text-sm font-medium text-slate-700">Dinner?</span>
+                  ${pillGroupHTML(`guestDinner_${index}`,"yes")}
                 </div>
               </div>
 
-              <div class="mt-4" data-dietary-for="${index}">
-                <span class="block mb-2 text-sm font-medium text-slate-700">Dietary requirements</span>
-                <div class="grid grid-cols-2 gap-3">
-                  ${DIETARY.map(d => `
-                    <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700 cursor-pointer bg-white/80">
+              <div class="mt-3" data-dietary-for="${index}">
+                <span class="block mb-1.5 text-sm font-medium text-slate-700">Dietary requirements</span>
+                <div class="grid grid-cols-2 gap-2.5">
+                  ${DIETARY.map(d=>`
+                    <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-2.5 py-1.5 text-sm text-slate-700 cursor-pointer bg-white/85">
                       <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only"><span>✔</span><span>${d}</span>
                     </label>
                   `).join("")}
-                  <input class="w-full rounded-xl border border-slate-300 input-solid px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
+                  <input class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
                 </div>
               </div>
             </div>
           `;
         }
 
-        function wireDietaryHighlights(scope=document) {
-          scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input => {
-            const label = input.closest("label");
-            function updateLabel(){ label.classList.toggle("bg-slate-900", input.checked); label.classList.toggle("text-white", input.checked); label.classList.toggle("border-slate-900", input.checked); }
-            label.addEventListener("click", () => setTimeout(updateLabel, 0));
-            input.addEventListener("change", updateLabel);
+        function wireDietaryHighlights(scope=document){
+          scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input=>{
+            const label=input.closest("label");
+            function updateLabel(){label.classList.toggle("bg-slate-900",input.checked);label.classList.toggle("text-white",input.checked);label.classList.toggle("border-slate-900",input.checked);}
+            label.addEventListener("click",()=>setTimeout(updateLabel,0));
+            input.addEventListener("change",updateLabel);
             updateLabel();
           });
         }
 
-        function wirePills(scope=document) {
-          scope.querySelectorAll("[data-pill-group]").forEach(group => {
-            const labels = Array.from(group.querySelectorAll("label"));
-            function setActive(target) {
-              labels.forEach(l => l.classList.remove("bg-slate-900","text-white","border-slate-900"));
+        function wirePills(scope=document){
+          scope.querySelectorAll("[data-pill-group]").forEach(group=>{
+            const labels=Array.from(group.querySelectorAll("label"));
+            function setActive(target){
+              labels.forEach(l=>l.classList.remove("bg-slate-900","text-white","border-slate-900"));
               target.classList.add("bg-slate-900","text-white","border-slate-900");
-              const input = target.querySelector("input[type='radio']");
-              if (input) input.checked = true;
+              const input=target.querySelector("input[type='radio']"); if(input) input.checked=true;
             }
-            labels.forEach(l => l.addEventListener("click", () => setActive(l)));
+            labels.forEach(l=>l.addEventListener("click",()=>setActive(l)));
           });
         }
 
         // Show/hide dietary section based on Dinner choice per guest
-        function updateDietaryVisibility(i) {
-          const wrapper = document.querySelector(`[data-dietary-for="${i}"]`);
-          if (!wrapper) return;
-          const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
-          const val = (radios.find(r => r.checked)?.value) || "yes";
-          const hide = (val === "no");
-          wrapper.classList.toggle("hidden", hide);
-          if (hide) {
-            wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb => {
-              cb.checked = false;
-              const lbl = cb.closest("label");
-              if (lbl) lbl.classList.remove("bg-slate-900","text-white","border-slate-900");
+        function updateDietaryVisibility(i){
+          const wrapper=document.querySelector(`[data-dietary-for="${i}"]`);
+          if(!wrapper) return;
+          const radios=Array.from(document.getElementsByName(`guestDinner_${i}`));
+          const val=(radios.find(r=>r.checked)?.value)||"yes";
+          const hide=(val==="no");
+          wrapper.classList.toggle("hidden",hide);
+          if(hide){
+            wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb=>{
+              cb.checked=false;
+              const lbl=cb.closest("label");
+              if(lbl) lbl.classList.remove("bg-slate-900","text-white","border-slate-900");
             });
-            const other = wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
-            if (other) other.value = "";
+            const other=wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
+            if(other) other.value="";
           }
         }
-        function wireDinnerVisibilityFor(i) {
-          const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
-          radios.forEach(r => {
-            r.addEventListener("change", () => updateDietaryVisibility(i));
-            r.addEventListener("click",  () => updateDietaryVisibility(i));
+        function wireDinnerVisibilityFor(i){
+          const radios=Array.from(document.getElementsByName(`guestDinner_${i}`));
+          radios.forEach(r=>{
+            r.addEventListener("change",()=>updateDietaryVisibility(i));
+            r.addEventListener("click",()=>updateDietaryVisibility(i));
           });
           updateDietaryVisibility(i);
         }
 
-        function renderGuests(count, defaults=[]) {
-          const size = Math.max(1, Math.min(10, parseInt(count || "1", 10)));
-          guestList.innerHTML = Array.from({length: size}).map((_, i) => guestCard(i, defaults[i] || "")).join("");
+        function renderGuests(count,defaults=[]){
+          const size=Math.max(1,Math.min(10,parseInt(count||"1",10)));
+          guestList.innerHTML=Array.from({length:size}).map((_,i)=>guestCard(i,defaults[i]||"")).join("");
           wireDietaryHighlights(guestList);
           wirePills(guestList);
-          for (let i = 0; i < size; i++) wireDinnerVisibilityFor(i);
+          for(let i=0;i<size;i++) wireDinnerVisibilityFor(i);
         }
 
-        function applyInvite(inv) {
-          CURRENT_INVITE = inv || null;
-          const max = inv?.maxGuests ?? 10;
-          const defaults = Array.isArray(inv?.defaultNames) ? inv.defaultNames : [];
-          const defaultCount = Math.max(1, Math.min(defaults.length || max, max));
-          partyInput.max = String(max);
-          partyInput.value = String(defaultCount);
-          partyHint.textContent = inv ? `Your invitation allows up to ${max} guest${max>1?"s":""}.` : "";
-          renderGuests(defaultCount, defaults);
+        function applyInvite(inv){
+          CURRENT_INVITE=inv||null;
+          const max=inv?.maxGuests??10;
+          const defaults=Array.isArray(inv?.defaultNames)?inv.defaultNames:[];
+          const defaultCount=Math.max(1,Math.min(defaults.length||max,max));
+          partyInput.max=String(max);
+          partyInput.value=String(defaultCount);
+          partyHint.textContent=inv?`Your invitation allows up to ${max} guest${max>1?"s":""}.`:"";
+          renderGuests(defaultCount,defaults);
         }
 
-        function showGate() {
-          document.getElementById("rsvp-form").classList.add("hidden");
-          const gate = document.getElementById("invite-gate");
-          const codeErr = document.getElementById("invite-code-error");
+        function showGate(){
+          form.classList.add("hidden");
           gate.classList.remove("hidden");
           codeErr.classList.add("hidden");
-          document.getElementById("invite-code-continue").onclick = () => {
-            const entered = (document.getElementById("invite-code-input").value || "").trim().toUpperCase();
-            const inv = (INVITES && INVITES[entered]) ? INVITES[entered] : null;
-            if (!inv) { codeErr.classList.remove("hidden"); return; }
-            const url = new URL(window.location.href); url.searchParams.set("code", entered);
+          codeBtn.onclick=()=>{
+            const entered=(codeInput.value||"").trim().toUpperCase();
+            const inv=(INVATES && INVITES[entered])?INVITES[entered]:null;
+            if(!inv){codeErr.classList.remove("hidden");return;}
+            const url=new URL(window.location.href); url.searchParams.set("code",entered);
             window.history.replaceState({}, "", url.toString());
-            gate.classList.add("hidden"); document.getElementById("rsvp-form").classList.remove("hidden");
+            gate.classList.add("hidden"); form.classList.remove("hidden");
             applyInvite(inv);
           };
         }
 
-        const hasInviteTable = INVITES && Object.keys(INVITES).length > 0;
-        const urlCode = (new URLSearchParams(window.location.search).get("code") || "").trim().toUpperCase();
-        if (hasInviteTable) {
-          if (urlCode && INVITES[urlCode]) { applyInvite(INVITES[urlCode]); } else { showGate(); }
+        const hasInviteTable=INVITES && Object.keys(INVITES).length>0;
+        const urlCode=(getParam("code")||"").trim().toUpperCase();
+        if(hasInviteTable){
+          if(urlCode && INVITES[urlCode]){applyInvite(INVITES[urlCode]);} else {showGate();}
         } else {
           applyInvite(null);
         }
 
-        document.getElementById("party-size").addEventListener("input", () => {
-          const input = document.getElementById("party-size");
-          const max = parseInt(input.max, 10) || 10;
-          let val = parseInt(input.value || "1", 10);
-          if (isNaN(val) || val < 1) val = 1;
-          if (val > max) val = max;
-          input.value = String(val);
-          const defaults = (hasInviteTable && urlCode && INVITES[urlCode]?.defaultNames) ? INVITES[urlCode].defaultNames : [];
-          renderGuests(val, defaults);
+        partyInput.addEventListener("input",()=>{
+          const max=parseInt(partyInput.max,10)||10;
+          let val=parseInt(partyInput.value||"1",10);
+          if(isNaN(val)||val<1) val=1;
+          if(val>max) val=max;
+          partyInput.value=String(val);
+          const defaults=(hasInviteTable&&urlCode&&INVITES[urlCode]?.defaultNames)?INVITES[urlCode].defaultNames:[];
+          renderGuests(val,defaults);
         });
 
-        /* ---------- Submit ---------- */
-        document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
+        /* Submit */
+        form.addEventListener("submit",async function(e){
           e.preventDefault();
 
-          const fd = new FormData(this);
-          const first = (fd.get("firstName") || "").toString().trim();
-          const last  = (fd.get("lastName")  || "").toString().trim();
-          const email = (fd.get("email")     || "").toString().trim();
-          if (!first || !last || !email) { alert("Please complete your first name, last name, and email."); return; }
+          const fd=new FormData(form);
+          const first=(fd.get("firstName")||"").toString().trim();
+          const last=(fd.get("lastName")||"").toString().trim();
+          const email=(fd.get("email")||"").toString().trim();
+          if(!first||!last||!email){alert("Please complete your first name, last name, and email."); return;}
 
-          const hasTable = INVITES && Object.keys(INVITES).length > 0;
-          const code = (new URLSearchParams(window.location.search).get("code") || "").trim().toUpperCase();
-          const inv  = (hasTable && INVITES[code]) ? INVITES[code] : null;
+          const hasTable=INVITES && Object.keys(INVITES).length>0;
+          const code=(getParam("code")||"").trim().toUpperCase();
+          const inv=(hasTable && INVITES[code])?INVITES[code]:null;
 
-          const phone  = (fd.get("phone") || "").toString().trim();
-          const partySize = Math.max(1, Math.min(parseInt(document.getElementById("party-size").value || "1", 10), inv?.maxGuests ?? 10));
-          const note   = (fd.get("note") || "").toString().trim();
+          const phone=(fd.get("phone")||"").toString().trim();
+          const partySize=Math.max(1,Math.min(parseInt(document.getElementById("party-size").value||"1",10),inv?.maxGuests??10));
+          const note=(fd.get("note")||"").toString().trim();
 
-          const guests = [];
-          for (let i = 0; i < partySize; i++) {
-            const name = (fd.get(`guestName_${i}`) || "").toString().trim();
-            if (!name) { alert(`Please enter a name for Guest ${i+1}.`); return; }
-            const ceremony = (fd.get(`guestCeremony_${i}`) || "yes").toString();
-            const dinner   = (fd.get(`guestDinner_${i}`)   || "yes").toString();
-            const diets = dinner === "no" ? [] : fd.getAll(`guestDiet_${i}`).map(String);
-            const other = dinner === "no" ? "" : (fd.get(`guestDietOther_${i}`) || "").toString().trim();
-            const dietarySummary = dinner === "no" ? "" : [...diets, other ? `Other: ${other}` : null].filter(Boolean).join("; ");
-            guests.push({ index: i+1, name, ceremony, dinner, dietary: diets, dietaryOther: other, dietarySummary });
+          const guests=[];
+          for(let i=0;i<partySize;i++){
+            const name=(fd.get(`guestName_${i}`)||"").toString().trim();
+            if(!name){alert(`Please enter a name for Guest ${i+1}.`); return;}
+            const ceremony=(fd.get(`guestCeremony_${i}`)||"yes").toString();
+            const dinner=(fd.get(`guestDinner_${i}`)||"yes").toString();
+            const diets=dinner==="no"?[]:fd.getAll(`guestDiet_${i}`).map(String);
+            const other=dinner==="no"?"":(fd.get(`guestDietOther_${i}`)||"").toString().trim();
+            const dietarySummary=dinner==="no"?"":[...diets,other?`Other: ${other}`:null].filter(Boolean).join("; ");
+            guests.push({index:i+1,name,ceremony,dinner,dietary:diets,dietaryOther:other,dietarySummary});
           }
 
-          const payload = {
-            invite: inv ? { code, household: inv.household, maxGuests: inv.maxGuests } : null,
-            contact: { firstName: first, lastName: last, email, phone },
+          const payload={
+            invite:inv?{code,household:inv.household,maxGuests:inv.maxGuests}:null,
+            contact:{firstName:first,lastName:last,email,phone},
             partySize,
             guests,
             note,
-            couple: "Greg & Drew",
-            event: {
-              dateLong: cfg.event?.dateLong || "Friday, 13 February",
-              time: cfg.event?.time || "4:00 pm",
-              venueName: cfg.event?.venueName || "Old Treasury Building – Margaret Craig Room",
-              venueAddress: cfg.event?.venueAddress || "20 Spring St, Melbourne VIC"
+            couple:"Greg & Drew",
+            event:{
+              dateLong:cfg.event?.dateLong||"Friday, 13 February",
+              time:cfg.event?.time||"4:00 pm",
+              venueName:cfg.event?.venueName||"Old Treasury Building – Margaret Craig Room",
+              venueAddress:cfg.event?.venueAddress||"20 Spring St, Melbourne VIC"
             },
-            timestamp: new Date().toISOString()
+            timestamp:new Date().toISOString()
           };
 
-          if (FORMSPREE) {
-            try {
-              const res = await fetch(FORMSPREE, {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                body: JSON.stringify(payload)
+          if(FORMSPREE){
+            try{
+              const res=await fetch(FORMSPREE,{
+                method:"POST",
+                headers:{"Content-Type":"application/json","Accept":"application/json"},
+                body:JSON.stringify(payload)
               });
-              if (!res.ok) throw new Error("Formspree error " + res.status);
+              if(!res.ok) throw new Error("Formspree error "+res.status);
               alert("Thank you! Your RSVP was submitted.");
-              this.reset();
+              form.reset();
               applyInvite(CURRENT_INVITE);
               return;
-            } catch (err) {
+            }catch(err){
               console.error(err);
               alert("We couldn't reach the RSVP service. We'll open an email instead.");
             }
           }
 
-          // Mailto fallback (per-guest attendance included)
-          const subject = encodeURIComponent("RSVP — Greg & Drew");
-          const lines = [];
-          if (inv) lines.push(`Invite code: ${code} (${inv.household})`);
+          // Mailto fallback
+          const subject=encodeURIComponent("RSVP — Greg & Drew");
+          const lines=[];
+          if(inv) lines.push(`Invite code: ${code} (${inv.household})`);
           lines.push(`Contact: ${first} ${last}`);
           lines.push(`Email: ${email}`);
-          if (phone) lines.push(`Phone: ${phone}`);
-          lines.push(`Party size (attending): ${partySize}${inv ? " / max " + inv.maxGuests : ""}`);
-          lines.push("");
-          lines.push("Guests:");
-          guests.forEach(g => {
-            lines.push(`  • ${g.name} — Ceremony: ${g.ceremony} | Dinner: ${g.dinner}${g.dietarySummary ? " | Dietary: " + g.dietarySummary : ""}`);
+          if(phone) lines.push(`Phone: ${phone}`);
+          lines.push(`Party size (attending): ${partySize}${inv?" / max "+inv.maxGuests:""}`);
+          lines.push(""); lines.push("Guests:");
+          guests.forEach(g=>{
+            lines.push(`  • ${g.name} — Ceremony: ${g.ceremony} | Dinner: ${g.dinner}${g.dietarySummary?" | Dietary: "+g.dietarySummary:""}`);
           });
-          if (note) { lines.push(""); lines.push("Note:"); lines.push(note); }
-          const body = encodeURIComponent(lines.join("\n"));
-          window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+          if(note){lines.push(""); lines.push("Note:"); lines.push(note);}
+          const body=encodeURIComponent(lines.join("\n"));
+          window.location.href=`mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
         });
       });
     </script>
