@@ -16,8 +16,8 @@ window.SITE_CONFIG = {
   },
   details: {
     rsvpBy: "",
-    dressCode: "Your favourite outfit.",
-    notes: "Ceremony at Old Treasury Building followed by dinner at Reed House."
+    dressCode: "Your favourite outfit",
+    notes: "Ceremony at Old Treasury Building followed by dinner at Reed House"
   },
   branding: {
     monogram: "G · D",
