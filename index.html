@@ -21,7 +21,14 @@
     font-style: normal;
     font-display: swap;
     }
-      
+     @font-face {
+    font-family: 'Montage';
+    src: url('assets/fonts/MontageSerifFont-Regular.woff2') format('woff2'),
+         url('assets/fonts/MontageSerifFont-Regular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    }     
       :root{
         --accent:#0f172a;
         /* Swap to your uploaded path if needed */
@@ -32,7 +39,8 @@
       .font-handwritten{font-family:'Indie Flower',cursive;}
       .font-montserrat{font-family: 'Montserrat', sans-serif;}
       .font-quicksand{font-family: 'Quicksand', sans-serif;}
-      .font-marquis {font-family: 'Marquis', serif;}
+      .font-marquis{font-family: 'Marquis', serif;}
+      .font-montage{font-family: 'Montage', serif;} 
       .tabular-nums{font-variant-numeric:tabular-nums;}
 
       /* Fixed background behind everything */
