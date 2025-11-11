@@ -234,8 +234,8 @@
             <p class="font-montage mt-3 text-sm text-orange-100">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
           </div>
           <div class="rounded-lg border border-white/60 bg-white/78 p-3.5">
-            <h3 class="font-montage text-lg font-medium" data-dinner-name>Reed House</h3>
-            <p class="font-montage mt-1.5 text-slate-800" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
+            <h3 class="font-montage text-lg font-medium text-orange-100" data-dinner-name>Reed House</h3>
+            <p class="font-montage mt-1.5 text-orange-200" data-dinner-address>130 Lonsdale St, Melbourne VIC</p>
             <a
               href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
               data-dinner-map
@@ -322,7 +322,7 @@
            shadow-[0_4px_20px_rgba(255,191,0,0.25)]
            hover:bg-amber-500/80 hover:border-amber-500/60
            hover:shadow-[0_6px_24px_rgba(255,191,0,0.35)]
-           transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-amber-300/60"
+           transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-rose-300/60"
   >
     Submit RSVP
   </button>
@@ -464,7 +464,7 @@
             const labels=Array.from(group.querySelectorAll("label"));
             function setActive(target){
               labels.forEach(l=>l.classList.remove("bg-slate-500","text-white","border-slate-900"));
-              target.classList.add("bg-slate-900","text-white","border-slate-900");
+              target.classList.add("bg-slate-500","text-white","border-slate-900");
               const input=target.querySelector("input[type='radio']"); if(input) input.checked=true;
             }
             labels.forEach(l=>l.addEventListener("click",()=>setActive(l)));
