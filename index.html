@@ -57,13 +57,13 @@
       #page-bg{position:fixed;inset:0;z-index:-10}
       #page-bg .img{position:absolute;inset:0;background-image:var(--page-image);background-size:cover;background-position:center}
       #page-bg .veil{
-        position:absolute;inset:0;
-        /* Slight overall veil + very subtle vertical gradient + soft corner highlights */
-        background:
-          linear-gradient(to bottom, rgba(2,6,23,.06) 0%, rgba(2,6,23,.10) 35%, rgba(2,6,23,.12) 70%, rgba(2,6,23,.16) 100%),
-          radial-gradient(ellipse at 30% 20%, rgba(2,6,23,.08), transparent 55%),
-          radial-gradient(ellipse at 70% 80%, rgba(2,6,23,.08), transparent 55%),
-          rgba(2,6,23,.04);
+      position:absolute;inset:0;pointer-events:none;
+      /* Slightly stronger veil + soft vertical tint */
+      background:
+      linear-gradient(to bottom, rgba(2,6,23,.14) 0%, rgba(2,6,23,.18) 35%, rgba(2,6,23,.20) 70%, rgba(2,6,23,.24) 100%),
+      radial-gradient(ellipse at 30% 20%, rgba(2,6,23,.10), transparent 55%),
+      radial-gradient(ellipse at 70% 80%, rgba(2,6,23,.10), transparent 55%),
+      rgba(2,6,23,.06);
       }
 
       /* “Glass” cards for readability over image (tighter) */
@@ -99,7 +99,7 @@
     <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/55 bg-white/65 border-b border-white/30">
       <div class="mx-auto max-w-6xl px-3 py-3 flex items-center justify-between">
         <span class="font-quicksand tracking-wider text-lg">G · D</span>
-        <nav class="font-quicksand md:flex gap-5 text-lg">
+        <nav class="font-quicksand flex items-center gap-4 text-base">
           <a href="#details" class="hover:text-emerald-800">Details</a>
           <a href="#schedule" class="hover:text-emerald-800">Schedule</a>
           <a href="#venue" class="hover:text-emerald-800">Venue</a>
