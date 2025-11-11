@@ -80,6 +80,24 @@
 
       /* iOS Safari fallback (fixed backgrounds stutter on iOS) */
       .ios #page-bg{position:absolute}
+
+      /*
+        Lift the hero up slightly so the countdown boxes sit
+        just above the viewport on load across phones, laptops, and desktops.
+        Adjust the -6vh / -8vh / -10vh values if you'd like more/less lift.
+      */
+      .hero-lift{
+        transform: translateY(-8vh);
+        will-change: transform;
+      }
+      /* Slightly smaller lift on very small phones (notch / single-column layout) */
+      @media (max-width: 420px){
+        .hero-lift{ transform: translateY(-6vh); }
+      }
+      /* Larger lift on wide desktop / large laptop screens */
+      @media (min-width: 1024px){
+        .hero-lift{ transform: translateY(-10vh); }
+      }
     </style>
   </head>
   <body class="font-sans text-slate-800">
@@ -109,7 +127,7 @@
 </header>
 
 <!-- HERO (grid: names centered, info pinned to bottom) -->
-<section class="relative min-h-screen grid grid-rows-[1fr_auto] overflow-hidden">
+<section class="relative min-h-screen grid grid-rows-[1fr_auto] overflow-hidden hero-lift">
   <!-- Row 1: Names block -->
   <div class="relative z-10 flex items-center justify-center px-6 md:px-10">
     <div class="mx-auto max-w-6xl w-full">
@@ -263,7 +281,7 @@
         <div id="invite-gate" class="hidden rounded-lg border border-white/60 bg-white/78 p-4 max-w-xl mx-auto">
           <p class="text-rose-200 mb-2">Please enter your invite code (found on your invitation):</p>
           <div class="flex gap-2.5">
-            <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. R7K4" maxlength="12">
+            <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. R7K4" maxleng[...]
             <button id="invite-code-continue" class="inline-flex items-center gap-2 bg-slate-900 text-white px-3.5 py-2 rounded-xl">Continue</button>
           </div>
           <p id="invite-code-error" class="mt-2 text-sm text-rose-600 hidden">That code wasn’t recognised. Please check and try again.</p>
@@ -296,7 +314,7 @@
           <!-- Party size -->
           <label class="block">
             <span id="party-label" class="block mb-1 text-sm font-quicksand font-medium text-stone-100">How many people attending (including you)?</span>
-            <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300">
+            <input type="number" id="party-size" name="partySize" min="1" max="10" value="1" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring[...]
             <span id="party-hint" class="block mt-1 text-xs text-stone-100"></span>
           </label>
 
@@ -309,7 +327,7 @@
           <!-- Note -->
           <label class="block">
             <span class="block mb-1 text-sm font-quicksand font-medium text-stone-100">Message (optional)</span>
-            <textarea rows="4" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
+            <textarea rows="4" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know �[...]
           </label>
 
 <!-- Actions -->
@@ -418,7 +436,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <label class="block">
                   <span class="block mb-1 text-sm font-quicksand font-medium text-slate-700">Guest ${n} name ${n===1?"(you) *":"*"}</span>
-                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1?'Your full name':'Full name'}">
+                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-sl[...]
                 </label>
                 <div></div>
               </div>
@@ -442,7 +460,7 @@
                       <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only"><span>✔</span><span>${d}</span>
                     </label>
                   `).join("")}
-                  <input class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
+                  <input class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="O[...]
                 </div>
               </div>
             </div>
