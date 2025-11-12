@@ -221,7 +221,22 @@
 .btn-pill[disabled] {
   opacity:.65; cursor:not-allowed; transform:none; filter:none;
 }
-      
+
+      /* DIETARY PILLS — match the rose theme */
+.diet-pill{
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.375rem .625rem; border-radius:.75rem;
+  border:1px solid var(--pill-border);
+  background:var(--pill-bg); color:var(--pill-text);
+  cursor:pointer; user-select:none; transition:all .2s ease;
+}
+.diet-pill:hover{ filter:brightness(.99); border-color: var(--pill-active-border); }
+.diet-pill.is-active{
+  background:var(--pill-active-bg);
+  color:var(--pill-active-text);
+  border-color:var(--pill-active-border);
+  box-shadow:var(--pill-active-shadow);
+}
     </style>
   </head>
 
@@ -608,9 +623,9 @@ function pillGroupHTML(name, selected = "yes"){
                 <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Dietary requirements</span>
                 <div class="grid grid-cols-2 gap-2.5">
                   ${DIETARY.map(d=>`
-                    <label class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-2.5 py-1.5 text-sm text-stone-100 cursor-pointer bg-white/88">
-                      <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only"><span>✔</span><span>${d}</span>
-                    </label>
+<label class="diet-pill text-md">
+  <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only"><span>✔</span><span>${d}</span>
+</label>
                   `).join("")}
                   <input class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
                 </div>
@@ -619,15 +634,17 @@ function pillGroupHTML(name, selected = "yes"){
           `;
         }
 
-        function wireDietaryHighlights(scope=document){
-          scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input=>{
-            const label=input.closest("label");
-            function updateLabel(){label.classList.toggle("bg-slate-500",input.checked);label.classList.toggle("text-white",input.checked);label.classList.toggle("border-slate-900",input.checked);}
-            label.addEventListener("click",()=>setTimeout(updateLabel,0));
-            input.addEventListener("change",updateLabel);
-            updateLabel();
-          });
-        }
+function wireDietaryHighlights(scope=document){
+  scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input=>{
+    const label = input.closest("label");
+    function updateLabel(){
+      label.classList.toggle("is-active", input.checked);
+    }
+    label.addEventListener("click", ()=>setTimeout(updateLabel,0));
+    input.addEventListener("change", updateLabel);
+    updateLabel();
+  });
+}
 
         function wirePills(scope=document){
           scope.querySelectorAll("[data-pill-group]").forEach(group=>{
