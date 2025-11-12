@@ -193,6 +193,34 @@
 #rsvp .field-label{
   color:rgba(250, 250, 249, .92);   /* ~ stone-100 */
 }
+
+/* Submit button that matches the pill active style */
+.btn-pill {
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.6rem 1.1rem;
+  border-radius:.75rem;
+  border:1px solid var(--pill-active-border);
+  background:var(--pill-active-bg);
+  color:var(--pill-active-text);
+  box-shadow:var(--pill-active-shadow);
+  font-family:'Marquis', serif;
+  font-weight:500;
+  letter-spacing:.02em;
+  transition:transform .12s ease, filter .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+  -webkit-backdrop-filter:saturate(120%) blur(6px);
+  backdrop-filter:saturate(120%) blur(6px);
+}
+
+.btn-pill:hover { filter:brightness(1.03); }
+
+.btn-pill:active { transform:translateY(1px); filter:brightness(0.98); }
+
+.btn-pill:focus-visible { outline:none; box-shadow: var(--pill-focus-ring), var(--pill-active-shadow); }
+
+/* Disabled look (optional, for while submitting) */
+.btn-pill[disabled] {
+  opacity:.65; cursor:not-allowed; transform:none; filter:none;
+}
       
     </style>
   </head>
@@ -441,12 +469,7 @@
   <button
     id="submit-btn"
     type="submit"
-    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-marquis font-medium text-stone-100
-           bg-amber-800/60 backdrop-blur-md border border-amber-300/40
-           shadow-[0_4px_20px_rgba(255,191,0,0.25)]
-           hover:bg-amber-500/80 hover:border-amber-500/60
-           hover:shadow-[0_6px_24px_rgba(255,191,0,0.35)]
-           transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-rose-300/60"
+    class="btn-pill"
   >
     Submit RSVP
   </button>
