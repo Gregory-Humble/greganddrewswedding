@@ -169,6 +169,31 @@
 /* (Optional) hover on active — tiny lift */
 .pill.is-active:hover{ filter:brightness(1.02); }
 
+/* RSVP inputs: darker text for legibility on white fields */
+#rsvp .input-solid{
+  background:#fff;
+  color:#1f2937;              /* slate-800 */
+  caret-color:#1f2937;
+}
+
+/* Placeholder colour (subtle) */
+#rsvp .input-solid::placeholder{
+  color:#94a3b8;              /* slate-400 */
+  opacity:1;
+}
+
+/* iOS/Chrome autofill: prevent pale/pinkish text */
+#rsvp input:-webkit-autofill,
+#rsvp textarea:-webkit-autofill{
+  -webkit-text-fill-color:#1f2937;  /* slate-800 */
+  transition: background-color 9999s ease-out 0s;
+}
+
+/* Optional: make all RSVP field labels consistently light */
+#rsvp .field-label{
+  color:rgba(250, 250, 249, .92);   /* ~ stone-100 */
+}
+      
     </style>
   </head>
 
@@ -538,7 +563,7 @@
             <div class="rounded-lg border border-white/60 bg-white/78 p-3.5">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <label class="block">
-                  <span class="block mb-1 text-sm font-quicksand font-medium text-slate-700">Guest ${n} name ${n===1?"(you) *":"*"}</span>
+                  <span class="block mb-1 text-sm font-quicksand font-medium field-label">Guest ${n} name ${n===1?"(you) *":"*"}</span>
                   <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1?'Your full name':'Full name'}">
                 </label>
                 <div></div>
