@@ -79,11 +79,16 @@
       .text-shadow-soft{text-shadow:0 1px 2px rgba(0,0,0,.25)}
 
       /* iOS Safari fallback (fixed backgrounds stutter on iOS) */
-      .ios #page-bg{position:absolute}
+      .ios #page-bg{ position:absolute}
 
       /* iOS: switch to a solid backdrop after the hero for readability */
-.ios.ios-solid-bg body{ background:#0006A8; }          /* pick any solid you like */
-.ios.ios-solid-bg #page-bg{ display:none; }            /* hide the photo layer once scrolled */
+      .ios.ios-solid-bg,
+      .ios.ios-solid-bg body {
+      background:#0006A8 !important;   /* your solid colour */
+      }
+      .ios.ios-solid-bg #page-bg{
+      display:none;                     /* hide the photo layer once scrolled past hero */
+      }
       
     </style>
   </head>
@@ -358,21 +363,26 @@
     </script>
 
 <script>
-  (function () {
-    function toggleIOSBackground(){
-      if (!document.documentElement.classList.contains('ios')) return;
-      const hero = document.getElementById('hero');
-      if (!hero) return;
-      // when you've scrolled past (hero height - small buffer), turn the solid bg on
-      const y = window.pageYOffset || document.documentElement.scrollTop || 0;
-      const trigger = hero.offsetHeight - 80; // tweak buffer if you like
-      document.documentElement.classList.toggle('ios-solid-bg', y > trigger);
-    }
-    // run now and on scroll/resize (passive = smooth on iPhone)
-    toggleIOSBackground();
-    window.addEventListener('scroll', toggleIOSBackground, { passive:true });
-    window.addEventListener('resize', toggleIOSBackground);
-  })();
+(function () {
+  function toggleIOSBackground(){
+    const root = document.documentElement;
+    if (!root.classList.contains('ios')) return;
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+
+    // When scrolled past (hero height - small buffer), enable solid background
+    const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const trigger = hero.offsetHeight - 80;  // tweak buffer if you like
+    root.classList.toggle('ios-solid-bg', y > trigger);
+  }
+
+  // Run on load and on scroll/resize
+  window.addEventListener('load',   toggleIOSBackground, { passive:true });
+  window.addEventListener('scroll', toggleIOSBackground, { passive:true });
+  window.addEventListener('resize', toggleIOSBackground);
+  toggleIOSBackground();
+})();
+</script>
     
     <!-- Main logic -->
     <script>
