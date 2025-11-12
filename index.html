@@ -566,19 +566,18 @@
 
         const DIETARY=["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
 
-        function pillGroupHTML(name, selected = "yes"){
-        const tpl = (val, label) => `
-        <label class="pill${selected===val ? ' is-active' : ''}">
-        <input type="radio" name="${name}" value="${val}" class="sr-only" ${selected===val?'checked':''}>
-        ${label}
-        </label>`;
-        return `
-        <div class="flex gap-2.5 flex-wrap" data-pill-group>
-        ${tpl("yes","Yes")}
-        ${tpl("no","No")}
-        ${tpl("unsure","Unsure")}
-        </div>`;
-        }
+function pillGroupHTML(name, selected = "yes"){
+  const tpl = (val, label) => `
+    <label class="pill${selected===val ? ' is-active' : ''}">
+      <input type="radio" name="${name}" value="${val}" class="sr-only" ${selected===val?'checked':''}>
+      ${label}
+    </label>`;
+  return `
+    <div class="flex gap-2.5 flex-wrap" data-pill-group>
+      ${tpl("yes","Yes")}
+      ${tpl("no","No")}
+    </div>`;
+}
 
         
 
