@@ -129,8 +129,46 @@
 }
 .ios #page-bg{ display:none; }    /* remove the full-page image layer on iOS */
 .ios #hero-bg{ display:block; }   /* ensure hero-only image shows on iOS */
+    
+    /* THEMED RSVP PILLS */
+:root{
+  /* tweak these to taste */
+  --pill-bg: rgba(255,255,255,.88);
+  --pill-text: #0b1220;                 /* dark slate */
+  --pill-border: rgba(255,255,255,.60);
+
+  /* active (match your amber/rose/green vibe) */
+  --pill-active-bg: rgba(245, 158, 11, .88);   /* amber-500-ish */
+  --pill-active-text: #ffffff;
+  --pill-active-border: rgba(252, 211, 77, .9);/* amber-300-ish */
+  --pill-active-shadow: 0 6px 18px rgba(245, 158, 11, .35);
+}
+
+/* base look */
+.pill{
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.375rem .625rem; border-radius:.75rem;
+  border:1px solid var(--pill-border);
+  background:var(--pill-bg); color:var(--pill-text);
+  cursor:pointer; user-select:none; transition:all .2s ease;
+}
+
+/* hover focus (optional) */
+.pill:hover{ filter:brightness(0.98); }
+.pill:focus-within{ outline:2px solid rgba(255,255,255,.35); outline-offset:2px; }
+
+/* active state */
+.pill.is-active{
+  background:var(--pill-active-bg);
+  color:var(--pill-active-text);
+  border-color:var(--pill-active-border);
+  box-shadow:var(--pill-active-shadow);
+}
+
     </style>
   </head>
+
+  
   <body class="font-sans text-slate-800">
     <!-- Global fixed background -->
     <div id="page-bg" aria-hidden="true">
@@ -474,19 +512,21 @@
 
         const DIETARY=["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
 
-        function pillGroupHTML(name,selected="yes"){
-          const tpl=(val,label)=>`
-            <label class="inline-flex items-center px-2.5 py-1.5 rounded-xl border border-slate-300 text-slate-700 cursor-pointer ${selected===val?'bg-slate-900 text-white border-slate-900':''}">
-              <input type="radio" name="${name}" value="${val}" class="sr-only" ${selected===val?'checked':''}>
-              ${label}
-            </label>`;
-          return `
-            <div class="flex gap-2.5 flex-wrap" data-pill-group>
-              ${tpl("yes","Yes")}
-              ${tpl("no","No")}
-              ${tpl("unsure","Unsure")}
-            </div>`;
+        function pillGroupHTML(name, selected = "yes"){
+        const tpl = (val, label) => `
+        <label class="pill${selected===val ? ' is-active' : ''}">
+        <input type="radio" name="${name}" value="${val}" class="sr-only" ${selected===val?'checked':''}>
+        ${label}
+        </label>`;
+        return `
+        <div class="flex gap-2.5 flex-wrap" data-pill-group>
+        ${tpl("yes","Yes")}
+        ${tpl("no","No")}
+        ${tpl("unsure","Unsure")}
+        </div>`;
         }
+
+        
 
         function guestCard(index,name=""){
           const n=index+1;
