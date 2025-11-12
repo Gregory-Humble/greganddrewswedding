@@ -578,12 +578,13 @@
 
         function wirePills(scope=document){
           scope.querySelectorAll("[data-pill-group]").forEach(group=>{
-            const labels=Array.from(group.querySelectorAll("label"));
+            const labels = Array.from(group.querySelectorAll(".pill"));
             function setActive(target){
-              labels.forEach(l=>l.classList.remove("bg-slate-500","text-white","border-slate-900"));
-              target.classList.add("bg-slate-500","text-white","border-slate-900");
-              const input=target.querySelector("input[type='radio']"); if(input) input.checked=true;
-            }
+            labels.forEach(l=>l.classList.remove("is-active"));
+            target.classList.add("is-active");
+            const input = target.querySelector("input[type='radio']");
+            if(input) input.checked = true;
+          }
             labels.forEach(l=>l.addEventListener("click",()=>setActive(l)));
           });
         }
