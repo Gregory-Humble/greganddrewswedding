@@ -80,6 +80,11 @@
 
       /* iOS Safari fallback (fixed backgrounds stutter on iOS) */
       .ios #page-bg{position:absolute}
+
+      /* iOS: switch to a solid backdrop after the hero for readability */
+.ios.ios-solid-bg body{ background:#0006A8; }          /* pick any solid you like */
+.ios.ios-solid-bg #page-bg{ display:none; }            /* hide the photo layer once scrolled */
+      
     </style>
   </head>
   <body class="font-sans text-slate-800">
@@ -109,7 +114,7 @@
 </header>
 
 <!-- HERO (names centred; reserved bottom area so countdown is always visible) -->
-<section class="relative flex flex-col min-h-[90svh] md:min-h-[90vh] overflow-hidden" style="--hero-bottom: calc(200px + env(safe-area-inset-bottom));">
+<section id="hero" class="relative flex flex-col min-h-[90svh] md:min-h-[90vh] overflow-hidden" style="--hero-bottom: calc(200px + env(safe-area-inset-bottom));">
   <!-- Names (centre) — we pad the bottom by the reserved space so nothing gets pushed off-screen -->
   <div class="flex-1 flex items-center justify-center">
     <div class="max-w-8xl">
@@ -352,6 +357,23 @@
       })();
     </script>
 
+<script>
+  (function () {
+    function toggleIOSBackground(){
+      if (!document.documentElement.classList.contains('ios')) return;
+      const hero = document.getElementById('hero');
+      if (!hero) return;
+      // when you've scrolled past (hero height - small buffer), turn the solid bg on
+      const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const trigger = hero.offsetHeight - 80; // tweak buffer if you like
+      document.documentElement.classList.toggle('ios-solid-bg', y > trigger);
+    }
+    // run now and on scroll/resize (passive = smooth on iPhone)
+    toggleIOSBackground();
+    window.addEventListener('scroll', toggleIOSBackground, { passive:true });
+    window.addEventListener('resize', toggleIOSBackground);
+  })();
+    
     <!-- Main logic -->
     <script>
       document.addEventListener("DOMContentLoaded",function(){
