@@ -130,18 +130,19 @@
 .ios #page-bg{ display:none; }    /* remove the full-page image layer on iOS */
 .ios #hero-bg{ display:block; }   /* ensure hero-only image shows on iOS */
     
-    /* THEMED RSVP PILLS */
+/* THEMED RSVP PILLS — subtle rose to match page */
 :root{
-  /* tweak these to taste */
+  /* base (unchanged, just a touch softer) */
   --pill-bg: rgba(255,255,255,.88);
-  --pill-text: #0b1220;                 /* dark slate */
-  --pill-border: rgba(255,255,255,.60);
+  --pill-text: #0b1220;
+  --pill-border: rgba(255,255,255,.55);
 
-  /* active (match your amber/rose/green vibe) */
-  --pill-active-bg: rgba(245, 158, 11, .88);   /* amber-500-ish */
+  /* active — soft rose */
+  --pill-active-bg: rgba(251, 113, 133, .85);   /* ≈ tailwind rose-400 */
   --pill-active-text: #ffffff;
-  --pill-active-border: rgba(252, 211, 77, .9);/* amber-300-ish */
-  --pill-active-shadow: 0 6px 18px rgba(245, 158, 11, .35);
+  --pill-active-border: rgba(254, 205, 213, .95);/* ≈ rose-200 */
+  --pill-active-shadow: 0 6px 18px rgba(251, 113, 133, .28);
+  --pill-focus-ring: 0 0 0 3px rgba(253, 164, 175, .35); /* ≈ rose-300 */
 }
 
 /* base look */
@@ -153,9 +154,9 @@
   cursor:pointer; user-select:none; transition:all .2s ease;
 }
 
-/* hover focus (optional) */
-.pill:hover{ filter:brightness(0.98); }
-.pill:focus-within{ outline:2px solid rgba(255,255,255,.35); outline-offset:2px; }
+/* hover / focus (soft, not shouty) */
+.pill:hover{ filter:brightness(.99); border-color: var(--pill-active-border); }
+.pill:focus-within{ outline: none; box-shadow: var(--pill-focus-ring); }
 
 /* active state */
 .pill.is-active{
@@ -164,6 +165,9 @@
   border-color:var(--pill-active-border);
   box-shadow:var(--pill-active-shadow);
 }
+
+/* (Optional) hover on active — tiny lift */
+.pill.is-active:hover{ filter:brightness(1.02); }
 
     </style>
   </head>
