@@ -109,7 +109,7 @@
 </header>
 
 <!-- HERO (grid: names centered, info pinned to bottom) -->
-<section class="relative min-h-screen grid grid-rows-[1fr_auto] overflow-hidden">
+<section class="relative min-h-[100svh] grid grid-rows-[1fr_auto] overflow-hidden">
   <!-- Row 1: Names block -->
   <div class="relative z-10 flex items-center justify-center px-6 md:px-10">
     <div class="mx-auto max-w-6xl w-full">
@@ -138,38 +138,38 @@
     </div>
   </div>
 
-  <!-- Row 2: Bottom info (extra padding + better spacing) -->
-  <div class="relative z-15 flex flex-col items-center gap-3 pb-[max(3.5rem,env(safe-area-inset-bottom))]">
-<p class="font-montserrat text-slate-100/95 text-sm md:text-base text-center mb-3">
-  Friday, 13 February 2026 <span class="mx-2 opacity-70">·</span> Ceremony 3:45&nbsp;pm
-</p>
+  <!-- Row 2: Bottom info -->
+<div class="relative z-20 flex flex-col items-center gap-3
+            pb-[max(9rem,calc(env(safe-area-inset-bottom)+7rem))]">
+  <p class="font-montserrat text-slate-100/95 text-sm md:text-base text-center mb-2">
+    Friday, 13 February 2026 <span class="mx-2 opacity-70">·</span> Ceremony 3:45&nbsp;pm
+  </p>
 
-<!-- Countdown: pinned just above the bottom edge -->
-<div
-  class="absolute left-1/2 -translate-x-1/2 z-30 bottom-[clamp(14px,10.8vh,26px)] pb-[env(safe-area-inset-bottom)] w-full max-w-5xl px-4 flex flex-col items-center">
-  <span class="font-quicksand text-[11px] tracking-[0.28em] uppercase text-green-300 mb-2">
-    Time to ceremony
-  </span>
-
-  <div
-    class="pointer-events-auto grid grid-cols-4 gap-2
-           bg-transparent"
-  >
-    <div class="rounded-lg px-2 py-2 bg-white/92 text-center">
-      <div id="cd-days"  class="font-montserrat text-green-100/50 text-2xl leading-none tabular-nums">00</div>
-      <div class="text-[11px] uppercase tracking-wider text-green-300 mt-0.5">Days</div>
-    </div>
-    <div class="rounded-lg px-2 py-2 bg-white/92 text-center">
-      <div id="cd-hours" class="font-montserrat text-green-100/50 text-2xl leading-none tabular-nums">00</div>
-      <div class="text-[11px] uppercase tracking-wider text-green-300 mt-0.5">Hours</div>
-    </div>
-    <div class="rounded-lg px-2 py-2 bg-white/92 text-center">
-      <div id="cd-mins"  class="font-montserrat text-green-100/50 text-2xl leading-none tabular-nums">00</div>
-      <div class="text-[11px] uppercase tracking-wider text-green-300 mt-0.5">Mins</div>
-    </div>
-    <div class="rounded-lg px-2 py-2 bg-white/92 text-center">
-      <div id="cd-secs"  class="font-montserrat text-green-100/50 text-2xl leading-none tabular-nums">00</div>
-      <div class="text-[11px] uppercase tracking-wider text-green-300 mt-0.5">Secs</div>
+  <!-- Countdown pinned just above the edge -->
+  <div class="absolute inset-x-0 bottom-[max(1rem,calc(env(safe-area-inset-bottom)+0.75rem))]
+              flex justify-center -translate-y-0 z-30">
+    <div class="flex flex-col items-center w-full max-w-5xl px-4">
+      <span class="font-quicksand text-[11px] tracking-[0.28em] uppercase text-white/85 mb-2">
+        Time to ceremony
+      </span>
+      <div class="grid grid-cols-4 gap-2">
+        <div class="rounded-lg px-2 py-2 bg-white/92 text-center">
+          <div id="cd-days"  class="font-montserrat text-2xl md:text-3xl leading-none tabular-nums">00</div>
+          <div class="text-[10px] uppercase tracking-wider text-slate-700 mt-0.5">Days</div>
+        </div>
+        <div class="rounded-lg px-2 py-2 bg-white/92 text-center">
+          <div id="cd-hours" class="font-montserrat text-2xl md:text-3xl leading-none tabular-nums">00</div>
+          <div class="text-[10px] uppercase tracking-wider text-slate-700 mt-0.5">Hours</div>
+        </div>
+        <div class="rounded-lg px-2 py-2 bg-white/92 text-center">
+          <div id="cd-mins"  class="font-montserrat text-2xl md:text-3xl leading-none tabular-nums">00</div>
+          <div class="text-[10px] uppercase tracking-wider text-slate-700 mt-0.5">Mins</div>
+        </div>
+        <div class="rounded-lg px-2 py-2 bg-white/92 text-center">
+          <div id="cd-secs"  class="font-montserrat text-2xl md:text-3xl leading-none tabular-nums">00</div>
+          <div class="text-[10px] uppercase tracking-wider text-slate-700 mt-0.5">Secs</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
