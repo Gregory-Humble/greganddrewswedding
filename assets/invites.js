@@ -21,17 +21,17 @@ window.INVITES = {
     maxGuests: 2,
     defaultNames: ["Lucinda Humble", "Guest"]
   },
-    "G1RLYG1RL": {
+    "LORES": {
     household: "Matt Kulesza & Arielle Sweetman",
     maxGuests: 2,
     defaultNames: ["Matt Kulesza", "Arielle Sweetman"]
   },
-    "GAY4PAY": {
+    "HIRES": {
     household: "Benné Kulesza & Andrew Noble",
     maxGuests: 3,
     defaultNames: ["Benné Kulesza", "Andrew Noble", "Little Gregoriahson Angle-Smyth Knicker-Bocker 9 Kulesza Noble"]
   },
-    "BYE-F3L1C1A": {
+    "MIDRES": {
     household: "Helen Kuriata & Rick Kwasek",
     maxGuests: 2,
     defaultNames: ["Helen Kuriata", "Rick Kwasek"]
