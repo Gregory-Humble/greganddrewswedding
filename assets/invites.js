@@ -1,12 +1,12 @@
 // assets/invites.js
 // Map of invite codes to household caps and optional default names
 window.INVITES = {
-  "BRWNTWN": {
+  "G30RD135": {
     household: "The Brownlee Family",
     maxGuests: 2,
     defaultNames: ["Gillian Brownlee", "Austin Brownlee"]
   },
-  "HMBLE1": {
+  "HUMBL35": {
     household: "The Humble Family",
     maxGuests: 4,
     defaultNames: ["Bruce Humble", "Yoon Choi", "Tashi Humble", "Saffi Humble"]
@@ -16,10 +16,55 @@ window.INVITES = {
     maxGuests: 2,
     defaultNames: ["Sally Humble", "Guest"]
   },
-    "YAS-Q88N": {
+  "J-QU3L1N": {
+    household: "Jacqueline Baker",
+    maxGuests: 1,
+    defaultNames: ["Jacqueline Baker"]
+  },
+    "GR3AM": {
+    household: "Graham Connolly",
+    maxGuests: 1,
+    defaultNames: ["Graham Connolly"]
+  },
+    "YASS-Q33N": {
     household: "Lucinda Humble Camelleri",
     maxGuests: 2,
     defaultNames: ["Lucinda Humble", "Guest"]
+  },
+    "SQWK7700": {
+    household: "Nick & Terry",
+    maxGuests: 2,
+    defaultNames: ["Nick Johnson", "Terry Marshal"]
+  },
+    "ULTR4V1R35": {
+    household: "Rob & Daryl",
+    maxGuests: 2,
+    defaultNames: ["Robert Sacco", "Daryl Marmion"]
+  },
+    "R3DP1NG": {
+    household: "Donny & Martin",
+    maxGuests: 2,
+    defaultNames: ["Donny Dinh", "Martin"]
+  },
+    "0LL13": {
+    household: "Ollivander",
+    maxGuests: 1,
+    defaultNames: ["Ollivander Ryder"]
+  },
+    "MMK4Y": {
+    household: "Matt",
+    maxGuests: 1,
+    defaultNames: ["Matt McKay"]
+  },
+    "J1ZZ1MG3Y": {
+    household: "Kitt",
+    maxGuests: 1,
+    defaultNames: ["Kittridge Farrell"]
+  },
+    "ISBN9780": {
+    household: "Heath & Luke",
+    maxGuests: 2,
+    defaultNames: ["Heath Farnsworth", "Luke Henson"]
   },
     "LORES": {
     household: "Matt Kulesza & Arielle Sweetman",
