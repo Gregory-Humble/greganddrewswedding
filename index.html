@@ -185,8 +185,22 @@
       /* Disabled look (optional, for while submitting) */ 
       .btn-pill[disabled] { opacity:.65; cursor:not-allowed; transform:none; filter:none; } 
       /* DIETARY PILLS — match the rose theme */ 
-      .diet-pill{ display:inline-flex; align-items:center; gap:.5rem; padding:.375rem .625rem; border-radius:.75rem; border:1px solid var(--pill-border); background:var(--pill-bg); color:var(--pill-text); cursor:pointer; user-select:none; transition:all .2s ease; } .diet-pill:hover{ filter:brightness(.99); border-color: var(--pill-active-border); } .diet-pill.is-active{ background:var(--pill-active-bg); color:var(--pill-active-text); border-color:var(--pill-active-border); box-shadow:var(--pill-active-shadow); } </style> </head> <body class="font-sans text-slate-800"> 
-        <!-- Global fixed background --> <div id="page-bg" aria-hidden="true"> <div class="img"></div> <div class="veil"></div> </div> <noscript> <div class="mx-auto max-w-3xl m-3 p-3 rounded-xl glass"> This site needs JavaScript enabled for RSVP and maps links. </div> </noscript>
+      .diet-pill{ display:inline-flex; align-items:center; gap:.5rem; padding:.375rem .625rem; border-radius:.75rem; border:1px solid var(--pill-border); background:var(--pill-bg); color:var(--pill-text); cursor:pointer; user-select:none; transition:all .2s ease; } .diet-pill:hover{ filter:brightness(.99); border-color: var(--pill-active-border); } .diet-pill.is-active{ background:var(--pill-active-bg); color:var(--pill-active-text); border-color:var(--pill-active-border); box-shadow:var(--pill-active-shadow); } 
+    
+    </style> 
+  </head> 
+    <body class="font-sans text-slate-800">
+    <!-- Global fixed background -->
+    <div id="page-bg" aria-hidden="true">
+      <div class="img"></div>
+      <div class="veil"></div>
+    </div>
+
+    <noscript>
+      <div class="mx-auto max-w-3xl m-3 p-3 rounded-xl glass">
+        This site needs JavaScript enabled for RSVP and maps links.
+      </div>
+    </noscript>
 
     <!-- NAV (tighter) -->
 <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/55 bg-white/65 border-b border-white/30">
@@ -413,16 +427,11 @@
             <textarea rows="4" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
           </label>
 
-<!-- Actions -->
-<div class="flex justify-center mt-8">
-  <button
-    id="submit-btn"
-    type="submit"
-    class="btn-pill"
-  >
-    Submit RSVP
-  </button>
-</div>
+          <!-- Actions -->
+          <div class="flex justify-center mt-8">
+            <button id="submit-btn" type="submit" class="btn-pill">Submit RSVP</button>
+          </div>
+
           <p class="text-xs text-stone-100"></p>
         </form>
       </div>
@@ -438,328 +447,303 @@
     <!-- iOS detection for the fixed-background fallback -->
     <script>
       (function(){
-        const ua=navigator.userAgent||"";
-        const isIOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-        if(isIOS) document.documentElement.classList.add("ios");
+        const ua = navigator.userAgent || "";
+        const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        if (isIOS) document.documentElement.classList.add("ios");
       })();
     </script>
 
-<script>
-(function () {
-  function toggleIOSBackground(){
-    const root = document.documentElement;
-    if (!root.classList.contains('ios')) return;
-    const hero = document.getElementById('hero');
-    if (!hero) return;
-
-    // When scrolled past (hero height - small buffer), enable solid background
-    const y = window.pageYOffset || document.documentElement.scrollTop || 0;
-    const trigger = hero.offsetHeight - 80;  // tweak buffer if you like
-    root.classList.toggle('ios-solid-bg', y > trigger);
-  }
-
-  // Run on load and on scroll/resize
-  window.addEventListener('load',   toggleIOSBackground, { passive:true });
-  window.addEventListener('scroll', toggleIOSBackground, { passive:true });
-  window.addEventListener('resize', toggleIOSBackground);
-  toggleIOSBackground();
-})();
-</script>
-    
-    <!-- Main logic -->
     <script>
-      document.addEventListener("DOMContentLoaded",function(){
-        const cfg=window.SITE_CONFIG||{};
-        const INVITES=window.INVITES||{};
-        const CONTACT_EMAIL=cfg.contactEmail||"gregory.r.humble@gmail.com";
-        const FORMSPREE=cfg.formspreeEndpoint||"";
+      (function () {
+        function toggleIOSBackground(){
+          const root = document.documentElement;
+          if (!root.classList.contains('ios')) return;
+          const hero = document.getElementById('hero');
+          if (!hero) return;
+          const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+          const trigger = hero.offsetHeight - 80;
+          root.classList.toggle('ios-solid-bg', y > trigger);
+        }
+        window.addEventListener('load',   toggleIOSBackground, { passive:true });
+        window.addEventListener('scroll', toggleIOSBackground, { passive:true });
+        window.addEventListener('resize', toggleIOSBackground);
+        toggleIOSBackground();
+      })();
+    </script>
+    
+   <!-- Main logic -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const cfg = window.SITE_CONFIG || {};
+        const INVITES = window.INVITES || {};
+        const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@gmail.com";
+        const FORMSPREE = cfg.formspreeEndpoint || "";
 
         /* Countdown (AUS time) — Fri 13 Feb 2026, 3:45 pm AEDT (+11:00) */
-        const WEDDING_TARGET=new Date("2026-02-13T16:00:00+11:00");
+        const WEDDING_TARGET = new Date("2026-02-13T16:00:00+11:00");
         function updateCountdown(){
-          const now=new Date();
-          let diff=WEDDING_TARGET.getTime()-now.getTime();
-          if(diff<0) diff=0;
-          const s=Math.floor(diff/1000);
-          const days=Math.floor(s/86400);
-          const hours=Math.floor((s%86400)/3600);
-          const mins=Math.floor((s%3600)/60);
-          const secs=s%60;
-          const set=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=String(val).padStart(2,"0");};
+          const now = new Date();
+          let diff = WEDDING_TARGET.getTime() - now.getTime();
+          if (diff < 0) diff = 0;
+          const s = Math.floor(diff / 1000);
+          const days = Math.floor(s / 86400);
+          const hours = Math.floor((s % 86400) / 3600);
+          const mins = Math.floor((s % 3600) / 60);
+          const secs = s % 60;
+          const set = (id,val)=>{ const el = document.getElementById(id); if(el) el.textContent = String(val).padStart(2,"0"); };
           set("cd-days",days); set("cd-hours",hours); set("cd-mins",mins); set("cd-secs",secs);
         }
-        updateCountdown(); setInterval(updateCountdown,1000);
+        updateCountdown(); setInterval(updateCountdown, 1000);
 
         /* Maps links */
-        function mapHrefFrom(address){return "https://www.google.com/maps?q="+encodeURIComponent(address);}
-        const venueMapEl=document.querySelector("[data-venue-map]");
-        const dinnerMapEl=document.querySelector("[data-dinner-map]");
-        const ceremonyHref=cfg.event?.mapsUrl||(cfg.event?.venueAddress?mapHrefFrom(cfg.event.venueAddress):"#");
-        const dinnerHref=(cfg.event?.dinner?.mapsUrl)||(cfg.event?.dinner?.address?mapHrefFrom(cfg.event.dinner.address):"#");
-        if(venueMapEl){venueMapEl.href=ceremonyHref; if(ceremonyHref==="#"){venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available";}}
-        if(dinnerMapEl){dinnerMapEl.href=dinnerHref; if(dinnerHref==="#"){dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available";}}
+        function mapHrefFrom(address){ return "https://www.google.com/maps?q=" + encodeURIComponent(address); }
+        const venueMapEl = document.querySelector("[data-venue-map]");
+        const dinnerMapEl = document.querySelector("[data-dinner-map]");
+        const ceremonyHref = cfg.event?.mapsUrl || (cfg.event?.venueAddress ? mapHrefFrom(cfg.event.venueAddress) : "#");
+        const dinnerHref   = (cfg.event?.dinner?.mapsUrl) || (cfg.event?.dinner?.address ? mapHrefFrom(cfg.event.dinner.address) : "#");
+        if(venueMapEl){ venueMapEl.href = ceremonyHref; if(ceremonyHref==="#"){ venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available"; } }
+        if(dinnerMapEl){ dinnerMapEl.href = dinnerHref; if(dinnerHref==="#"){ dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available"; } }
 
         /* Invite code & party size */
-        const form=document.getElementById("rsvp-form");
-        const gate=document.getElementById("invite-gate");
-        const codeInput=document.getElementById("invite-code-input");
-        const codeBtn=document.getElementById("invite-code-continue");
-        const codeErr=document.getElementById("invite-code-error");
-        const partyInput=document.getElementById("party-size");
-        const partyHint=document.getElementById("party-hint");
-        const guestList=document.getElementById("guest-list");
+        const form = document.getElementById("rsvp-form");
+        const gate = document.getElementById("invite-gate");
+        const codeInput = document.getElementById("invite-code-input");
+        const codeBtn = document.getElementById("invite-code-continue");
+        const codeErr = document.getElementById("invite-code-error");
+        const partyInput = document.getElementById("party-size");
+        const partyHint = document.getElementById("party-hint");
+        const guestList = document.getElementById("guest-list");
 
-        function getParam(name){return new URLSearchParams(window.location.search).get(name);}
-        function normalizeCode(c){return (c||"").trim().toUpperCase();}
-        let CURRENT_INVITE=null;
+        function getParam(name){ return new URLSearchParams(window.location.search).get(name); }
+        let CURRENT_INVITE = null;
 
         const DIETARY = [
-  "Vegetarian",
-  "Vegan",
-  "Gluten free",
-  "Dairy free",
-  "Nut allergy",
-  "Egg allergy",
-  "Shellfish allergy"
-];
+          "Vegetarian","Vegan","Gluten free","Dairy free",
+          "Nut allergy","Egg allergy","Shellfish allergy"
+        ];
 
-function guestCard(index, name = "") {
-  const n = index + 1;
-  return `
-    <div class="rounded-lg border border-white/60 bg-white/78 p-3.5">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <label class="block">
-          <span class="block mb-1 text-sm font-marquis font-medium field-label">
-            Guest ${n} name ${n === 1 ? "(you) *" : "*"}
-          </span>
-          <input
-            name="guestName_${index}"
-            value="${name.replace(/"/g, '&quot;')}"
-            class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300"
-            placeholder="${n === 1 ? "Your full name" : "Full name"}"
-          >
-        </label>
-        <div></div>
-      </div>
+        function guestCard(index, name = ""){
+          const n = index + 1;
+          return `
+            <div class="rounded-lg border border-white/60 bg-white/78 p-3.5">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <label class="block">
+                  <span class="block mb-1 text-sm font-marquis font-medium field-label">
+                    Guest ${n} name ${n===1 ? "(you) *" : "*"}
+                  </span>
+                  <input
+                    name="guestName_${index}"
+                    value="${name.replace(/"/g,'&quot;')}"
+                    class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300"
+                    placeholder="${n===1 ? "Your full name" : "Full name"}">
+                </label>
+                <div></div>
+              </div>
 
-      <div class="mt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div>
-          <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Ceremony?</span>
-          <div class="flex gap-2.5 flex-wrap" data-pill-group>
-            <label class="pill is-active">
-              <input type="radio" name="guestCeremony_${index}" value="yes" class="sr-only" checked>
-              Yes
-            </label>
-            <label class="pill">
-              <input type="radio" name="guestCeremony_${index}" value="no" class="sr-only">
-              No
-            </label>
-          </div>
-        </div>
-        <div>
-          <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Dinner?</span>
-          <div class="flex gap-2.5 flex-wrap" data-pill-group>
-            <label class="pill is-active">
-              <input type="radio" name="guestDinner_${index}" value="yes" class="sr-only" checked>
-              Yes
-            </label>
-            <label class="pill">
-              <input type="radio" name="guestDinner_${index}" value="no" class="sr-only">
-              No
-            </label>
-          </div>
-        </div>
-      </div>
+              <div class="mt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Ceremony?</span>
+                  <div class="flex gap-2.5 flex-wrap" data-pill-group>
+                    <label class="pill is-active">
+                      <input type="radio" name="guestCeremony_${index}" value="yes" class="sr-only" checked>
+                      Yes
+                    </label>
+                    <label class="pill">
+                      <input type="radio" name="guestCeremony_${index}" value="no" class="sr-only">
+                      No
+                    </label>
+                  </div>
+                </div>
+                <div>
+                  <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Dinner?</span>
+                  <div class="flex gap-2.5 flex-wrap" data-pill-group>
+                    <label class="pill is-active">
+                      <input type="radio" name="guestDinner_${index}" value="yes" class="sr-only" checked>
+                      Yes
+                    </label>
+                    <label class="pill">
+                      <input type="radio" name="guestDinner_${index}" value="no" class="sr-only">
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
 
-      <div class="mt-2.5" data-dietary-for="${index}">
-        <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">
-          Dietary requirements
-        </span>
-        <div class="grid grid-cols-2 gap-2.5">
-          ${DIETARY.map(d => `
-            <label class="diet-pill text-md">
-              <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only">
-              <span>${d}</span>
-            </label>
-          `).join("")}
-          <input
-            class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2"
-            name="guestDietOther_${index}"
-            placeholder="Other (please specify)"
-          >
-        </div>
-      </div>
-    </div>
-  `;
-}
+              <div class="mt-2.5" data-dietary-for="${index}">
+                <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Dietary requirements</span>
+                <div class="grid grid-cols-2 gap-2.5">
+                  ${DIETARY.map(d=>`
+                    <label class="diet-pill text-md">
+                      <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only">
+                      <span>${d}</span>
+                    </label>`).join("")}
+                  <input
+                    class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2"
+                    name="guestDietOther_${index}"
+                    placeholder="Other (please specify)">
+                </div>
+              </div>
+            </div>`;
+        }
 
-function wireDietaryHighlights(scope = document) {
-  scope
-    .querySelectorAll("input[type='checkbox'][name^='guestDiet_']")
-    .forEach(input => {
-      const label = input.closest("label");
-      if (!label) return;
+        function wireDietaryHighlights(scope=document){
+          scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input=>{
+            const label = input.closest("label");
+            if(!label) return;
+            const updateLabel = ()=>{ label.classList.toggle("is-active", input.checked); };
+            label.addEventListener("click", ()=> setTimeout(updateLabel,0));
+            input.addEventListener("change", updateLabel);
+            updateLabel();
+          });
+        }
 
-      const updateLabel = () => {
-        label.classList.toggle("is-active", input.checked);
-      };
+        function updateDietaryVisibility(i){
+          const wrapper = document.querySelector(`[data-dietary-for="${i}"]`);
+          if(!wrapper) return;
+          const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
+          const val = (radios.find(r=>r.checked)?.value) || "yes";
+          const hide = (val === "no");
+          wrapper.classList.toggle("hidden", hide);
+          if(hide){
+            wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb=>{
+              cb.checked = false;
+              const lbl = cb.closest("label");
+              if(lbl) lbl.classList.remove("is-active");
+            });
+            const other = wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
+            if(other) other.value = "";
+          }
+        }
 
-      // Clicking the label toggles the checkbox, then we sync the class
-      label.addEventListener("click", () => {
-        setTimeout(updateLabel, 0);
-      });
-      input.addEventListener("change", updateLabel);
-
-      updateLabel();
-    });
-}
-
-function updateDietaryVisibility(i){
-  const wrapper=document.querySelector(`[data-dietary-for="${i}"]`);
-  if(!wrapper) return;
-  const radios=Array.from(document.getElementsByName(`guestDinner_${i}`));
-  const val=(radios.find(r=>r.checked)?.value)||"yes";
-  const hide=(val==="no");
-  wrapper.classList.toggle("hidden",hide);
-  if(hide){
-    wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb=>{
-      cb.checked=false;
-      const lbl=cb.closest("label");
-      if(lbl) lbl.classList.remove("is-active");
-    });
-    const other=wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
-    if(other) other.value="";
-  }
-}
-
-function wireDinnerVisibilityFor(i){
-  const radios=Array.from(document.getElementsByName(`guestDinner_${i}`));
-  radios.forEach(r=>{
-    r.addEventListener("change",()=>updateDietaryVisibility(i));
-    r.addEventListener("click",()=>updateDietaryVisibility(i));
-  });
-  updateDietaryVisibility(i);
-}
+        function wireDinnerVisibilityFor(i){
+          const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
+          radios.forEach(r=>{
+            r.addEventListener("change", ()=>updateDietaryVisibility(i));
+            r.addEventListener("click",  ()=>updateDietaryVisibility(i));
+          });
+          updateDietaryVisibility(i);
+        }
 
         function wirePills(scope=document){
           scope.querySelectorAll("[data-pill-group]").forEach(group=>{
             const labels = Array.from(group.querySelectorAll(".pill"));
             function setActive(target){
-            labels.forEach(l=>l.classList.remove("is-active"));
-            target.classList.add("is-active");
-            const input = target.querySelector("input[type='radio']");
-            if(input) input.checked = true;
-          }
-            labels.forEach(l=>l.addEventListener("click",()=>setActive(l)));
+              labels.forEach(l=>l.classList.remove("is-active"));
+              target.classList.add("is-active");
+              const input = target.querySelector("input[type='radio']");
+              if(input) input.checked = true;
+            }
+            labels.forEach(l=> l.addEventListener("click", ()=> setActive(l)));
           });
         }
 
-        
-
-        function renderGuests(count,defaults=[]){
-          const size=Math.max(1,Math.min(10,parseInt(count||"1",10)));
-          guestList.innerHTML=Array.from({length:size}).map((_,i)=>guestCard(i,defaults[i]||"")).join("");
+        function renderGuests(count, defaults=[]){
+          const size = Math.max(1, Math.min(10, parseInt(count||"1",10)));
+          guestList.innerHTML = Array.from({length:size}).map((_,i)=>guestCard(i, defaults[i]||"")).join("");
           wireDietaryHighlights(guestList);
           wirePills(guestList);
           for(let i=0;i<size;i++) wireDinnerVisibilityFor(i);
         }
 
         function applyInvite(inv){
-          CURRENT_INVITE=inv||null;
-          const max=inv?.maxGuests??10;
-          const defaults=Array.isArray(inv?.defaultNames)?inv.defaultNames:[];
-          const defaultCount=Math.max(1,Math.min(defaults.length||max,max));
-          partyInput.max=String(max);
-          partyInput.value=String(defaultCount);
-          partyHint.textContent=inv?`Your invitation allows up to ${max} guest${max>1?"s":""}.`:"";
-          renderGuests(defaultCount,defaults);
+          CURRENT_INVITE = inv || null;
+          const max = inv?.maxGuests ?? 10;
+          const defaults = Array.isArray(inv?.defaultNames) ? inv.defaultNames : [];
+          const defaultCount = Math.max(1, Math.min(defaults.length || max, max));
+          partyInput.max = String(max);
+          partyInput.value = String(defaultCount);
+          partyHint.textContent = inv ? `Your invitation allows up to ${max} guest${max>1?"s":""}.` : "";
+          renderGuests(defaultCount, defaults);
         }
 
         function showGate(){
           form.classList.add("hidden");
           gate.classList.remove("hidden");
           codeErr.classList.add("hidden");
-          codeBtn.onclick=()=>{
-            const entered=(codeInput.value||"").trim().toUpperCase();
-            const inv=(INVITES && INVITES[entered])?INVITES[entered]:null;
-            if(!inv){codeErr.classList.remove("hidden");return;}
-            const url=new URL(window.location.href); url.searchParams.set("code",entered);
+          codeBtn.onclick = ()=>{
+            const entered = (codeInput.value||"").trim().toUpperCase();
+            const inv = (INVITES && INVITES[entered]) ? INVITES[entered] : null;
+            if(!inv){ codeErr.classList.remove("hidden"); return; }
+            const url = new URL(window.location.href);
+            url.searchParams.set("code", entered);
             window.history.replaceState({}, "", url.toString());
-            gate.classList.add("hidden"); form.classList.remove("hidden");
+            gate.classList.add("hidden");
+            form.classList.remove("hidden");
             applyInvite(inv);
           };
         }
 
-        const hasInviteTable=INVITES && Object.keys(INVITES).length>0;
-        const urlCode=(getParam("code")||"").trim().toUpperCase();
+        const hasInviteTable = INVITES && Object.keys(INVITES).length > 0;
+        const urlCode = (getParam("code")||"").trim().toUpperCase();
         if(hasInviteTable){
-          if(urlCode && INVITES[urlCode]){applyInvite(INVITES[urlCode]);} else {showGate();}
+          if(urlCode && INVITES[urlCode]){ applyInvite(INVITES[urlCode]); }
+          else { showGate(); }
         } else {
           applyInvite(null);
         }
 
-        partyInput.addEventListener("input",()=>{
-          const max=parseInt(partyInput.max,10)||10;
-          let val=parseInt(partyInput.value||"1",10);
-          if(isNaN(val)||val<1) val=1;
-          if(val>max) val=max;
-          partyInput.value=String(val);
-          const defaults=(hasInviteTable&&urlCode&&INVITES[urlCode]?.defaultNames)?INVITES[urlCode].defaultNames:[];
-          renderGuests(val,defaults);
+        partyInput.addEventListener("input", ()=>{
+          const max = parseInt(partyInput.max,10) || 10;
+          let val = parseInt(partyInput.value||"1",10);
+          if(isNaN(val) || val < 1) val = 1;
+          if(val > max) val = max;
+          partyInput.value = String(val);
+          const defaults = (hasInviteTable && urlCode && INVITES[urlCode]?.defaultNames) ? INVITES[urlCode].defaultNames : [];
+          renderGuests(val, defaults);
         });
 
         /* Submit */
-        form.addEventListener("submit",async function(e){
+        form.addEventListener("submit", async function(e){
           e.preventDefault();
 
-          const fd=new FormData(form);
-          const first=(fd.get("firstName")||"").toString().trim();
-          const last=(fd.get("lastName")||"").toString().trim();
-          const email=(fd.get("email")||"").toString().trim();
-          if(!first||!last||!email){alert("Please complete your first name, last name, and email."); return;}
+          const fd = new FormData(form);
+          const first = (fd.get("firstName")||"").toString().trim();
+          const last  = (fd.get("lastName")||"").toString().trim();
+          const email = (fd.get("email")||"").toString().trim();
+          if(!first || !last || !email){ alert("Please complete your first name, last name, and email."); return; }
 
-          const hasTable=INVITES && Object.keys(INVITES).length>0;
-          const code=(getParam("code")||"").trim().toUpperCase();
-          const inv=(hasTable && INVITES[code])?INVITES[code]:null;
+          const hasTable = INVITES && Object.keys(INVITES).length > 0;
+          const code = (getParam("code")||"").trim().toUpperCase();
+          const inv = (hasTable && INVITES[code]) ? INVITES[code] : null;
 
-          const phone=(fd.get("phone")||"").toString().trim();
-          const partySize=Math.max(1,Math.min(parseInt(document.getElementById("party-size").value||"1",10),inv?.maxGuests??10));
-          const note=(fd.get("note")||"").toString().trim();
+          const phone = (fd.get("phone")||"").toString().trim();
+          const partySize = Math.max(1, Math.min(parseInt(document.getElementById("party-size").value||"1",10), inv?.maxGuests??10));
+          const note  = (fd.get("note")||"").toString().trim();
 
-          const guests=[];
+          const guests = [];
           for(let i=0;i<partySize;i++){
-            const name=(fd.get(`guestName_${i}`)||"").toString().trim();
-            if(!name){alert(`Please enter a name for Guest ${i+1}.`); return;}
-            const ceremony=(fd.get(`guestCeremony_${i}`)||"yes").toString();
-            const dinner=(fd.get(`guestDinner_${i}`)||"yes").toString();
-            const diets=dinner==="no"?[]:fd.getAll(`guestDiet_${i}`).map(String);
-            const other=dinner==="no"?"":(fd.get(`guestDietOther_${i}`)||"").toString().trim();
-            const dietarySummary=dinner==="no"?"":[...diets,other?`Other: ${other}`:null].filter(Boolean).join("; ");
-            guests.push({index:i+1,name,ceremony,dinner,dietary:diets,dietaryOther:other,dietarySummary});
+            const name = (fd.get(`guestName_${i}`)||"").toString().trim();
+            if(!name){ alert(`Please enter a name for Guest ${i+1}.`); return; }
+            const ceremony = (fd.get(`guestCeremony_${i}`)||"yes").toString();
+            const dinner   = (fd.get(`guestDinner_${i}`)||"yes").toString();
+            const diets = dinner==="no" ? [] : fd.getAll(`guestDiet_${i}`).map(String);
+            const other = dinner==="no" ? "" : (fd.get(`guestDietOther_${i}`)||"").toString().trim();
+            const dietarySummary = dinner==="no" ? "" : [...diets, other?`Other: ${other}`:null].filter(Boolean).join("; ");
+            guests.push({ index:i+1, name, ceremony, dinner, dietary:diets, dietaryOther:other, dietarySummary });
           }
 
-          const payload={
-            invite:inv?{code,household:inv.household,maxGuests:inv.maxGuests}:null,
-            contact:{firstName:first,lastName:last,email,phone},
+          const payload = {
+            invite: inv ? { code, household: inv.household, maxGuests: inv.maxGuests } : null,
+            contact: { firstName:first, lastName:last, email, phone },
             partySize,
             guests,
             note,
-            couple:"Greg & Drew",
-            event:{
-              dateLong:cfg.event?.dateLong||"Friday, 13 February",
-              time:cfg.event?.time||"3:45 pm",
-              venueName:cfg.event?.venueName||"Old Treasury Building – Margaret Craig Room",
-              venueAddress:cfg.event?.venueAddress||"20 Spring St, Melbourne VIC"
+            couple: "Greg & Drew",
+            event: {
+              dateLong:   cfg.event?.dateLong   || "Friday, 13 February",
+              time:       cfg.event?.time       || "3:45 pm",
+              venueName:  cfg.event?.venueName  || "Old Treasury Building – Margaret Craig Room",
+              venueAddress: cfg.event?.venueAddress || "20 Spring St, Melbourne VIC"
             },
-            timestamp:new Date().toISOString()
+            timestamp: new Date().toISOString()
           };
 
           if(FORMSPREE){
             try{
-              const res=await fetch(FORMSPREE,{
+              const res = await fetch(FORMSPREE, {
                 method:"POST",
-                headers:{"Content-Type":"application/json","Accept":"application/json"},
-                body:JSON.stringify(payload)
+                headers:{ "Content-Type":"application/json", "Accept":"application/json" },
+                body: JSON.stringify(payload)
               });
               if(!res.ok) throw new Error("Formspree error "+res.status);
               alert("Thank you! Your RSVP was submitted.");
@@ -773,20 +757,20 @@ function wireDinnerVisibilityFor(i){
           }
 
           // Mailto fallback
-          const subject=encodeURIComponent("RSVP — Greg & Drew");
-          const lines=[];
+          const subject = encodeURIComponent("RSVP — Greg & Drew");
+          const lines = [];
           if(inv) lines.push(`Invite code: ${code} (${inv.household})`);
           lines.push(`Contact: ${first} ${last}`);
           lines.push(`Email: ${email}`);
           if(phone) lines.push(`Phone: ${phone}`);
-          lines.push(`Party size (attending): ${partySize}${inv?" / max "+inv.maxGuests:""}`);
+          lines.push(`Party size (attending): ${partySize}${inv ? " / max "+inv.maxGuests : ""}`);
           lines.push(""); lines.push("Guests:");
           guests.forEach(g=>{
-            lines.push(`  • ${g.name} — Ceremony: ${g.ceremony} | Dinner: ${g.dinner}${g.dietarySummary?" | Dietary: "+g.dietarySummary:""}`);
+            lines.push(`  • ${g.name} — Ceremony: ${g.ceremony} | Dinner: ${g.dinner}${g.dietarySummary ? " | Dietary: "+g.dietarySummary : ""}`);
           });
-          if(note){lines.push(""); lines.push("Note:"); lines.push(note);}
-          const body=encodeURIComponent(lines.join("\n"));
-          window.location.href=`mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+          if(note){ lines.push(""); lines.push("Note:"); lines.push(note); }
+          const body = encodeURIComponent(lines.join("\n"));
+          window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
         });
       });
     </script>
