@@ -591,72 +591,136 @@
         function normalizeCode(c){return (c||"").trim().toUpperCase();}
         let CURRENT_INVITE=null;
 
-        const DIETARY=["Vegetarian","Vegan","Gluten free","Dairy free","Nut allergy","Egg allergy","Shellfish allergy"];
+        const DIETARY = [
+  "Vegetarian",
+  "Vegan",
+  "Gluten free",
+  "Dairy free",
+  "Nut allergy",
+  "Egg allergy",
+  "Shellfish allergy"
+];
 
-function pillGroupHTML(name, selected = "yes"){
-  const tpl = (val, label) => `
-    <label class="pill${selected===val ? ' is-active' : ''}">
-      <input type="radio" name="${name}" value="${val}" class="sr-only" ${selected===val?'checked':''}>
-      ${label}
-    </label>`;
+function guestCard(index, name = "") {
+  const n = index + 1;
   return `
-    <div class="flex gap-2.5 flex-wrap" data-pill-group>
-      ${tpl("yes","Yes")}
-      ${tpl("no","No")}
-    </div>`;
+    <div class="rounded-lg border border-white/60 bg-white/78 p-3.5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <label class="block">
+          <span class="block mb-1 text-sm font-marquis font-medium field-label">
+            Guest ${n} name ${n === 1 ? "(you) *" : "*"}
+          </span>
+          <input
+            name="guestName_${index}"
+            value="${name.replace(/"/g, '&quot;')}"
+            class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300"
+            placeholder="${n === 1 ? "Your full name" : "Full name"}"
+          >
+        </label>
+        <div></div>
+      </div>
+
+      <div class="mt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div>
+          <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Ceremony?</span>
+          <div class="flex gap-2.5 flex-wrap" data-pill-group>
+            <label class="pill is-active">
+              <input type="radio" name="guestCeremony_${index}" value="yes" class="sr-only" checked>
+              Yes
+            </label>
+            <label class="pill">
+              <input type="radio" name="guestCeremony_${index}" value="no" class="sr-only">
+              No
+            </label>
+          </div>
+        </div>
+        <div>
+          <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Dinner?</span>
+          <div class="flex gap-2.5 flex-wrap" data-pill-group>
+            <label class="pill is-active">
+              <input type="radio" name="guestDinner_${index}" value="yes" class="sr-only" checked>
+              Yes
+            </label>
+            <label class="pill">
+              <input type="radio" name="guestDinner_${index}" value="no" class="sr-only">
+              No
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-2.5" data-dietary-for="${index}">
+        <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">
+          Dietary requirements
+        </span>
+        <div class="grid grid-cols-2 gap-2.5">
+          ${DIETARY.map(d => `
+            <label class="diet-pill text-md">
+              <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only">
+              <span>${d}</span>
+            </label>
+          `).join("")}
+          <input
+            class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2"
+            name="guestDietOther_${index}"
+            placeholder="Other (please specify)"
+          >
+        </div>
+      </div>
+    </div>
+  `;
 }
 
-        
+function wireDietaryHighlights(scope = document) {
+  scope
+    .querySelectorAll("input[type='checkbox'][name^='guestDiet_']")
+    .forEach(input => {
+      const label = input.closest("label");
+      if (!label) return;
 
-        function guestCard(index,name=""){
-          const n=index+1;
-          return `
-            <div class="rounded-lg border border-white/60 bg-white/78 p-3.5">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <label class="block">
-                  <span class="block mb-1 text-sm font-marquis font-medium field-label">Guest ${n} name ${n===1?"(you) *":"*"}</span>
-                  <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1?'Your full name':'Full name'}">
-                </label>
-                <div></div>
-              </div>
+      const updateLabel = () => {
+        label.classList.toggle("is-active", input.checked);
+      };
 
-              <div class="mt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                  <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Ceremony?</span>
-                  ${pillGroupHTML(`guestCeremony_${index}`,"yes")}
-                </div>
-                <div>
-                  <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Dinner?</span>
-                  ${pillGroupHTML(`guestDinner_${index}`,"yes")}
-                </div>
-              </div>
+      // Clicking the label toggles the checkbox, then we sync the class
+      label.addEventListener("click", () => {
+        setTimeout(updateLabel, 0);
+      });
+      input.addEventListener("change", updateLabel);
 
-              <div class="mt-2.5" data-dietary-for="${index}">
-                <span class="block mb-1 text-sm font-marquis font-medium text-stone-100">Dietary requirements</span>
-                <div class="grid grid-cols-2 gap-2.5">
-                  ${DIETARY.map(d=>`
-<label class="diet-pill text-md">
-    <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only">
-  <span>${d}</span>
-</label>
-                  `).join("")}
-                  <input class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)">
-                </div>
-              </div>
-            </div>
-          `;
-        }
+      updateLabel();
+    });
+}
 
-function wireDietaryHighlights(scope=document){
-  scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input=>{
-    const label = input.closest("label");
-    function updateLabel(){
-      label.classList.toggle("is-active", input.checked);
-    }
-    label.addEventListener("click", ()=>setTimeout(updateLabel,0));
-    input.addEventListener("change", updateLabel);
-    updateLabel();
+function updateDietaryVisibility(i) {
+  const wrapper = document.querySelector(`[data-dietary-for="${i}"]`);
+  if (!wrapper) return;
+
+  const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
+  const val = (radios.find(r => r.checked)?.value) || "yes";
+  const hide = (val === "no");
+
+  wrapper.classList.toggle("hidden", hide);
+
+  if (hide) {
+    // clear all selections if not coming to dinner
+    wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb => {
+      cb.checked = false;
+      const lbl = cb.closest("label");
+      if (lbl) lbl.classList.remove("is-active");
+    });
+    const other = wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
+    if (other) other.value = "";
+  }
+}
+
+function wireDinnerVisibilityFor(i) {
+  const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
+  radios.forEach(r => {
+    r.addEventListener("change", () => updateDietaryVisibility(i));
+    r.addEventListener("click", () => updateDietaryVisibility(i));
   });
+  updateDietaryVisibility(i);
 }
 
         function wirePills(scope=document){
