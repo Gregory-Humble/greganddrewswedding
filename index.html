@@ -89,24 +89,27 @@
       /* 
       .ios.ios-solid-bg,
       .ios.ios-solid-bg body {
-      background:#0006A8 !important;   /* your solid colour */
+      background:#0006A8 !important; */  /* your solid colour */
       }
       /* iOS: hide global full-page image; paint hero itself with the image.
       Everything after the hero uses the solid blue page background. */
       /* 
       .ios #page-bg { display:none; }
+      */
 
-      .ios #hero{
+      /* .ios #hero{
         background-image: var(--page-image);
         background-size: cover;
         background-position: center;
-        position: relative;            /* for the overlay below */
-        }
+        position: relative;        
+        } 
+      */  
 
       /*
       .ios #hero::before{
         content:"";
-        position:absolute; inset:0; pointer-events:none;
+        position:absolute; inset:0; pointer-events:none; 
+      */  
   
         /* same veil you use elsewhere */
       background:
@@ -129,18 +132,19 @@
       #hero-bg .veil{
       position:absolute; inset:0; pointer-events:none;
 
-      }
+      } 
+      */
 
 /* iOS: hide the global full-page image; paint a solid behind the hero */
 /*
 .ios,
 .ios body{
   background:#0006A8;            /* your solid blue for everything after the hero */
-}
+} */ 
 /*
-.ios #page-bg{ display:none; }    /* remove the full-page image layer on iOS */
+.ios #page-bg{ display:none; } */      /* remove the full-page image layer on iOS */
 /*
-.ios #hero-bg{ display:block; }   /* ensure hero-only image shows on iOS */
+.ios #hero-bg{ display:block; } */    /* ensure hero-only image shows on iOS */
     
 /* THEMED RSVP PILLS — subtle rose to match page */ 
       :root{ 
@@ -610,33 +614,29 @@ function wireDietaryHighlights(scope = document) {
     });
 }
 
-function updateDietaryVisibility(i) {
-  const wrapper = document.querySelector(`[data-dietary-for="${i}"]`);
-  if (!wrapper) return;
-
-  const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
-  const val = (radios.find(r => r.checked)?.value) || "yes";
-  const hide = (val === "no");
-
-  wrapper.classList.toggle("hidden", hide);
-
-  if (hide) {
-    // clear all selections if not coming to dinner
-    wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb => {
-      cb.checked = false;
-      const lbl = cb.closest("label");
-      if (lbl) lbl.classList.remove("is-active");
+function updateDietaryVisibility(i){
+  const wrapper=document.querySelector(`[data-dietary-for="${i}"]`);
+  if(!wrapper) return;
+  const radios=Array.from(document.getElementsByName(`guestDinner_${i}`));
+  const val=(radios.find(r=>r.checked)?.value)||"yes";
+  const hide=(val==="no");
+  wrapper.classList.toggle("hidden",hide);
+  if(hide){
+    wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb=>{
+      cb.checked=false;
+      const lbl=cb.closest("label");
+      if(lbl) lbl.classList.remove("is-active");
     });
-    const other = wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
-    if (other) other.value = "";
+    const other=wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
+    if(other) other.value="";
   }
 }
 
-function wireDinnerVisibilityFor(i) {
-  const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
-  radios.forEach(r => {
-    r.addEventListener("change", () => updateDietaryVisibility(i));
-    r.addEventListener("click", () => updateDietaryVisibility(i));
+function wireDinnerVisibilityFor(i){
+  const radios=Array.from(document.getElementsByName(`guestDinner_${i}`));
+  radios.forEach(r=>{
+    r.addEventListener("change",()=>updateDietaryVisibility(i));
+    r.addEventListener("click",()=>updateDietaryVisibility(i));
   });
   updateDietaryVisibility(i);
 }
@@ -654,32 +654,7 @@ function wireDinnerVisibilityFor(i) {
           });
         }
 
-        // Show/hide dietary section based on Dinner choice per guest
-        function updateDietaryVisibility(i){
-          const wrapper=document.querySelector(`[data-dietary-for="${i}"]`);
-          if(!wrapper) return;
-          const radios=Array.from(document.getElementsByName(`guestDinner_${i}`));
-          const val=(radios.find(r=>r.checked)?.value)||"yes";
-          const hide=(val==="no");
-          wrapper.classList.toggle("hidden",hide);
-          if(hide){
-            wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb=>{
-              cb.checked=false;
-              const lbl=cb.closest("label");
-              if(lbl) lbl.classList.remove("bg-slate-500","text-white","border-slate-900");
-            });
-            const other=wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
-            if(other) other.value="";
-          }
-        }
-        function wireDinnerVisibilityFor(i){
-          const radios=Array.from(document.getElementsByName(`guestDinner_${i}`));
-          radios.forEach(r=>{
-            r.addEventListener("change",()=>updateDietaryVisibility(i));
-            r.addEventListener("click",()=>updateDietaryVisibility(i));
-          });
-          updateDietaryVisibility(i);
-        }
+        
 
         function renderGuests(count,defaults=[]){
           const size=Math.max(1,Math.min(10,parseInt(count||"1",10)));
