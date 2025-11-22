@@ -19,7 +19,7 @@ window.INVITES = {
   "BKR-GRLS": {
     household: "Jacqueline Baker",
     maxGuests: 2,
-    defaultNames: ["Jacqueline Baker", "Judy Schmidt"]
+    defaultNames: ["Jacqueline Baker", "Guest"]
   },
     "GR3AM": {
     household: "Graham Connolly",
