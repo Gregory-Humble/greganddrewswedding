@@ -78,10 +78,10 @@
           #page-bg .veil{
             position:absolute;inset:0;pointer-events:none;
             background:
-              linear-gradient(to bottom, rgba(2,6,23,.14) 0%, rgba(2,6,23,.18) 35%, rgba(2,6,23,.20) 70%, rgba(2,6,23,.24) 100%),
-              radial-gradient(ellipse at 30% 20%, rgba(2,6,23,.10), transparent 55%),
+              linear-gradient(to bottom, rgba(63, 94, 231, 0.14) 0%, rgba(91, 107, 174, 0.18) 35%, rgba(98, 112, 171, 0.2) 70%, rgba(88, 107, 204, 0.24) 20%),
+              radial-gradient(ellipse at 30% 20%, rgba(46, 69, 171, 0.1), transparent 55%),
               radial-gradient(ellipse at 70% 80%, rgba(2,6,23,.10), transparent 55%),
-              rgba(2,6,23,.06);
+              rgba(36, 62, 182, 0.06);
           }
         
           /* “Glass” */
@@ -164,7 +164,7 @@
             border:1px solid var(--pill-active-border);
             background:var(--pill-active-bg); color:var(--pill-active-text);
             box-shadow:var(--pill-active-shadow);
-            font-family:'Marquis',serif; font-weight:500; letter-spacing:.02em;
+            font-family:'quicksand' ,serif; font-weight:500; letter-spacing:.02em;
             transition:transform .12s ease, filter .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
             -webkit-backdrop-filter:saturate(120%) blur(6px); backdrop-filter:saturate(120%) blur(6px);
           }
@@ -172,10 +172,127 @@
           .btn-pill:active{ transform:translateY(1px); filter:brightness(0.98); }
           .btn-pill:focus-visible{ outline:none; box-shadow:var(--pill-focus-ring), var(--pill-active-shadow); }
           .btn-pill[disabled]{ opacity:.65; cursor:not-allowed; transform:none; filter:none; }
+
+          /* Print-only invite (A5) */
+          #print-card{
+            display:none;
+            position:relative;
+            width:148mm; height:210mm;
+            margin:0 auto;
+            overflow:hidden;
+            border-radius:10mm;
+            color:#f8fafc;
+            background:#0b1220;
+          }
+          #print-card .print-bg{
+            position:absolute; inset:-2mm;
+            background-image:var(--page-image);
+            background-size:cover;
+            background-position:center;
+            filter:saturate(1.05);
+          }
+          #print-card .print-veil{
+            position:absolute; inset:0;
+            background:
+              linear-gradient(180deg, rgba(3,7,18,.22), rgba(3,7,18,.42)),
+              radial-gradient(120% 80% at 30% 20%, rgba(255,255,255,.10), transparent 65%),
+              radial-gradient(120% 80% at 70% 80%, rgba(255,255,255,.10), transparent 65%),
+              rgba(3,7,18,.18);
+          }
+          #print-card .print-content{
+            position:relative; z-index:1;
+            display:flex; flex-direction:column; justify-content:space-between;
+            height:100%;
+            padding:16mm 14mm 14mm;
+            gap:9mm;
+          }
+          #print-card .print-tagline{
+            text-align:center;
+            font-family:'Majesty', sans-serif;
+            font-size:14pt;
+            letter-spacing:.08em;
+            color:rgba(255,237,213,.92);
+            text-shadow:0 2px 8px rgba(0,0,0,.25);
+          }
+          #print-card .print-names{
+            text-align:center;
+            color:#ffe7d9;
+            line-height:1.04;
+            text-shadow:0 2px 10px rgba(0,0,0,.28);
+          }
+          #print-card .print-name{
+            display:block;
+            font-family:'Marquis', serif;
+            font-size:32pt;
+          }
+          #print-card .print-amp{
+            display:block;
+            font-family:'Fraunces', serif;
+            font-size:42pt;
+            margin:4mm 0;
+            color:#ffd7c2;
+          }
+          #print-card .print-meta{
+            background:rgba(255,255,255,.86);
+            color:#0f172a;
+            border-radius:6mm;
+            padding:8mm 7mm;
+            box-shadow:0 6px 16px rgba(0,0,0,.22);
+            font-family:'Montage', serif;
+            text-align:center;
+            line-height:1.45;
+            display:grid;
+            gap:2mm;
+          }
+          #print-card .print-meta .label{
+            font-family:'Cal Sans',sans-serif;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            color:#b45309;
+            font-size:9pt;
+          }
+          #print-card .print-meta .value{
+            font-size:12pt;
+            color:#8c4a0f;
+          }
+          #print-card .print-meta .address{
+            font-size:11pt;
+            color:#8c4a0f;
+          }
+          @media screen{
+            #print-card{ display:none; }
+          }
+          @media print{
+            @page{
+              size:A5 portrait;
+              margin:0;
+            }
+            *{
+              -webkit-print-color-adjust:exact;
+              print-color-adjust:exact;
+            }
+            html, body{
+              margin:0; padding:0;
+              width:148mm; height:210mm;
+              background:#0b1220;
+            }
+            body{
+              display:flex;
+              align-items:stretch;
+              justify-content:center;
+            }
+            #page-bg, header, section, footer, noscript{
+              display:none !important;
+            }
+            #print-card{
+              display:flex !important;
+            }
+          }
     </style>
   </head>
   
     <body class="font-sans text-slate-800">
+
     <!-- Global fixed background -->
     <div id="page-bg" aria-hidden="true">
       <div class="img"></div>
@@ -207,7 +324,7 @@
   <!-- Names (centre) — we pad the bottom by the reserved space so nothing gets pushed off-screen -->
   <div class="flex-1 flex items-center justify-center">
     <div class="max-w-12xl">
-      <p class="font-majesty text-2xl md:text-6xl text-orange-300/90 drop-shadow text-left mb-4 ml-1 md:-ml-20">
+      <p class="font-majesty text-2xl md:text-3xl text-orange-300/90 drop-shadow text-left mb-4 ml-1 md:-ml-20">
         
         Join us in celebration
       </p>
@@ -243,26 +360,26 @@
 <!-- countdown (compact glass card) -->
 <div class="w-full max-w-md mx-auto mb-3">
   <div class="glass bg-white/15 backdrop-blur-xl border border-white/25 shadow-lg rounded-xl py-2">
-    <span class="block text-center font-quicksand text-[10px] md:text-[12px] tracking-[0.28em] uppercase text-white">
+    <span class="block text-center font-quicksand text-[10px] md:text-[12px] tracking-[0.28em] uppercase text-orange-300/90">
       Time to ceremony
     </span>
 
     <div class="grid grid-cols-4 gap-2">
       <div class="rounded-lg px-2 py-2 bg-white/78 text-center">
         <div id="cd-days"  class="font-montserrat text-xl md:text-2xl text-white leading-none tabular-nums">93</div>
-        <div class="font-quicksand text-[10px] uppercase tracking-wider text-white mt-0.5">Days</div>
+        <div class="font-quicksand text-[10px] uppercase tracking-wider text-orange-300/90 mt-0.5">Days</div>
       </div>
       <div class="rounded-lg px-2 py-2 bg-white/78 text-center">
         <div id="cd-hours" class="font-montserrat text-xl md:text-2xl text-white leading-none tabular-nums">00</div>
-        <div class="font-quicksand text-[10px] uppercase tracking-wider text-white mt-0.5">Hours</div>
+        <div class="font-quicksand text-[10px] uppercase tracking-wider text-orange-300/90 mt-0.5">Hours</div>
       </div>
       <div class="rounded-lg px-2 py-2 bg-white/78 text-center">
         <div id="cd-mins"  class="font-montserrat text-xl md:text-2xl text-white leading-none tabular-nums">40</div>
-        <div class="font-quicksand text-[10px] uppercase tracking-wider text-white mt-0.5">Mins</div>
+        <div class="font-quicksand text-[10px] uppercase tracking-wider text-orange-300/90 mt-0.5">Mins</div>
       </div>
       <div class="rounded-lg px-2 py-2 bg-white/78 text-center">
         <div id="cd-secs"  class="font-montserrat text-xl md:text-2xl text-white leading-none tabular-nums">00</div>
-        <div class="font-quicksand text-[10px] uppercase tracking-wider text-white mt-0.5">Secs</div>
+        <div class="font-quicksand text-[10px] uppercase tracking-wider text-orange-300/90 mt-0.5">Secs</div>
       </div>
     </div>
   </div>
@@ -274,7 +391,7 @@
     <section id="details" class="mx-auto max-w-6xl px-3 py-10 md:py-12">
       <div class="mx-auto max-w-4xl rounded-xl p-5 md:p-6 glass bg-white/15 backdrop-blur-xl border border-white/25 shadow-lg">
         <div class="mb-5 text-center">
-          <h2 class="font-marquis text-rose-200 text-3xl md:text-4xl mt-1">The Details</h2>
+          <h2 class="font-marquis text-rose-400 text-3xl md:text-4xl mt-1">The Details</h2>
         </div>
         <div class="grid md:grid-cols-3 gap-3.5">
           <div class="rounded-lg p-3.5 bg-white/78">
@@ -297,12 +414,16 @@
     <section id="schedule" class="mx-auto max-w-6xl px-3 py-10 md:py-12">
       <div class="mx-auto max-w-4xl rounded-xl p-5 md:p-6 glass bg-white/15 backdrop-blur-xl border border-white/25 shadow-lg">
         <div class="mb-5 text-center">
-          <h2 class="font-marquis text-rose-200 text-3xl md:text-4xl mt-1">Schedule</h2>
+          <h2 class="font-marquis text-rose-400 text-3xl md:text-4xl mt-1">Schedule</h2>
         </div>
-        <ul class="grid md:grid-cols-2 gap-3">
+        <ul class="grid md:grid-cols-3 gap-3">
           <li class="rounded-lg bg-white/78 p-3">
             <p class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">3:45 pm</p>
             <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">Ceremony at the Old Treasury Building</p>
+          </li>
+          <li class="rounded-lg bg-white/78 p-3">
+            <p class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">4:30 pm – 6:30 pm</p>
+            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">Interlude</p>
           </li>
           <li class="rounded-lg bg-white/78 p-3">
             <p class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">6:30 pm – 9:30 pm</p>
@@ -316,7 +437,7 @@
     <section id="venue" class="mx-auto max-w-6xl px-3 py-10 md:py-12">
       <div class="mx-auto max-w-4xl rounded-xl p-5 md:p-6 glass bg-white/15 backdrop-blur-xl border border-white/25 shadow-lg">
         <div class="mb-5 text-center">
-          <h2 class="font-marquis text-rose-200 text-3xl md:text-4xl mt-1">Venues</h2>
+          <h2 class="font-marquis text-rose-400 text-3xl md:text-4xl mt-1">Venues</h2>
         </div>
         <div class="grid lg:grid-cols-2 gap-4 items-start">
           <div class="rounded-lg bg-white/78 p-3.5">
@@ -336,8 +457,7 @@
           </div>
           <div class="rounded-lg bg-white/78 p-3.5">
             <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">Reed House</h3>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">130 Lonsdale St, </p>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">Melbourne VIC</p>
+            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">130 Lonsdale St, <br> Melbourne VIC</p>
             <a
               href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
               data-dinner-map
@@ -411,7 +531,7 @@
           <!-- Note -->
           <label class="block">
             <span class="block mb-1 text-md font-cal font-medium text-rose-400">Message (optional)</span>
-            <textarea rows="4" name="note" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
+            <textarea rows="4" name="note" class="font-cal w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="Anything we should know – accessibility, kids, timing, etc."></textarea>
           </label>
 
           <!-- Actions -->
