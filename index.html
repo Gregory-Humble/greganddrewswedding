@@ -75,14 +75,14 @@
             background-size:cover;
             background-position:center;
           }
-          #page-bg .veil{
+          /* #page-bg .veil{
             position:absolute;inset:0;pointer-events:none;
             background:
               linear-gradient(to bottom, rgba(63, 94, 231, 0.14) 0%, rgba(91, 107, 174, 0.18) 35%, rgba(98, 112, 171, 0.2) 70%, rgba(88, 107, 204, 0.24) 20%),
               radial-gradient(ellipse at 30% 20%, rgba(46, 69, 171, 0.1), transparent 55%),
               radial-gradient(ellipse at 70% 80%, rgba(2,6,23,.10), transparent 55%),
-              rgba(36, 62, 182, 0.06);
-          }
+              rgba(36, 62, 182, 0.06); 
+          } */
         
           /* “Glass” */
           .glass{
@@ -172,6 +172,8 @@
           .btn-pill:active{ transform:translateY(1px); filter:brightness(0.98); }
           .btn-pill:focus-visible{ outline:none; box-shadow:var(--pill-focus-ring), var(--pill-active-shadow); }
           .btn-pill[disabled]{ opacity:.65; cursor:not-allowed; transform:none; filter:none; }
+          /*text glow */
+          .text-glow { text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 16px rgba(0,160,255,0.7); }
 
           /* Print-only invite (A5) */
           #print-card{
@@ -324,26 +326,26 @@
   <!-- Names (centre) — we pad the bottom by the reserved space so nothing gets pushed off-screen -->
   <div class="flex-1 flex items-center justify-center">
     <div class="max-w-12xl">
-      <p class="font-majesty text-2xl md:text-3xl text-orange-300/90 drop-shadow text-left mb-4 ml-1 md:-ml-20">
+      <p class="font-majesty text-2xl md:text-3xl text-orange-400 drop-shadow text-left mb-4 ml-1 md:-ml-20">
         
         Join us in celebration
       </p>
 
       <div class="relative isolate">
         <!-- Gregory -->
-        <span class="relative block font-marquis text-[clamp(3.5rem,12vw,8rem)] leading-[1.05] text-orange-200 drop-shadow -translate-x-[2vw]">
+        <span class="relative block font-marquis text-[clamp(3.5rem,12vw,8rem)] leading-[1.05] text-blue-200 drop-shadow text-glow -translate-x-[2vw]">
           Gregory Humble
         </span>
 
         <!-- Ampersand -->
         <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <span class="font-display text-[clamp(5.2rem,16vw,11rem)] leading-none text-orange-300/95 drop-shadow translate-y-[-8%] md:translate-y-[-8%]">
+          <span class="font-display text-[clamp(5.2rem,16vw,11rem)] leading-none text-orange-400 drop-shadow translate-y-[-8%] md:translate-y-[-8%]">
             &amp;
           </span>
         </span>
 
         <!-- Drew -->
-        <span class="relative block font-marquis text-[clamp(3.5rem,12vw,8rem)] leading-[1.05] text-orange-200 drop-shadow text-right translate-x-[2vw] mt-[20vw] sm:mt-[15vw] md:mt-20">
+        <span class="relative block font-marquis text-[clamp(3.5rem,12vw,8rem)] leading-[1.05] text-blue-200 drop-shadow text-glow text-right translate-x-[2vw] mt-[20vw] sm:mt-[15vw] md:mt-20">
           Drew Brownlee
         </span>
       </div>
@@ -396,15 +398,15 @@
         <div class="grid md:grid-cols-3 gap-3.5">
           <div class="rounded-lg p-3.5 bg-white/78">
             <p class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">RSVP by</p>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg" data-rsvpby>January 10th, 2026</p>
+            <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg" data-rsvpby>January 10th, 2026</p>
           </div>
           <div class="rounded-lg p-3.5 bg-white/78">
             <p class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">Dress code</p>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg" data-dress></p>
+            <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg" data-dress></p>
           </div>
           <div class="font-cal rounded-lg p-3.5 bg-white/78">
             <p class="text-md text-center uppercase tracking-[0.2em] text-yellow-600">Notes</p>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg" data-notes></p>
+            <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg" data-notes></p>
           </div>
         </div>
       </div>
@@ -419,15 +421,15 @@
         <ul class="grid md:grid-cols-3 gap-3">
           <li class="rounded-lg bg-white/78 p-3">
             <p class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">3:45 pm</p>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">Ceremony at the Old Treasury Building</p>
+            <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">Ceremony at the Old Treasury Building</p>
           </li>
           <li class="rounded-lg bg-white/78 p-3">
             <p class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">4:30 pm – 6:30 pm</p>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">Interlude</p>
+            <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">Interlude</p>
           </li>
           <li class="rounded-lg bg-white/78 p-3">
             <p class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">6:30 pm – 9:30 pm</p>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">Dinner at Reed House</p>
+            <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">Dinner at Reed House</p>
           </li>
         </ul>
       </div>
@@ -442,7 +444,7 @@
         <div class="grid lg:grid-cols-2 gap-4 items-start">
           <div class="rounded-lg bg-white/78 p-3.5">
             <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">Old Treasury Building</h3>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">Margaret Craig Room, 20 Spring St, Melbourne</p>
+            <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">Margaret Craig Room, 20 Spring St, Melbourne</p>
             <a
               href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
               data-venue-map
@@ -453,11 +455,11 @@
             >
               Open in Maps
             </a>
-            <p class="font-montage text-center mt-3 text-sm text-orange-100">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
+            <p class="font-quicksand text-center mt-3 text-sm text-orange-100">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
           </div>
           <div class="rounded-lg bg-white/78 p-3.5">
             <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">Reed House</h3>
-            <p class="font-montage text-center text-orange-100 mt-1.5 text-base md:text-lg">130 Lonsdale St, <br> Melbourne VIC</p>
+            <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">130 Lonsdale St, <br> Melbourne VIC</p>
             <a
               href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
               data-dinner-map
@@ -475,9 +477,9 @@
 
     <!-- RSVP (stacked single column, tighter) -->
     <section id="rsvp" class="mx-auto font-marquis text-rose-200 max-w-6xl px-3 py-10 md:py-12">
+       <p class="text-center font-cal text-xl uppercase tracking-[0.2em] text-emerald-200 text-glow mb-3 md:mb-4">We'd love to celebrate with you!<br><br><br></p>
       <div class="mx-auto max-w-4xl rounded-xl p-5 md:p-6 glass bg-white/15 backdrop-blur-xl border border-white/25 shadow-lg">
         <div class="mb-5 text-center">
-          <p class="text-md uppercase tracking-[0.2em] text-rose-400">We'd love to celebrate with you</p>
           <h2 class="font-marquis text-rose-400 text-3xl md:text-4xl mt-1">RSVP</h2>
         </div>
 
