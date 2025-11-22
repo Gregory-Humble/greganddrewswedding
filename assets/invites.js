@@ -16,10 +16,10 @@ window.INVITES = {
     maxGuests: 2,
     defaultNames: ["Sally Humble", "Guest"]
   },
-  "J-QU3L1N": {
+  "BKR-GRLS": {
     household: "Jacqueline Baker",
-    maxGuests: 1,
-    defaultNames: ["Jacqueline Baker"]
+    maxGuests: 2,
+    defaultNames: ["Jacqueline Baker", "Judy Schmidt"]
   },
     "GR3AM": {
     household: "Graham Connolly",
