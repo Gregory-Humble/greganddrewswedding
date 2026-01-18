@@ -13,8 +13,8 @@ window.INVITES = {
   },
    "1B-DI": {
     household: "Sally Humble",
-    maxGuests: 2,
-    defaultNames: ["Sally Humble", "Guest"]
+    maxGuests: 1,
+    defaultNames: ["Sally Humble"]
   },
   "BKR-GRLS": {
     household: "Jacqueline Baker",
