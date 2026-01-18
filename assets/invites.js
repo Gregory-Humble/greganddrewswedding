@@ -86,7 +86,7 @@ window.INVITES = {
     maxGuests: 2,
     defaultNames: ["Gregory Humble", "Drew Humble"]
   },
-    "L33TH3LADYM0W3R": {
+    "L33": {
     household: "Lee Wilson",
     maxGuests: 1,
     defaultNames: ["Lee Wilson"]
