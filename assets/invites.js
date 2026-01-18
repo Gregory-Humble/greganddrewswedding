@@ -26,11 +26,6 @@ window.INVITES = {
     maxGuests: 1,
     defaultNames: ["Graham Connolly"]
   },
-    "YASS-Q33N": {
-    household: "Lucinda Humble Camelleri",
-    maxGuests: 2,
-    defaultNames: ["Lucinda Humble", "Guest"]
-  },
     "SQWK7700": {
     household: "Nick & Terry",
     maxGuests: 2,
