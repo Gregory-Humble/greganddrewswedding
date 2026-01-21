@@ -76,11 +76,6 @@ window.INVITES = {
     maxGuests: 2,
     defaultNames: ["Helen Kuriata", "Rick Kwasek"]
   },
-    "GAYBEAUS": {
-    household: "The Humble-Brownlees",
-    maxGuests: 2,
-    defaultNames: ["Gregory Humble", "Drew Humble"]
-  },
     "L33": {
     household: "Lee Wilson",
     maxGuests: 1,
