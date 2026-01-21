@@ -82,7 +82,7 @@ window.INVITES = {
     defaultNames: ["Lee Wilson"]
   },
     "GOLDSTAR": {
-    household: "Nevena Spirovska", "Saf",
+    household: "Nevena Spirovska & Saf",
     maxGuests: 2,
     defaultNames: ["Nevena Spirovska", "Saf"]
   }
