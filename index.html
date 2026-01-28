@@ -508,14 +508,26 @@
         </div>
 
         <!-- Invite code gate -->
-        <div id="invite-gate" class="hidden rounded-lg p-4 max-w-2xl mx-auto">
-          <p class="font-cal text-rose-200 mb-2">Please enter your invite code (found on your invitation):</p>
-          <div class="flex gap-2.5">
-            <input id="invite-code-input" class="w-48 rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase" placeholder="e.g. ursxc" maxlength="12">
-            <button id="invite-code-continue" class="font-cal inline-flex items-center gap-2 bg-rose-400 text-white px-3.5 py-2 rounded-xl">Continue</button>
-          </div>
-          <p id="invite-code-error" class="mt-2 text-sm text-rose-600 hidden">That code wasn’t recognised. Please check and try again.</p>
-        </div>
+<div id="invite-gate" class="hidden rounded-lg p-4 max-w-2xl mx-auto text-center">
+  <p class="font-cal text-rose-200 mb-2 text-center">
+    Please enter your invite code (found on your invitation):
+  </p>
+
+  <div class="flex gap-2.5 justify-center flex-wrap">
+    <input id="invite-code-input"
+      class="w-48 rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 uppercase"
+      placeholder="e.g. ursxc"
+      maxlength="12">
+    <button id="invite-code-continue"
+      class="font-cal inline-flex items-center gap-2 bg-rose-400 text-white px-3.5 py-2 rounded-xl">
+      Continue
+    </button>
+  </div>
+
+  <p id="invite-code-error" class="mt-2 text-sm text-rose-600 hidden">
+    That code wasn’t recognised. Please check and try again.
+  </p>
+</div>
 
         <form id="rsvp-form" class="space-y-5">
           <!-- Contact -->
