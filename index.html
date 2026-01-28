@@ -175,61 +175,6 @@
           /*text glow */
           .text-glow { text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 16px rgba(0,160,255,0.7); }
 
-/* ===== Venue title hover reveal (Aceternity-like) ===== */
-@property --reveal-r {
-  syntax: "<length>";
-  inherits: true;
-  initial-value: 0px;
-}
-
-.venue-hover {
-  position: relative;
-  display: inline-block;          /* keeps the hover box tight to the text */
-  isolation: isolate;
-  --reveal-x: 50%;
-  --reveal-y: 50%;
-  --reveal-r: 0px;
-}
-
-.venue-hover::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-
-  /* rainbow-ish gradient reveal (tweak colours if you want) */
-  background: linear-gradient(90deg, #fb7185, #f97316, #60a5fa);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-
-  /* radial mask “spotlight” that follows the cursor */
-  -webkit-mask-image: radial-gradient(
-    circle var(--reveal-r) at var(--reveal-x) var(--reveal-y),
-    #000 0%,
-    #000 65%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    circle var(--reveal-r) at var(--reveal-x) var(--reveal-y),
-    #000 0%,
-    #000 65%,
-    transparent 100%
-  );
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 140ms ease, --reveal-r 320ms cubic-bezier(.2,.9,.2,1);
-  filter: drop-shadow(0 0 10px rgba(255,255,255,.12));
-}
-
-.venue-hover.is-on::after {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .venue-hover::after { transition: none; }
-}
-      
           /* Print-only invite (A5) */
           #print-card{
             display:none;
@@ -502,9 +447,7 @@
         </div>
         <div class="grid lg:grid-cols-3 gap-4 items-start">
           <div class="rounded-lg bg-white/78 p-3.5">
-            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">
-            <span class="venue-hover" data-venue-hover>Old Treasury Building</span>
-              </h3>
+            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">Old Treasury Building</h3>
             <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">Margaret Craig Room, 20 Spring St, Melbourne</p>
             <a
               href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
@@ -519,9 +462,7 @@
             <p class="font-quicksand text-center mt-3 text-sm text-orange-100">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
           </div>
           <div class="rounded-lg bg-white/78 p-3.5">
-            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">
-              <span class="venue-hover" data-venue-hover>Reed House</span>
-            </h3>
+            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">Reed House</h3>
             <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">130 Lonsdale St, <br> Melbourne VIC</p>
             <a
               href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
@@ -536,9 +477,7 @@
             <p class="font-quicksand text-center mt-3 text-sm text-orange-100">Dinner will be outside in the Reed House courtyard. There is heating, but consider bringing a jacket if the weather is cold.</p>
           </div>
           <div class="rounded-lg bg-white/78 p-3.5">
-            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">
-              <span class="venue-hover" data-venue-hover>FABLE</span>
-            </h3>
+            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">FABLE</h3>
             <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">
               Level 13, 168 Lonsdale St, <br> Melbourne VIC
           </p>
@@ -650,9 +589,335 @@
     <script src="./assets/invites.js?v=5"></script>
     <script src="./assets/script.js"></script>
 
-    <!-- iOS detection for the fixed-background fallback --> <script> (function(){ const ua = navigator.userAgent || ""; const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); if (isIOS) document.documentElement.classList.add("ios"); })(); </script> <script> (function () { function toggleIOSBackground(){ const root = document.documentElement; if (!root.classList.contains('ios')) return; const hero = document.getElementById('hero'); if (!hero) return; const y = window.pageYOffset || document.documentElement.scrollTop || 0; const trigger = hero.offsetHeight - 80; root.classList.toggle('ios-solid-bg', y > trigger); } window.addEventListener('load', toggleIOSBackground, { passive:true }); window.addEventListener('scroll', toggleIOSBackground, { passive:true }); window.addEventListener('resize', toggleIOSBackground); toggleIOSBackground(); })(); </script> <!-- Main logic --> <script> document.addEventListener("DOMContentLoaded", function () { const cfg = window.SITE_CONFIG || {}; const INVITES = window.INVITES || {}; const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@gmail.com"; const FORMSPREE = cfg.formspreeEndpoint || ""; /* Countdown (AUS time) — Fri 13 Feb 2026, 3:45 pm AEDT (+11:00) */ const WEDDING_TARGET = new Date("2026-02-13T16:00:00+11:00"); function updateCountdown(){ const now = new Date(); let diff = WEDDING_TARGET.getTime() - now.getTime(); if (diff < 0) diff = 0; const s = Math.floor(diff / 1000); const days = Math.floor(s / 86400); const hours = Math.floor((s % 86400) / 3600); const mins = Math.floor((s % 3600) / 60); const secs = s % 60; const set = (id,val)=>{ const el = document.getElementById(id); if(el) el.textContent = String(val).padStart(2,"0"); }; set("cd-days",days); set("cd-hours",hours); set("cd-mins",mins); set("cd-secs",secs); } updateCountdown(); setInterval(updateCountdown, 1000); /* Maps links */ function mapHrefFrom(address){ return "https://www.google.com/maps?q=" + encodeURIComponent(address); } const venueMapEl = document.querySelector("[data-venue-map]"); const dinnerMapEl = document.querySelector("[data-dinner-map]"); const ceremonyHref = cfg.event?.mapsUrl || (cfg.event?.venueAddress ? mapHrefFrom(cfg.event.venueAddress) : "#"); const dinnerHref = (cfg.event?.dinner?.mapsUrl) || (cfg.event?.dinner?.address ? mapHrefFrom(cfg.event.dinner.address) : "#"); if(venueMapEl){ venueMapEl.href = ceremonyHref; if(ceremonyHref==="#"){ venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available"; } } if(dinnerMapEl){ dinnerMapEl.href = dinnerHref; if(dinnerHref==="#"){ dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available"; } } /* Invite code & party size */ const form = document.getElementById("rsvp-form"); const gate = document.getElementById("invite-gate"); const codeInput = document.getElementById("invite-code-input"); const codeBtn = document.getElementById("invite-code-continue"); const codeErr = document.getElementById("invite-code-error"); const partyInput = document.getElementById("party-size"); const partyHint = document.getElementById("party-hint"); const guestList = document.getElementById("guest-list"); function getParam(name){ return new URLSearchParams(window.location.search).get(name); } let CURRENT_INVITE = null; const DIETARY = [ "Vegetarian","Vegan","Gluten free","Dairy free", "Nut allergy","Egg allergy","Shellfish allergy" ]; function guestCard(index, name = ""){ const n = index + 1; return <div class="rounded-lg border border-white/60 bg-white/78 p-3.5"> <div class="grid grid-cols-1 md:grid-cols-2 gap-3"> <label class="block"> <span class="block mb-1 text-md font-cal font-medium text-amber-00 guest-name-label"> Guest ${n} name ${n===1 ? "(you) *" : "*"} </span> <input name="guestName_${index}" value="${name.replace(/"/g,'&quot;')}" class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300" placeholder="${n===1 ? "Your full name" : "Full name"}"> </label> <div></div> </div> <div class="mt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3"> <div> <span class="block mb-1 text-md font-cal font-medium text-rose-200">Ceremony?</span> <div class="flex gap-2.5 flex-wrap" data-pill-group> <label class="pill is-active"> <input type="radio" name="guestCeremony_${index}" value="yes" class="sr-only" checked> Yes </label> <label class="pill"> <input type="radio" name="guestCeremony_${index}" value="no" class="sr-only"> No </label> </div> </div> <div> <span class="block mb-1 text-md font-cal font-medium text-rose-200">Dinner?</span> <div class="flex gap-2.5 flex-wrap" data-pill-group> <label class="pill is-active"> <input type="radio" name="guestDinner_${index}" value="yes" class="sr-only" checked> Yes </label> <label class="pill"> <input type="radio" name="guestDinner_${index}" value="no" class="sr-only"> No </label> </div> </div> </div> <div class="mt-2.5 font-cal text-sm" data-dietary-for="${index}"> <span class="block mb-1 text-md font-cal font-medium text-rose-200">Dietary requirements</span> <div class="grid grid-cols-2 gap-2.5"> ${DIETARY.map(d=> <label class="diet-pill text-md text-slate-400"> <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only"> <span>${d}</span> </label>).join("")} <input class="font-cal w-full rounded-xl text-sm text-slate-400 border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2" name="guestDietOther_${index}" placeholder="Other (please specify)"> </div> </div> </div>; } function wireDietaryHighlights(scope=document){ scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input=>{ const label = input.closest("label"); if(!label) return; const updateLabel = ()=>{ label.classList.toggle("is-active", input.checked); }; label.addEventListener("click", ()=> setTimeout(updateLabel,0)); input.addEventListener("change", updateLabel); updateLabel(); }); } function updateDietaryVisibility(i){ const wrapper = document.querySelector([data-dietary-for="${i}"]); if(!wrapper) return; const radios = Array.from(document.getElementsByName(guestDinner_${i})); const val = (radios.find(r=>r.checked)?.value) || "yes"; const hide = (val === "no"); wrapper.classList.toggle("hidden", hide); if(hide){ wrapper.querySelectorAll(input[name="guestDiet_${i}"]).forEach(cb=>{ cb.checked = false; const lbl = cb.closest("label"); if(lbl) lbl.classList.remove("is-active"); }); const other = wrapper.querySelector(input[name="guestDietOther_${i}"]); if(other) other.value = ""; } } function wireDinnerVisibilityFor(i){ const radios = Array.from(document.getElementsByName(guestDinner_${i})); radios.forEach(r=>{ r.addEventListener("change", ()=>updateDietaryVisibility(i)); r.addEventListener("click", ()=>updateDietaryVisibility(i)); }); updateDietaryVisibility(i); } function wirePills(scope=document){ scope.querySelectorAll("[data-pill-group]").forEach(group=>{ const labels = Array.from(group.querySelectorAll(".pill")); function setActive(target){ labels.forEach(l=>l.classList.remove("is-active")); target.classList.add("is-active"); const input = target.querySelector("input[type='radio']"); if(input) input.checked = true; } labels.forEach(l=> l.addEventListener("click", ()=> setActive(l))); }); } function renderGuests(count, defaults=[]){ const size = Math.max(1, Math.min(10, parseInt(count||"1",10))); guestList.innerHTML = Array.from({length:size}).map((_,i)=>guestCard(i, defaults[i]||"")).join(""); wireDietaryHighlights(guestList); wirePills(guestList); for(let i=0;i<size;i++) wireDinnerVisibilityFor(i); } function applyInvite(inv){ CURRENT_INVITE = inv || null; const max = inv?.maxGuests ?? 10; const defaults = Array.isArray(inv?.defaultNames) ? inv.defaultNames : []; const defaultCount = Math.max(1, Math.min(defaults.length || max, max)); partyInput.max = String(max); partyInput.value = String(defaultCount); partyHint.textContent = inv ? Your invitation allows up to ${max} guest${max>1?"s":""}. : ""; renderGuests(defaultCount, defaults); } function showGate(){ form.classList.add("hidden"); gate.classList.remove("hidden"); codeErr.classList.add("hidden"); codeBtn.onclick = ()=>{ const entered = (codeInput.value||"").trim().toUpperCase(); const inv = (INVITES && INVITES[entered]) ? INVITES[entered] : null; if(!inv){ codeErr.classList.remove("hidden"); return; } const url = new URL(window.location.href); url.searchParams.set("code", entered); window.history.replaceState({}, "", url.toString()); gate.classList.add("hidden"); form.classList.remove("hidden"); applyInvite(inv); }; } const hasInviteTable = INVITES && Object.keys(INVITES).length > 0; const urlCode = (getParam("code")||"").trim().toUpperCase(); if(hasInviteTable){ if(urlCode && INVITES[urlCode]){ applyInvite(INVITES[urlCode]); } else { showGate(); } } else { applyInvite(null); } partyInput.addEventListener("input", ()=>{ const max = parseInt(partyInput.max,10) || 10; let val = parseInt(partyInput.value||"1",10); if(isNaN(val) || val < 1) val = 1; if(val > max) val = max; partyInput.value = String(val); const defaults = (hasInviteTable && urlCode && INVITES[urlCode]?.defaultNames) ? INVITES[urlCode].defaultNames : []; renderGuests(val, defaults); }); /* Submit */ form.addEventListener("submit", async function(e){ e.preventDefault(); const fd = new FormData(form); const first = (fd.get("firstName")||"").toString().trim(); const last = (fd.get("lastName")||"").toString().trim(); const email = (fd.get("email")||"").toString().trim(); if(!first || !last || !email){ alert("Please complete your first name, last name, and email."); return; } const hasTable = INVITES && Object.keys(INVITES).length > 0; const code = (getParam("code")||"").trim().toUpperCase(); const inv = (hasTable && INVITES[code]) ? INVITES[code] : null; const phone = (fd.get("phone")||"").toString().trim(); const partySize = Math.max(1, Math.min(parseInt(document.getElementById("party-size").value||"1",10), inv?.maxGuests??10)); const note = (fd.get("note")||"").toString().trim(); const guests = []; for(let i=0;i<partySize;i++){ const name = (fd.get(guestName_${i})||"").toString().trim(); if(!name){ alert(Please enter a name for Guest ${i+1}.); return; } const ceremony = (fd.get(guestCeremony_${i})||"yes").toString(); const dinner = (fd.get(guestDinner_${i})||"yes").toString(); const diets = dinner==="no" ? [] : fd.getAll(guestDiet_${i}).map(String); const other = dinner==="no" ? "" : (fd.get(guestDietOther_${i})||"").toString().trim(); const dietarySummary = dinner==="no" ? "" : [...diets, other?Other: ${other}:null].filter(Boolean).join("; "); guests.push({ index:i+1, name, ceremony, dinner, dietary:diets, dietaryOther:other, dietarySummary }); } const payload = { invite: inv ? { code, household: inv.household, maxGuests: inv.maxGuests } : null, contact: { firstName:first, lastName:last, email, phone }, partySize, guests, note, couple: "Greg & Drew", event: { dateLong: cfg.event?.dateLong || "Friday, 13 February", time: cfg.event?.time || "3:45 pm", venueName: cfg.event?.venueName || "Old Treasury Building – Margaret Craig Room", venueAddress: cfg.event?.venueAddress || "20 Spring St, Melbourne VIC" }, timestamp: new Date().toISOString() }; if(FORMSPREE){ try{ const res = await fetch(FORMSPREE, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(payload) }); if(!res.ok) throw new Error("Formspree error "+res.status); alert("Thank you! Your RSVP was submitted."); form.reset(); applyInvite(CURRENT_INVITE); return; }catch(err){ console.error(err); alert("We couldn't reach the RSVP service. We'll open an email instead."); } } // Mailto fallback const subject = encodeURIComponent("RSVP — Greg & Drew"); const lines = []; if(inv) lines.push(Invite code: ${code} (${inv.household})); lines.push(Contact: ${first} ${last}); lines.push(Email: ${email}); if(phone) lines.push(Phone: ${phone}); lines.push(Party size (attending): ${partySize}${inv ? " / max "+inv.maxGuests : ""}); lines.push(""); lines.push("Guests:"); guests.forEach(g=>{ lines.push( • ${g.name} — Ceremony: ${g.ceremony} | Dinner: ${g.dinner}${g.dietarySummary ? " | Dietary: "+g.dietarySummary : ""}); }); if(note){ lines.push(""); lines.push("Note:"); lines.push(note); } const body = encodeURIComponent(lines.join("\n")); window.location.href = mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}; }); });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-      
+    <!-- iOS detection for the fixed-background fallback -->
+    <script>
+      (function(){
+        const ua = navigator.userAgent || "";
+        const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        if (isIOS) document.documentElement.classList.add("ios");
+      })();
+    </script>
+
+    <script>
+      (function () {
+        function toggleIOSBackground(){
+          const root = document.documentElement;
+          if (!root.classList.contains('ios')) return;
+          const hero = document.getElementById('hero');
+          if (!hero) return;
+          const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+          const trigger = hero.offsetHeight - 80;
+          root.classList.toggle('ios-solid-bg', y > trigger);
+        }
+        window.addEventListener('load',   toggleIOSBackground, { passive:true });
+        window.addEventListener('scroll', toggleIOSBackground, { passive:true });
+        window.addEventListener('resize', toggleIOSBackground);
+        toggleIOSBackground();
+      })();
+    </script>
+    
+   <!-- Main logic -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const cfg = window.SITE_CONFIG || {};
+        const INVITES = window.INVITES || {};
+        const CONTACT_EMAIL = cfg.contactEmail || "gregory.r.humble@gmail.com";
+        const FORMSPREE = cfg.formspreeEndpoint || "";
+
+        /* Countdown (AUS time) — Fri 13 Feb 2026, 3:45 pm AEDT (+11:00) */
+        const WEDDING_TARGET = new Date("2026-02-13T16:00:00+11:00");
+        function updateCountdown(){
+          const now = new Date();
+          let diff = WEDDING_TARGET.getTime() - now.getTime();
+          if (diff < 0) diff = 0;
+          const s = Math.floor(diff / 1000);
+          const days = Math.floor(s / 86400);
+          const hours = Math.floor((s % 86400) / 3600);
+          const mins = Math.floor((s % 3600) / 60);
+          const secs = s % 60;
+          const set = (id,val)=>{ const el = document.getElementById(id); if(el) el.textContent = String(val).padStart(2,"0"); };
+          set("cd-days",days); set("cd-hours",hours); set("cd-mins",mins); set("cd-secs",secs);
+        }
+        updateCountdown(); setInterval(updateCountdown, 1000);
+
+        /* Maps links */
+        function mapHrefFrom(address){ return "https://www.google.com/maps?q=" + encodeURIComponent(address); }
+        const venueMapEl = document.querySelector("[data-venue-map]");
+        const dinnerMapEl = document.querySelector("[data-dinner-map]");
+        const ceremonyHref = cfg.event?.mapsUrl || (cfg.event?.venueAddress ? mapHrefFrom(cfg.event.venueAddress) : "#");
+        const dinnerHref   = (cfg.event?.dinner?.mapsUrl) || (cfg.event?.dinner?.address ? mapHrefFrom(cfg.event.dinner.address) : "#");
+        if(venueMapEl){ venueMapEl.href = ceremonyHref; if(ceremonyHref==="#"){ venueMapEl.classList.add("opacity-50","pointer-events-none"); venueMapEl.title="Map link not available"; } }
+        if(dinnerMapEl){ dinnerMapEl.href = dinnerHref; if(dinnerHref==="#"){ dinnerMapEl.classList.add("opacity-50","pointer-events-none"); dinnerMapEl.title="Map link not available"; } }
+
+        /* Invite code & party size */
+        const form = document.getElementById("rsvp-form");
+        const gate = document.getElementById("invite-gate");
+        const codeInput = document.getElementById("invite-code-input");
+        const codeBtn = document.getElementById("invite-code-continue");
+        const codeErr = document.getElementById("invite-code-error");
+        const partyInput = document.getElementById("party-size");
+        const partyHint = document.getElementById("party-hint");
+        const guestList = document.getElementById("guest-list");
+
+        function getParam(name){ return new URLSearchParams(window.location.search).get(name); }
+        let CURRENT_INVITE = null;
+
+        const DIETARY = [
+          "Vegetarian","Vegan","Gluten free","Dairy free",
+          "Nut allergy","Egg allergy","Shellfish allergy"
+        ];
+
+        function guestCard(index, name = ""){
+          const n = index + 1;
+          return `
+            <div class="rounded-lg border border-white/60 bg-white/78 p-3.5">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <label class="block">
+                  <span class="block mb-1 text-md font-cal font-medium text-amber-00 guest-name-label">
+                    Guest ${n} name ${n===1 ? "(you) *" : "*"}
+                  </span>
+                  <input
+                    name="guestName_${index}"
+                    value="${name.replace(/"/g,'&quot;')}"
+                    class="w-full rounded-xl border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300"
+                    placeholder="${n===1 ? "Your full name" : "Full name"}">
+                </label>
+                <div></div>
+              </div>
+
+              <div class="mt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <span class="block mb-1 text-md font-cal font-medium text-rose-200">Ceremony?</span>
+                  <div class="flex gap-2.5 flex-wrap" data-pill-group>
+                    <label class="pill is-active">
+                      <input type="radio" name="guestCeremony_${index}" value="yes" class="sr-only" checked>
+                      Yes
+                    </label>
+                    <label class="pill">
+                      <input type="radio" name="guestCeremony_${index}" value="no" class="sr-only">
+                      No
+                    </label>
+                  </div>
+                </div>
+                <div>
+                  <span class="block mb-1 text-md font-cal font-medium text-rose-200">Dinner?</span>
+                  <div class="flex gap-2.5 flex-wrap" data-pill-group>
+                    <label class="pill is-active">
+                      <input type="radio" name="guestDinner_${index}" value="yes" class="sr-only" checked>
+                      Yes
+                    </label>
+                    <label class="pill">
+                      <input type="radio" name="guestDinner_${index}" value="no" class="sr-only">
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-2.5 font-cal text-sm" data-dietary-for="${index}">
+                <span class="block mb-1 text-md font-cal font-medium text-rose-200">Dietary requirements</span>
+                <div class="grid grid-cols-2 gap-2.5">
+                  ${DIETARY.map(d=>`
+                    <label class="diet-pill text-md text-slate-400">
+                      <input type="checkbox" name="guestDiet_${index}" value="${d}" class="sr-only">
+                      <span>${d}</span>
+                    </label>`).join("")}
+                  <input
+                    class="font-cal w-full rounded-xl text-sm text-slate-400 border border-slate-300 input-solid px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 col-span-2"
+                    name="guestDietOther_${index}"
+                    placeholder="Other (please specify)">
+                </div>
+              </div>
+            </div>`;
+        }
+
+        function wireDietaryHighlights(scope=document){
+          scope.querySelectorAll("input[type='checkbox'][name^='guestDiet_']").forEach(input=>{
+            const label = input.closest("label");
+            if(!label) return;
+            const updateLabel = ()=>{ label.classList.toggle("is-active", input.checked); };
+            label.addEventListener("click", ()=> setTimeout(updateLabel,0));
+            input.addEventListener("change", updateLabel);
+            updateLabel();
+          });
+        }
+
+        function updateDietaryVisibility(i){
+          const wrapper = document.querySelector(`[data-dietary-for="${i}"]`);
+          if(!wrapper) return;
+          const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
+          const val = (radios.find(r=>r.checked)?.value) || "yes";
+          const hide = (val === "no");
+          wrapper.classList.toggle("hidden", hide);
+          if(hide){
+            wrapper.querySelectorAll(`input[name="guestDiet_${i}"]`).forEach(cb=>{
+              cb.checked = false;
+              const lbl = cb.closest("label");
+              if(lbl) lbl.classList.remove("is-active");
+            });
+            const other = wrapper.querySelector(`input[name="guestDietOther_${i}"]`);
+            if(other) other.value = "";
+          }
+        }
+
+        function wireDinnerVisibilityFor(i){
+          const radios = Array.from(document.getElementsByName(`guestDinner_${i}`));
+          radios.forEach(r=>{
+            r.addEventListener("change", ()=>updateDietaryVisibility(i));
+            r.addEventListener("click",  ()=>updateDietaryVisibility(i));
+          });
+          updateDietaryVisibility(i);
+        }
+
+        function wirePills(scope=document){
+          scope.querySelectorAll("[data-pill-group]").forEach(group=>{
+            const labels = Array.from(group.querySelectorAll(".pill"));
+            function setActive(target){
+              labels.forEach(l=>l.classList.remove("is-active"));
+              target.classList.add("is-active");
+              const input = target.querySelector("input[type='radio']");
+              if(input) input.checked = true;
+            }
+            labels.forEach(l=> l.addEventListener("click", ()=> setActive(l)));
+          });
+        }
+
+        function renderGuests(count, defaults=[]){
+          const size = Math.max(1, Math.min(10, parseInt(count||"1",10)));
+          guestList.innerHTML = Array.from({length:size}).map((_,i)=>guestCard(i, defaults[i]||"")).join("");
+          wireDietaryHighlights(guestList);
+          wirePills(guestList);
+          for(let i=0;i<size;i++) wireDinnerVisibilityFor(i);
+        }
+
+        function applyInvite(inv){
+          CURRENT_INVITE = inv || null;
+          const max = inv?.maxGuests ?? 10;
+          const defaults = Array.isArray(inv?.defaultNames) ? inv.defaultNames : [];
+          const defaultCount = Math.max(1, Math.min(defaults.length || max, max));
+          partyInput.max = String(max);
+          partyInput.value = String(defaultCount);
+          partyHint.textContent = inv ? `Your invitation allows up to ${max} guest${max>1?"s":""}.` : "";
+          renderGuests(defaultCount, defaults);
+        }
+
+        function showGate(){
+          form.classList.add("hidden");
+          gate.classList.remove("hidden");
+          codeErr.classList.add("hidden");
+          codeBtn.onclick = ()=>{
+            const entered = (codeInput.value||"").trim().toUpperCase();
+            const inv = (INVITES && INVITES[entered]) ? INVITES[entered] : null;
+            if(!inv){ codeErr.classList.remove("hidden"); return; }
+            const url = new URL(window.location.href);
+            url.searchParams.set("code", entered);
+            window.history.replaceState({}, "", url.toString());
+            gate.classList.add("hidden");
+            form.classList.remove("hidden");
+            applyInvite(inv);
+          };
+        }
+
+        const hasInviteTable = INVITES && Object.keys(INVITES).length > 0;
+        const urlCode = (getParam("code")||"").trim().toUpperCase();
+        if(hasInviteTable){
+          if(urlCode && INVITES[urlCode]){ applyInvite(INVITES[urlCode]); }
+          else { showGate(); }
+        } else {
+          applyInvite(null);
+        }
+
+        partyInput.addEventListener("input", ()=>{
+          const max = parseInt(partyInput.max,10) || 10;
+          let val = parseInt(partyInput.value||"1",10);
+          if(isNaN(val) || val < 1) val = 1;
+          if(val > max) val = max;
+          partyInput.value = String(val);
+          const defaults = (hasInviteTable && urlCode && INVITES[urlCode]?.defaultNames) ? INVITES[urlCode].defaultNames : [];
+          renderGuests(val, defaults);
+        });
+
+        /* Submit */
+        form.addEventListener("submit", async function(e){
+          e.preventDefault();
+
+          const fd = new FormData(form);
+          const first = (fd.get("firstName")||"").toString().trim();
+          const last  = (fd.get("lastName")||"").toString().trim();
+          const email = (fd.get("email")||"").toString().trim();
+          if(!first || !last || !email){ alert("Please complete your first name, last name, and email."); return; }
+
+          const hasTable = INVITES && Object.keys(INVITES).length > 0;
+          const code = (getParam("code")||"").trim().toUpperCase();
+          const inv = (hasTable && INVITES[code]) ? INVITES[code] : null;
+
+          const phone = (fd.get("phone")||"").toString().trim();
+          const partySize = Math.max(1, Math.min(parseInt(document.getElementById("party-size").value||"1",10), inv?.maxGuests??10));
+          const note  = (fd.get("note")||"").toString().trim();
+
+          const guests = [];
+          for(let i=0;i<partySize;i++){
+            const name = (fd.get(`guestName_${i}`)||"").toString().trim();
+            if(!name){ alert(`Please enter a name for Guest ${i+1}.`); return; }
+            const ceremony = (fd.get(`guestCeremony_${i}`)||"yes").toString();
+            const dinner   = (fd.get(`guestDinner_${i}`)||"yes").toString();
+            const diets = dinner==="no" ? [] : fd.getAll(`guestDiet_${i}`).map(String);
+            const other = dinner==="no" ? "" : (fd.get(`guestDietOther_${i}`)||"").toString().trim();
+            const dietarySummary = dinner==="no" ? "" : [...diets, other?`Other: ${other}`:null].filter(Boolean).join("; ");
+            guests.push({ index:i+1, name, ceremony, dinner, dietary:diets, dietaryOther:other, dietarySummary });
+          }
+
+          const payload = {
+            invite: inv ? { code, household: inv.household, maxGuests: inv.maxGuests } : null,
+            contact: { firstName:first, lastName:last, email, phone },
+            partySize,
+            guests,
+            note,
+            couple: "Greg & Drew",
+            event: {
+              dateLong:   cfg.event?.dateLong   || "Friday, 13 February",
+              time:       cfg.event?.time       || "3:45 pm",
+              venueName:  cfg.event?.venueName  || "Old Treasury Building – Margaret Craig Room",
+              venueAddress: cfg.event?.venueAddress || "20 Spring St, Melbourne VIC"
+            },
+            timestamp: new Date().toISOString()
+          };
+
+          if(FORMSPREE){
+            try{
+              const res = await fetch(FORMSPREE, {
+                method:"POST",
+                headers:{ "Content-Type":"application/json", "Accept":"application/json" },
+                body: JSON.stringify(payload)
+              });
+              if(!res.ok) throw new Error("Formspree error "+res.status);
+              alert("Thank you! Your RSVP was submitted.");
+              form.reset();
+              applyInvite(CURRENT_INVITE);
+              return;
+            }catch(err){
+              console.error(err);
+              alert("We couldn't reach the RSVP service. We'll open an email instead.");
+            }
+          }
+
+          // Mailto fallback
+          const subject = encodeURIComponent("RSVP — Greg & Drew");
+          const lines = [];
+          if(inv) lines.push(`Invite code: ${code} (${inv.household})`);
+          lines.push(`Contact: ${first} ${last}`);
+          lines.push(`Email: ${email}`);
+          if(phone) lines.push(`Phone: ${phone}`);
+          lines.push(`Party size (attending): ${partySize}${inv ? " / max "+inv.maxGuests : ""}`);
+          lines.push(""); lines.push("Guests:");
+          guests.forEach(g=>{
+            lines.push(`  • ${g.name} — Ceremony: ${g.ceremony} | Dinner: ${g.dinner}${g.dietarySummary ? " | Dietary: "+g.dietarySummary : ""}`);
+          });
+          if(note){ lines.push(""); lines.push("Note:"); lines.push(note); }
+          const body = encodeURIComponent(lines.join("\n"));
+          window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+        });
+      });
     </script>
   </body>
 </html>
