@@ -175,68 +175,7 @@
           /*text glow */
           .text-glow { text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 16px rgba(0,160,255,0.7); }
 
-/* ===== Aceternity-like Text Hover Effect for venue names (no React) ===== */
-.venue-hover-host{
-  display:inline-block;
-  width:100%;
-  line-height:1;
-}
 
-/* SVG scales like text */
-.venue-svg{
-  width:100%;
-  height:5.15em;          /* adjust if you want bigger/smaller */
-  overflow:visible;
-  display:block;
-}
-
-.venue-svg text{
-  font-family:'Cal Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  font-weight:700;
-  letter-spacing:.18em;
-}
-
-/* Base outline “ink” (uses currentColor from your h3, i.e. text-yellow-600) */
-.venue-outline{
-  fill:transparent;
-  stroke:currentColor;
-  stroke-width:.9;
-  vector-effect: non-scaling-stroke;
-}
-
-/* Faint outline that appears on hover */
-.venue-ghost{
-  opacity:0;
-  transition:opacity 140ms ease;
-}
-
-.venue-svg[data-hover="1"] .venue-ghost{
-  opacity:.65;
-}
-
-/* Draw-on stroke animation (like the demo) */
-.venue-draw{
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
-  animation: venueDraw 3.8s ease-in-out forwards;
-}
-
-@keyframes venueDraw{
-  to { stroke-dashoffset: 0; }
-}
-
-/* Gradient reveal layer */
-.venue-reveal{
-  fill:transparent;
-  stroke-width:.95;
-  vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,.12));
-}
-
-@media (prefers-reduced-motion: reduce){
-  .venue-draw{ animation:none; }
-}
-      
           /* Print-only invite (A5) */
           #print-card{
             display:none;
@@ -509,9 +448,7 @@
         </div>
         <div class="grid lg:grid-cols-3 gap-4 items-start">
           <div class="rounded-lg bg-white/78 p-3.5">
-            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">
-              <span class="venue-hover-host" data-venue-hover>Old Treasury Building</span>
-            </h3>
+            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">Old Treasury Building</h3>
             <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">Margaret Craig Room, 20 Spring St, Melbourne</p>
             <a
               href="https://www.google.com/maps?q=20%20Spring%20St%2C%20Melbourne%20VIC"
@@ -526,9 +463,7 @@
             <p class="font-quicksand text-center mt-3 text-sm text-orange-100">Please arrive 10–15 minutes early. The ceremony will begin at 4:00 pm.</p>
           </div>
           <div class="rounded-lg bg-white/78 p-3.5">
-            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">
-              <span class="venue-hover-host" data-venue-hover>Reed House</span>
-            </h3>
+            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">Reed House</h3>
             <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">130 Lonsdale St, <br> Melbourne VIC</p>
             <a
               href="https://www.google.com/maps?q=130%20Lonsdale%20St%2C%20Melbourne%20VIC"
@@ -543,9 +478,7 @@
             <p class="font-quicksand text-center mt-3 text-sm text-orange-100">Dinner will be outside in the Reed House courtyard. There is heating, but consider bringing a jacket if the weather is cold.</p>
           </div>
           <div class="rounded-lg bg-white/78 p-3.5">
-            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">
-              <span class="venue-hover-host" data-venue-hover>FABLE</span>
-            </h3>
+            <h3 class="font-cal text-md text-center uppercase tracking-[0.2em] text-yellow-600">FABLE</h3>
             <p class="font-quicksand text-center text-orange-100 mt-1.5 text-base md:text-lg">
               Level 13, 168 Lonsdale St, <br> Melbourne VIC
           </p>
@@ -986,117 +919,6 @@
           window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
         });
       });
-      /* Aceternity-like text hover effect (SVG mask following cursor) */
-(function initVenueHoverEffect(){
-  const hosts = document.querySelectorAll("[data-venue-hover]");
-
-  const escapeHtml = (s) =>
-    s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-
-  hosts.forEach((host) => {
-    const raw = (host.textContent || "").trim();
-    if(!raw) return;
-
-    const text = raw.toUpperCase();
-    const id = "vth_" + Math.random().toString(36).slice(2, 10);
-
-    // For longer strings, constrain slightly so it doesn’t clip.
-    const isLong = text.length >= 14;
-    const fitAttrs = isLong ? ` textLength="820" lengthAdjust="spacingAndGlyphs" ` : "";
-
-    host.innerHTML = `
-      <svg class="venue-svg" viewBox="0 0 900 120" role="img" aria-label="${escapeHtml(text)}" data-hover="0">
-        <defs>
-          <linearGradient id="${id}_grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stop-color="#eab308"></stop>
-            <stop offset="25%"  stop-color="#ef4444"></stop>
-            <stop offset="50%"  stop-color="#3b82f6"></stop>
-            <stop offset="75%"  stop-color="#06b6d4"></stop>
-            <stop offset="100%" stop-color="#8b5cf6"></stop>
-          </linearGradient>
-
-          <radialGradient id="${id}_mask" cx="50%" cy="50%" r="0%">
-            <stop offset="0%" stop-color="white"></stop>
-            <stop offset="100%" stop-color="black"></stop>
-          </radialGradient>
-
-          <mask id="${id}_textMask">
-            <rect x="0" y="0" width="100%" height="100%" fill="url(#${id}_mask)"></rect>
-          </mask>
-        </defs>
-
-        <!-- faint outline appears on hover -->
-        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle"
-              class="venue-outline venue-ghost" style="opacity:0.0">${escapeHtml(text)}</text>
-
-        <!-- draw-on outline -->
-        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle"
-              class="venue-outline venue-draw" ${fitAttrs}>${escapeHtml(text)}</text>
-
-        <!-- gradient reveal (masked spotlight) -->
-        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle"
-              class="venue-reveal"
-              stroke="url(#${id}_grad)" mask="url(#${id}_textMask)" ${fitAttrs}>${escapeHtml(text)}</text>
-      </svg>
-    `;
-
-    const svg = host.querySelector("svg");
-    const maskGrad = svg.querySelector(`#${id}_mask`);
-    const ghostText = svg.querySelector(".venue-ghost");
-
-    // Smooth cursor follow (lerp) to mimic Motion easing
-    let raf = null;
-    let hovered = false;
-    let target = { x: 50, y: 50 };
-    let current = { x: 50, y: 50 };
-
-    function setTargetFromEvent(ev){
-      const r = svg.getBoundingClientRect();
-      const cx = ((ev.clientX - r.left) / r.width) * 100;
-      const cy = ((ev.clientY - r.top) / r.height) * 100;
-      target.x = Math.max(0, Math.min(100, cx));
-      target.y = Math.max(0, Math.min(100, cy));
-    }
-
-    function tick(){
-      // smoothing factor
-      current.x += (target.x - current.x) * 0.18;
-      current.y += (target.y - current.y) * 0.18;
-      maskGrad.setAttribute("cx", `${current.x}%`);
-      maskGrad.setAttribute("cy", `${current.y}%`);
-      raf = requestAnimationFrame(tick);
-    }
-
-    function enter(ev){
-      hovered = true;
-      svg.dataset.hover = "1";
-      if (ghostText) ghostText.style.opacity = "0.7";
-      setTargetFromEvent(ev);
-      maskGrad.setAttribute("r", "22%");     // spotlight size
-      if(!raf) raf = requestAnimationFrame(tick);
-    }
-
-    function leave(){
-      hovered = false;
-      svg.dataset.hover = "0";
-      if (ghostText) ghostText.style.opacity = "0.0";
-      maskGrad.setAttribute("r", "0%");
-      if(raf){ cancelAnimationFrame(raf); raf = null; }
-      current = { x: 50, y: 50 };
-      target  = { x: 50, y: 50 };
-      maskGrad.setAttribute("cx", "50%");
-      maskGrad.setAttribute("cy", "50%");
-    }
-
-    svg.addEventListener("pointerenter", enter);
-    svg.addEventListener("pointermove", (ev) => { if(hovered) setTargetFromEvent(ev); });
-    svg.addEventListener("pointerleave", leave);
-
-    // Mobile: tap to trigger briefly
-    svg.addEventListener("pointerdown", enter);
-    svg.addEventListener("pointerup", () => setTimeout(leave, 650));
-  });
-})();
     </script>
   </body>
 </html>
